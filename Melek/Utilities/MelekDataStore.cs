@@ -85,6 +85,7 @@ namespace Melek.Utilities
             return (
                 from package in manifest.Element("packages").Elements("package")
                 select new Package() {
+                    CardsReleased = (package.Attribute("cardsReleased") == null ? null : new Nullable<DateTime>(XMLPal.GetDate(package.Attribute("cardsReleased")))),
                     DataUpdated = XMLPal.GetDate(package.Attribute("dataUpdated")),
                     ID = XMLPal.GetString(package.Attribute("id")),
                     Name = XMLPal.GetString(package.Attribute("name")),
@@ -232,6 +233,7 @@ namespace Melek.Utilities
                     "package",
                     new XAttribute("id", p.ID),
                     new XAttribute("name", p.Name),
+                    (p.CardsReleased != null ? new XAttribute("cardsReleased", p.CardsReleased.Value) : null),
                     new XAttribute("dataUpdated", p.DataUpdated)
                 )
             );
