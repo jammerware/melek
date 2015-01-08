@@ -23,6 +23,7 @@ namespace Melek.Utilities
 
         #region Fields
         private Card[] _Cards;
+        private bool _DevMode = false;
         private bool _IsLoaded = false;
         private LoggingNinja _LoggingNinja;
         private List<Package> _Packages;
@@ -31,8 +32,18 @@ namespace Melek.Utilities
         private string _StorageDirectory;
         #endregion
 
-        public MelekDataStore(string storageDirectory, bool storeCardImages, LoggingNinja loggingNinja)
+        #region Constructors
+        // general use constructor
+        public MelekDataStore(string storageDirectory, bool storeCardImages, LoggingNinja loggingNinja) : this(storageDirectory, storeCardImages, loggingNinja, string.Empty) {}
+
+        // for original dev only
+        public MelekDataStore(string storageDirectory, bool storeCardImages, LoggingNinja loggingNinja, string devAuthkey)
         {
+            // flip on dev mode if appropriate
+            if (!string.IsNullOrEmpty(devAuthkey) && Cryptonite.Encrypt(devAuthkey, Constants.DEV_AUTH_KEY_PRIVATE_KEY) == Cryptonite.Encrypt(Constants.DEV_AUTH_KEY_PUBLIC_KEY, Constants.DEV_AUTH_KEY_PRIVATE_KEY)) {
+                _DevMode = true;
+            }
+
             _LoggingNinja = loggingNinja;
             _SaveCardImages = storeCardImages;
             _StorageDirectory = storageDirectory;
@@ -51,7 +62,7 @@ namespace Melek.Utilities
             }
 
             string packagesManifestFileName = Path.Combine(PackagesDirectory, "packages.xml");
-            if(!File.Exists(packagesManifestFileName)) {
+            if (!File.Exists(packagesManifestFileName)) {
                 XDocument doc = new XDocument(new XElement("packages"));
                 doc.Save(packagesManifestFileName);
             }
@@ -61,6 +72,7 @@ namespace Melek.Utilities
                 CheckForPackageUpdates();
             });
         }
+        #endregion
 
         #region internal utility properties
         public string CardImagesDirectory
@@ -247,7 +259,10 @@ namespace Melek.Utilities
         public void CheckForPackageUpdates()
         {
             _LoggingNinja.LogMessage("Checking for package updates...");
-            string packagesFolderUrl = "http://software.jammerware.com/melek/packages/";
+            string packagesFolderUrl = Constants.PACKAGES_URL_PROD;
+            if (_DevMode) {
+                packagesFolderUrl = Constants.PACKAGES_URL_DEV;
+            }
             string packagesManifestUrl = packagesFolderUrl + "packages.xml";
 
             BackgroundBuddy.RunAsync(() => {
