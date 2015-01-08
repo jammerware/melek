@@ -268,19 +268,19 @@ namespace Melek.Utilities
             BackgroundBuddy.RunAsync(() => {
                 try {
                     XDocument manifest = XDocument.Load(packagesManifestUrl);
-                    Package[] updatePackages = GetPackagesFromManifest(manifest);
+                    Package[] remotePackages = GetPackagesFromManifest(manifest);
                     Package[] localPackages = GetPackages().ToArray();
                     List<string> packagesToUpdate = new List<string>();
 
-                    foreach (Package updatePackage in updatePackages) {
+                    foreach (Package remotePackage in remotePackages) {
                         Package localPackage = null;
                         foreach (Package package in localPackages) {
-                            if (package.ID == updatePackage.ID) {
+                            if (package.ID == remotePackage.ID) {
                                 localPackage = package;
                             }
                         }
-                        if (localPackage == null || localPackage.DataUpdated < updatePackage.DataUpdated) {
-                            packagesToUpdate.Add(updatePackage.ID);
+                        if (localPackage == null || localPackage.DataUpdated < remotePackage.DataUpdated) {
+                            packagesToUpdate.Add(remotePackage.ID);
                         }
                     }
 
@@ -303,7 +303,7 @@ namespace Melek.Utilities
                                 _Packages.Remove(localPackage);
                             }
 
-                            Package newPackage = updatePackages.Where(p => p.ID == packageID).First();
+                            Package newPackage = remotePackages.Where(p => p.ID == packageID).First();
                             newPackages.Add(newPackage);
                             _Packages.Add(newPackage);
                         }
@@ -332,6 +332,7 @@ namespace Melek.Utilities
                         }
                     }
 
+                    
                     if (packagesToUpdate.Count() > 0 || packagesToRemove.Count() > 0) {
                         // save the local packages manifest to reflect updates
                         SavePackagesManifest();
