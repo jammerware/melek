@@ -108,14 +108,8 @@ namespace Melek.Utilities
         private void ForceLoad()
         {
             XDocument packagesManifest = XDocument.Load(Path.Combine(PackagesDirectory, "packages.xml"));
-            _Packages = (
-                from package in packagesManifest.Element("packages").Elements("package")
-                select new Package() {
-                    DataUpdated = XMLPal.GetDate(package.Attribute("dataUpdated")),
-                    ID = XMLPal.GetString(package.Attribute("id")),
-                    Name = XMLPal.GetString(package.Attribute("name")),
-                }
-            ).ToList();
+            _Packages = new List<Package>();
+            _Packages.AddRange(GetPackagesFromManifest(packagesManifest));
 
             List<Card> cards = new List<Card>();
             List<Set> sets = new List<Set>();
@@ -314,7 +308,7 @@ namespace Melek.Utilities
                     List<Package> packagesToRemove = new List<Package>();
                     foreach (Package package in localPackages) {
                         bool packageFound = false;
-                        foreach (Package updatePackage in updatePackages) {
+                        foreach (Package updatePackage in remotePackages) {
                             if (updatePackage.ID == package.ID) {
                                 packageFound = true;
                             }
