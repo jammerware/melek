@@ -91,7 +91,7 @@ namespace Melek.Utilities
         }
         #endregion
 
-        #region internal utility methods
+        #region data management utility methods
         private Package[] GetPackagesFromManifest(XDocument manifest)
         {
             return (
@@ -251,6 +251,49 @@ namespace Melek.Utilities
         }
         #endregion
 
+        #region Image management utility methods
+        private async Task<BitmapImage> ImageFromUri(Uri uri)
+        {
+            BitmapImage image = await Task.Run<BitmapImage>(() => {
+                try {
+                    BitmapImage img = new BitmapImage();
+                    img.BeginInit();
+                    img.CacheOption = BitmapCacheOption.OnLoad;
+                    img.UriSource = uri;
+                    img.EndInit();
+                    img.Freeze();
+                    return img;
+                }
+                catch (NotSupportedException ex) {
+                    _LoggingNinja.LogError(ex);
+                }
+                catch (IOException ex) {
+                    _LoggingNinja.LogError(ex);
+                }
+                return null;
+            });
+            return image;
+        }
+
+        private Uri ResolveCardImage(CardAppearance appearance, Uri webUri)
+        {
+            Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(appearance.MultiverseID) + ".jpg"));
+
+            if (_SaveCardImages) {
+                if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
+                    try {
+                        new WebClient().DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
+                    }
+                    catch (WebException) {
+                        // too slow motha fucka
+                    }
+                }
+                return localUri;
+            }
+            return webUri;
+        }
+        #endregion
+
         #region exposed so the updater can force a check for updates
         public void CheckForPackageUpdates()
         {
@@ -387,47 +430,48 @@ namespace Melek.Utilities
             }
         }
 
-        public Uri GetAppearanceImageUri(CardAppearance appearance)
+        public Uri GetCardImageUri(CardAppearance appearance)
         {
-            Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(appearance.MultiverseID) + ".jpg"));
-            Uri webUri = new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", appearance.MultiverseID));
-
-            if (_SaveCardImages) {
-                if (!File.Exists(localUri.LocalPath)) {
-                    try {
-                        new WebClient().DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
-                    }
-                    catch (WebException) {
-                        // too slow motha fucka
-                    }
-                }
-                return localUri;
-            }
-            return webUri;
+            return ResolveCardImage(appearance, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", appearance.MultiverseID)));
         }
 
-        public async Task<BitmapImage> GetAppearanceImage(CardAppearance appearance)
+        public Uri GetCardImageUri(Set set, Card card)
         {
-            BitmapImage image = await Task.Run<BitmapImage>(() => {
-                try {
-                    BitmapImage img = new BitmapImage();
-                    Uri uri = GetAppearanceImageUri(appearance);
-                    img.BeginInit();
-                    img.CacheOption = BitmapCacheOption.OnLoad;
-                    img.UriSource = uri;
-                    img.EndInit();
-                    img.Freeze();
-                    return img;
+            CardAppearance activeAppearance = null;
+            foreach(CardAppearance appearance in card.Appearances) {
+                if(appearance.Set.Code == set.Code) {
+                    activeAppearance = appearance;
+                    break;
                 }
-                catch (NotSupportedException ex) {
-                    _LoggingNinja.LogError(ex);
-                }
-                catch (IOException ex) {
-                    _LoggingNinja.LogError(ex);
-                }
-                return null;
-            });
-            return image;
+            }
+
+            if(activeAppearance != null) {
+                return ResolveCardImage(
+                    activeAppearance,
+                    new Uri(
+                        string.Format(
+                            "http://mtgimage.com/set/{0}/{1}.jpg",
+                            (!string.IsNullOrEmpty(activeAppearance.Set.MtgImageName) ? activeAppearance.Set.MtgImageName : activeAppearance.Set.Code),
+                            card.Name
+                        )
+                    )
+                );
+            }
+
+            throw new InvalidOperationException("Looks like you tried to get an image for a set/card combination that doesn't exist. Try again.");
+        }
+
+        // overload that allows the end developer to request images by card and set. this has to be available
+        // because Melek provides images for promo cards from a mtgimage.com, and the site doesn't seem to have
+        // matching multiverseIDs for promo cards.
+        public async Task<BitmapImage> GetCardImage(Set set, Card card)
+        {
+            return await ImageFromUri(GetCardImageUri(set, card));
+        }
+
+        public async Task<BitmapImage> GetCardImage(CardAppearance appearance)
+        {
+            return await ImageFromUri(GetCardImageUri(appearance));
         }
 
         public string GetCardImageCacheSize()
