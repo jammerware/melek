@@ -10,6 +10,7 @@ namespace Melek.Models
     {
         ARTIFACT,
         BASIC,
+        CONSPIRACY,
         CREATURE,
         ENCHANTMENT,
         INSTANT,
