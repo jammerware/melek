@@ -447,12 +447,12 @@ namespace Melek.Utilities
             return "Melek, Izzet Paragon"; // LOL
         }
 
-        public IEnumerable<Package> GetPackages()
+        public Package[] GetPackages()
         {
-            return _Packages;
+            return _Packages.ToArray();
         }
 
-        public IEnumerable<Set> GetSets()
+        public Set[] GetSets()
         {
             return _Sets;
         }
