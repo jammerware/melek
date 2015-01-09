@@ -127,6 +127,7 @@ namespace Melek.Utilities
                         CFName = XMLPal.GetString(setElement.Attribute("cfName")),
                         Date = XMLPal.GetDate(setElement.Attribute("date")),
                         IsPromo = (setElement.Attribute("isPromo") != null ? XMLPal.GetBool(setElement.Attribute("isPromo")) : false),
+                        MtgImageName = (setElement.Attribute("mtgImageName") != null ? XMLPal.GetString(setElement.Attribute("mtgImageName")) : string.Empty),
                         Name = XMLPal.GetString(setElement.Attribute("name")),
                         TCGPlayerName = XMLPal.GetString(setElement.Attribute("tcgPlayerName"))
                     };
