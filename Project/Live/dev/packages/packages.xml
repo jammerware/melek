@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <packages>
   <package id="core" name="Core (through Khans of Tarkir)" cardsReleased="2014-11-07T00:00:00" dataUpdated="2015-01-10T21:16:00" />
+  <package id="frf" name="Fate Reforged" cardsReleased="2015-01-23T00:00:00" dataUpdated="2015-01-14T09:07:00" />
 </packages>

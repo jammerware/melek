@@ -38,9 +38,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Project\Libs\Bazam.dll</HintPath>
     </Reference>
-    <Reference Include="Melek">
-      <HintPath>..\Project\Libs\Melek.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -105,6 +102,12 @@
     <Content Include="Data\database.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Melek\Melek.csproj">
+      <Project>{49b35443-ed18-4644-b09b-dbebd2476ae8}</Project>
+      <Name>Melek</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

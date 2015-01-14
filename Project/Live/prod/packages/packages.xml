@@ -1,15 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <packages>
-	<package id="bng" name="Born of the Gods" cardsReleased="02/07/2014" dataUpdated="02/07/2014 17:23:00" />
-	<package id="core" name="Core (through Theros)" cardsReleased="09/27/2013" dataUpdated="11/06/2013 16:31:00" />
-	<package id="c13" name="Commander 2013" cardsReleased="11/01/2013" dataUpdated="11/06/2013 16:28:00" />
-	<package id="c14" name="Commander 2014" cardsReleased="11/07/2014" dataUpdated="12/12/2014 14:56:00" />
-	<package id="ddm" name="Duel Decks: Jace vs. Vraska" cardsReleased="03/14/2014" dataUpdated="03/04/2014 22:06:00" />
-	<package id="ddn" name="Duel Decks: Speed vs. Cunning" cardsReleased="09/05/2014" dataUpdated="08/31/2014 10:01:00" />
-	<package id="v14" name="From the Vault: Annhilation" cardsReleased="08/22/2014" dataUpdated="08/22/2014 18:46:00" />
-	<package id="jou" name="Journey into Nyx" cardsReleased="05/02/2014" dataUpdated="04/28/2014 08:42:00" />
-	<package id="ktk" name="Khans of Tarkir" cardsReleased="09/26/2014" dataUpdated="09/17/2014 22:36:00" />
-	<package id="m15" name="Magic 2015" cardsReleased="07/18/2014" dataUpdated="07/08/2014 20:39:00" />
-	<package id="cns" name="Magic the Gathering: Conspiracy" cardsReleased="06/06/2014" dataUpdated="06/11/2014 13:01:00" />
-	<package id="md1" name="Modern Event Deck 2014" cardsReleased="05/30/2014" dataUpdated="05/14/2014 14:37:00" />
-	<package id="vma" name="Vintage Masters" cardsReleased="06/16/2014" dataUpdated="07/11/2014 13:59:00" />
+  <package id="core" name="Core (through Khans of Tarkir)" cardsReleased="2014-11-07T00:00:00" dataUpdated="2015-01-10T21:16:00" />
+  <package id="frf" name="Fate Reforged" cardsReleased="2015-01-23T00:00:00" dataUpdated="2015-01-14T09:07:00" />
 </packages>
