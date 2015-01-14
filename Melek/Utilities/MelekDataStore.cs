@@ -474,14 +474,27 @@ namespace Melek.Utilities
             return await ImageFromUri(GetCardImageUri(appearance));
         }
 
-        public string GetCardImageCacheSize()
+        public string GetCardImageCacheSize(bool estimate = false)
         {
             double cardsDirectorySize = 0;
-            foreach (string file in Directory.GetFiles(CardImagesDirectory)) {
-                cardsDirectorySize += new FileInfo(file).Length;
+
+            if (estimate) {
+                cardsDirectorySize = (Directory.GetFiles(CardImagesDirectory).Count() * 34816); // a card is ABOUT 34kb
+                cardsDirectorySize = Math.Round(cardsDirectorySize);
             }
 
-            return Math.Round(cardsDirectorySize / 1024 / 1024, 1).ToString() + " MB";
+            else {
+                try {
+                    foreach (string file in Directory.GetFiles(CardImagesDirectory)) {
+                        cardsDirectorySize += new FileInfo(file).Length;
+                    }
+                }
+                catch (Exception) {
+                    // it's fine i guess, it's just an estimate for now
+                }
+            }
+
+            return (estimate ? "about " : string.Empty) + Math.Round(cardsDirectorySize / 1024 / 1024, 1).ToString() + " MB";
         }
 
         public string GetRandomCardName()
