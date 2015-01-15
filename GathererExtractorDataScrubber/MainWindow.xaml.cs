@@ -170,6 +170,7 @@ namespace GathererExtractorDataScrubber
             { "Melek, Izzet Paragon", new string[] { "The Weirdest Wizard in Magic" }},
             { "Shadowmage Infiltrator", new string[] { "Finkel" }},
             { "Solemn Simulacrum", new string[] { "Jens", "Sad Robot" }},
+            { "Thragtusk", new string[] { "Swagtusk", "Thraggles the Value Cow" }},
             { "Triskelion", new string[] { "Trike" }},
             { "Umezawa's Jitte", new string[] { "Fork of Doom" }},
             { "Wrath of God", new string[] { "WoG" }},
