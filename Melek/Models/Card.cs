@@ -11,6 +11,7 @@ namespace Melek.Models
         public CardCostCollection Cost { get; set; }
         public string FlavorText { get; set; }
         public string Name { get; set; }
+        public string[] Nicknames { get; set; }
         public int? Power { get; set; }
         public string Text { get; set; }
         public int? Toughness { get; set; }

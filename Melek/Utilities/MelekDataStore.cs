@@ -173,6 +173,11 @@ namespace Melek.Utilities
                             }
                         ).Distinct(new CardAppearanceEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
                         Name = XMLPal.GetString(cardElement.Attribute("name")),
+                        Nicknames = (
+                            cardElement.Element("nicknames") == null ? new List<string>() : 
+                            from nickname in cardElement.Element("nicknames").Elements("nickname")
+                            select nickname.Value
+                        ).ToArray(),
                         CardTypes = (
                             from cardType in cardElement.Elements("types").Elements("type")
                             select EnuMaster.Parse<CardType>(XMLPal.GetString(cardType.Attribute("name")))

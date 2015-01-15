@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
 using System.Xml.Linq;
 using Bazam.Modules;
 using Bazam.Slugging;
-using Melek;
 using Melek.Models;
 
 namespace GathererExtractorDataScrubber
@@ -159,6 +155,24 @@ namespace GathererExtractorDataScrubber
             { "SUS", "pSUS" },
             { "WCQ", "pWCQ" },
             { "WRL", "pWOR" },
+        };
+
+        // card nicknames trolololol
+        private Dictionary<string, string[]> _CardNicknames = new Dictionary<string, string[]>() {
+            { "Birds of Paradise", new string[] { "BoP" }},
+            { "Blightsteel Colossus", new string[] { "One-Shot the Robot" }},
+            { "Bloodbraid Elf",  new string[] { "BBE" }},
+            { "Dark Confidant", new string[] { "Bob" }},
+            { "Fact or Fiction", new string[] { "EOTFOFYL", "FoF" }},
+            { "Force of Will", new string[] { "FoW" }},
+            { "Gray Merchant of Asphodel", new string[] { "Gary" }},
+            { "Lightning Bolt", new string[] { "Bolt" }},
+            { "Melek, Izzet Paragon", new string[] { "The Weirdest Wizard in Magic" }},
+            { "Shadowmage Infiltrator", new string[] { "Finkel" }},
+            { "Solemn Simulacrum", new string[] { "Jens", "Sad Robot" }},
+            { "Triskelion", new string[] { "Trike" }},
+            { "Umezawa's Jitte", new string[] { "Fork of Doom" }},
+            { "Wrath of God", new string[] { "WoG" }},
         };
 
         public MainWindow()
@@ -338,11 +352,11 @@ namespace GathererExtractorDataScrubber
             Dictionary<string, Card> cards = new Dictionary<string, Card>();
 
             // pass to load card data
-            foreach (XElement card in doc.Root.Element("cards").Elements("card")) {
+            foreach (XElement cardData in doc.Root.Element("cards").Elements("card")) {
                 // read some generally useful things
-                string name = XMLPal.GetString(card.Element("name"));
+                string name = XMLPal.GetString(cardData.Element("name"));
                 string sluggedName = Slugger.Slugify(name);
-                string setCode = card.Element("set").Value;
+                string setCode = cardData.Element("set").Value;
                 if (_SetCodeReplacements.Keys.Contains(setCode)) {
                     setCode = _SetCodeReplacements[setCode];
                 }
@@ -358,10 +372,10 @@ namespace GathererExtractorDataScrubber
                 if (cards.Keys.Contains(sluggedName)) {
                     // create the appearance, we'll need it no matter what
                     CardAppearance appearance = new CardAppearance() {
-                        Artist = XMLPal.GetString(card.Element("artist")),
-                        FlavorText = XMLPal.GetString(card.Element("flavor")),
-                        MultiverseID = XMLPal.GetString(card.Element("id")),
-                        Rarity = GetRarity(XMLPal.GetString(card.Element("rarity"))),
+                        Artist = XMLPal.GetString(cardData.Element("artist")),
+                        FlavorText = XMLPal.GetString(cardData.Element("flavor")),
+                        MultiverseID = XMLPal.GetString(cardData.Element("id")),
+                        Rarity = GetRarity(XMLPal.GetString(cardData.Element("rarity"))),
                         Set = setDictionary[setCode]
                     };
 
@@ -381,20 +395,28 @@ namespace GathererExtractorDataScrubber
                 else {
                     // either it's a regular card or a split card
                     // parse data into variables for manipulation in the case of a split card
-                    string id = XMLPal.GetString(card.Element("id"));
-                    string rarity = XMLPal.GetString(card.Element("rarity"));
-                    string artist = XMLPal.GetString(card.Element("artist"));
-                    string types = XMLPal.GetString(card.Element("type"));
-                    string cost = XMLPal.GetString(card.Element("manacost"));
-                    string flavor = XMLPal.GetString(card.Element("flavor"));
-                    string power = XMLPal.GetString(card.Element("power"));
-                    string text = XMLPal.GetString(card.Element("ability"));
-                    string toughness = XMLPal.GetString(card.Element("toughness"));
+                    string id = XMLPal.GetString(cardData.Element("id"));
+                    string rarity = XMLPal.GetString(cardData.Element("rarity"));
+                    string artist = XMLPal.GetString(cardData.Element("artist"));
+                    string types = XMLPal.GetString(cardData.Element("type"));
+                    string cost = XMLPal.GetString(cardData.Element("manacost"));
+                    string flavor = XMLPal.GetString(cardData.Element("flavor"));
+                    string power = XMLPal.GetString(cardData.Element("power"));
+                    string text = XMLPal.GetString(cardData.Element("ability"));
+                    string toughness = XMLPal.GetString(cardData.Element("toughness"));
                     string tribe = types;
-                    string watermark = XMLPal.GetString(card.Element("watermark"));
+                    string watermark = XMLPal.GetString(cardData.Element("watermark"));
+
+                    // check for nicknames
+                    string[] nicknames = new string[] { };
+                    if (_CardNicknames.Keys.Contains(name)) {
+                        nicknames = _CardNicknames[name];
+                    }
 
                     if (!name.Contains("//")) {
-                        cards.Add(Slugger.Slugify(name), GetCard(id, rarity, setCode, artist, types, cost, flavor, name, power, text, toughness, tribe, watermark, setDictionary));
+                        Card card = GetCard(id, rarity, setCode, artist, types, cost, flavor, name, power, text, toughness, tribe, watermark, setDictionary);
+                        card.Nicknames = nicknames;
+                        cards.Add(Slugger.Slugify(name), card);
                     }
                     else {
                         string turnsArtist = GetSplitCardValue(artist, true);
@@ -418,8 +440,14 @@ namespace GathererExtractorDataScrubber
                         string turnsWatermark = GetSplitCardValue(watermark, true);
                         string burnsWatermark = GetSplitCardValue(watermark, false);
 
-                        cards.Add(Slugger.Slugify(turnsName), GetCard(id, rarity, setCode, turnsArtist, turnsTypes, turnsCost, turnsFlavor, turnsName, turnsPower, turnsText, turnsToughness, turnsTribe, turnsWatermark, setDictionary));
-                        cards.Add(Slugger.Slugify(burnsName), GetCard(id, rarity, setCode, burnsArtist, burnsTypes, burnsCost, burnsFlavor, burnsName, burnsPower, burnsText, burnsToughness, burnsTribe, burnsWatermark, setDictionary));
+                        Card turn = GetCard(id, rarity, setCode, turnsArtist, turnsTypes, turnsCost, turnsFlavor, turnsName, turnsPower, turnsText, turnsToughness, turnsTribe, turnsWatermark, setDictionary);
+                        Card burn = GetCard(id, rarity, setCode, burnsArtist, burnsTypes, burnsCost, burnsFlavor, burnsName, burnsPower, burnsText, burnsToughness, burnsTribe, burnsWatermark, setDictionary);
+
+                        turn.Nicknames = nicknames;
+                        burn.Nicknames = nicknames;
+
+                        cards.Add(Slugger.Slugify(turnsName), turn);
+                        cards.Add(Slugger.Slugify(burnsName), burn);
                     }
                 }
             }
@@ -445,6 +473,11 @@ namespace GathererExtractorDataScrubber
                     );
                 }
 
+                List<XElement> cardNicknames = new List<XElement>();
+                foreach (string nickname in card.Nicknames) {
+                    cardNicknames.Add(new XElement("nickname", nickname));
+                }
+
                 string power = (card.Power == null ? card.Power.ToString() : string.Empty);
                 string toughness = (card.Toughness == null ? card.Toughness.ToString() : string.Empty);
 
@@ -457,7 +490,8 @@ namespace GathererExtractorDataScrubber
                     new XAttribute("tribe", card.Tribe),
                     new XAttribute("watermark", card.Watermark),
                     new XElement("types", cardTypes),
-                    new XElement("appearances", cardAppearances)
+                    new XElement("appearances", cardAppearances),
+                    (cardNicknames.Count() > 0 ? new XElement("nicknames", cardNicknames) : null)
                 );
 
                 if (!string.IsNullOrEmpty(power)) {
