@@ -531,16 +531,27 @@ namespace Melek.Utilities
                 searchTerm = searchTerm.Trim().ToLower();
 
                 // clean this up at some point - add support for a collection of search terms to support possible other "replacement" exceptions
+                // character codes are utf8 by default (utf32)?
                 string searchTermAlt = searchTerm;
                 if (searchTermAlt.Contains("ae")) {
                     searchTermAlt = searchTermAlt.Replace("ae", ((Char)230).ToString());
                 }
+                if (searchTermAlt.Contains("u")) {
+                    searchTermAlt = searchTermAlt.Replace("u", ((Char)251).ToString());
+                }
 
                 if (searchTerm != string.Empty) {
                     return _Cards
-                        .Where(c => c.Name.ToLower().Contains(searchTermAlt) || c.Name.ToLower().Contains(searchTerm))
+                        .Where(c => 
+                            c.Name.ToLower().Contains(searchTermAlt) || 
+                            c.Name.ToLower().Contains(searchTerm) || ( 
+                                c.Nicknames.Count() > 0 &&
+                                c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm) != null
+                            )
+                        )
                         .Where(c => c.Appearances.Any(a => a.Set.Code.ToLower() == setCode) || setCode == string.Empty)
                         .OrderBy(c => c.Name.ToLower().StartsWith(searchTermAlt) || c.Name.ToLower().StartsWith(searchTerm) ? 0 : 1)
+                        .ThenBy(c => c.Nicknames.Count() > 0 && c.Nicknames.FirstOrDefault(n => n == searchTerm) != null)
                         .ThenBy(c => c.Name)
                         .ToArray();
                 }
