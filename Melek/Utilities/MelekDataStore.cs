@@ -162,17 +162,6 @@ namespace Melek.Utilities
 
                 foreach (XElement cardElement in cardsDoc.Element("cards").Elements("card")) {
                     Card card = new Card() {
-                        Appearances = (
-                            from appearance in cardElement.Element("appearances").Elements("appearance")
-                            select new CardAppearance() {
-                                Artist = XMLPal.GetString(appearance.Attribute("artist")),
-                                FlavorText = XMLPal.GetString(appearance.Attribute("flavor")),
-                                MultiverseID = XMLPal.GetString(appearance.Attribute("multiverseID")),
-                                Rarity = EnuMaster.Parse<CardRarity>(XMLPal.GetString(appearance.Attribute("rarity"))),
-                                Set = setDictionary[XMLPal.GetString(appearance.Attribute("setCode"))],
-                                TransformsToMultiverseID = XMLPal.GetString(appearance.Attribute("transformsInto"))
-                            }
-                        ).Distinct(new CardAppearanceEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
                         Name = XMLPal.GetString(cardElement.Attribute("name")),
                         Nicknames = (
                             cardElement.Element("nicknames") == null ? new List<string>() : 
@@ -185,6 +174,17 @@ namespace Melek.Utilities
                         ).ToArray(),
                         Cost = new CardCostCollection(XMLPal.GetString(cardElement.Attribute("cost"))),
                         Power = XMLPal.GetInt(cardElement.Attribute("power")),
+                        Printings = (
+                            from printing in cardElement.Element("appearances").Elements("appearance")
+                            select new CardPrinting() {
+                                Artist = XMLPal.GetString(printing.Attribute("artist")),
+                                FlavorText = XMLPal.GetString(printing.Attribute("flavor")),
+                                MultiverseID = XMLPal.GetString(printing.Attribute("multiverseID")),
+                                Rarity = EnuMaster.Parse<CardRarity>(XMLPal.GetString(printing.Attribute("rarity"))),
+                                Set = setDictionary[XMLPal.GetString(printing.Attribute("setCode"))],
+                                TransformsToMultiverseID = XMLPal.GetString(printing.Attribute("transformsInto"))
+                            }
+                        ).Distinct(new CardPrintingEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
                         Text = XMLPal.GetString(cardElement.Attribute("text")),
                         Toughness = XMLPal.GetInt(cardElement.Attribute("toughness")),
                         Tribe = XMLPal.GetString(cardElement.Attribute("tribe")),
@@ -196,17 +196,17 @@ namespace Melek.Utilities
                         cards.Add(card);
                     }
                     else {
-                        foreach (CardAppearance appearance in card.Appearances) {
-                            CardAppearance existingAppearance = existingCard.Appearances.Where(a => a.Set.Code == appearance.Set.Code).FirstOrDefault();
-                            if (existingAppearance == null) {
-                                existingCard.Appearances.Add(appearance);
+                        foreach (CardPrinting printing in card.Printings) {
+                            CardPrinting existingPrinting = existingCard.Printings.Where(a => a.Set.Code == printing.Set.Code).FirstOrDefault();
+                            if (existingPrinting == null) {
+                                existingCard.Printings.Add(printing);
                             }
                             else {
-                                existingAppearance.Artist = appearance.Artist;
-                                existingAppearance.FlavorText = appearance.FlavorText;
-                                existingAppearance.MultiverseID = appearance.MultiverseID;
-                                existingAppearance.Rarity = appearance.Rarity;
-                                existingAppearance.Set = appearance.Set;
+                                existingPrinting.Artist = printing.Artist;
+                                existingPrinting.FlavorText = printing.FlavorText;
+                                existingPrinting.MultiverseID = printing.MultiverseID;
+                                existingPrinting.Rarity = printing.Rarity;
+                                existingPrinting.Set = printing.Set;
                             }
 
                             existingCard.CardTypes = card.CardTypes;
@@ -278,9 +278,9 @@ namespace Melek.Utilities
             return image;
         }
 
-        private Uri ResolveCardImage(CardAppearance appearance, Uri webUri)
+        private Uri ResolveCardImage(CardPrinting printing, Uri webUri)
         {
-            Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(appearance.MultiverseID) + ".jpg"));
+            Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseID) + ".jpg"));
 
             if (_SaveCardImages) {
                 if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
@@ -435,36 +435,36 @@ namespace Melek.Utilities
 
         public Card GetCardByMultiverseID(string multiverseID)
         {
-            return _Cards.Where(c => c.Appearances.Where(a => a.MultiverseID == multiverseID).FirstOrDefault() != null).FirstOrDefault();
+            return _Cards.Where(c => c.Printings.Where(a => a.MultiverseID == multiverseID).FirstOrDefault() != null).FirstOrDefault();
         }
 
-        public Card GetCardByPrinting(CardAppearance printing)
+        public Card GetCardByPrinting(CardPrinting printing)
         {
-            return _Cards.Where(c => c.Appearances.Contains(printing)).FirstOrDefault();
+            return _Cards.Where(c => c.Printings.Contains(printing)).FirstOrDefault();
         }
 
-        public Uri GetCardImageUri(CardAppearance appearance)
+        public Uri GetCardImageUri(CardPrinting printing)
         {
-            return ResolveCardImage(appearance, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", appearance.MultiverseID)));
+            return ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseID)));
         }
 
         public Uri GetCardImageUri(Set set, Card card)
         {
-            CardAppearance activeAppearance = null;
-            foreach(CardAppearance appearance in card.Appearances) {
-                if(appearance.Set.Code == set.Code) {
-                    activeAppearance = appearance;
+            CardPrinting activePrinting = null;
+            foreach(CardPrinting printing in card.Printings) {
+                if (printing.Set.Code == set.Code) {
+                    activePrinting = printing;
                     break;
                 }
             }
 
-            if(activeAppearance != null) {
+            if (activePrinting != null) {
                 return ResolveCardImage(
-                    activeAppearance,
+                    activePrinting,
                     new Uri(
                         string.Format(
                             "http://mtgimage.com/set/{0}/{1}.jpg",
-                            (!string.IsNullOrEmpty(activeAppearance.Set.MtgImageName) ? activeAppearance.Set.MtgImageName : activeAppearance.Set.Code),
+                            (!string.IsNullOrEmpty(activePrinting.Set.MtgImageName) ? activePrinting.Set.MtgImageName : activePrinting.Set.Code),
                             card.Name
                         )
                     )
@@ -482,9 +482,9 @@ namespace Melek.Utilities
             return await ImageFromUri(GetCardImageUri(set, card));
         }
 
-        public async Task<BitmapImage> GetCardImage(CardAppearance appearance)
+        public async Task<BitmapImage> GetCardImage(CardPrinting printing)
         {
-            return await ImageFromUri(GetCardImageUri(appearance));
+            return await ImageFromUri(GetCardImageUri(printing));
         }
 
         public string GetCardImageCacheSize(bool estimate = false)
@@ -557,7 +557,7 @@ namespace Melek.Utilities
                                 c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm) != null
                             )
                         )
-                        .Where(c => c.Appearances.Any(a => a.Set.Code.ToLower() == setCode) || setCode == string.Empty)
+                        .Where(c => c.Printings.Any(a => a.Set.Code.ToLower() == setCode) || setCode == string.Empty)
                         .OrderBy(c => c.Name.ToLower().StartsWith(searchTermAlt) || c.Name.ToLower().StartsWith(searchTerm) ? 0 : 1)
                         .ThenBy(c => c.Nicknames.Count() > 0 && c.Nicknames.FirstOrDefault(n => n == searchTerm) != null)
                         .ThenBy(c => c.Name)

@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Card.cs" />
-    <Compile Include="Models\CardAppearance.cs" />
+    <Compile Include="Models\CardPrinting.cs" />
     <Compile Include="Models\CardCost.cs" />
     <Compile Include="Models\CardCostCollection.cs" />
     <Compile Include="Models\CardCostType.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="Models\CardType.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Models\Format.cs" />
-    <Compile Include="Models\Helpers\CardAppearanceEqualityComparer.cs" />
+    <Compile Include="Models\Helpers\CardPrintingEqualityComparer.cs" />
     <Compile Include="Models\Mechanic.cs" />
     <Compile Include="Models\MechanicType.cs" />
     <Compile Include="Utilities\MelekDataStore.cs" />

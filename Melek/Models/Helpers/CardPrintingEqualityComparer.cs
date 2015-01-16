@@ -3,14 +3,14 @@ using Melek;
 
 namespace Melek.Models.Helpers
 {
-    public class CardAppearanceEqualityComparer : IEqualityComparer<CardAppearance>
+    public class CardPrintingEqualityComparer : IEqualityComparer<CardPrinting>
     {
-        public bool Equals(CardAppearance x, CardAppearance y)
+        public bool Equals(CardPrinting x, CardPrinting y)
         {
             return x.Set.Code == y.Set.Code;
         }
 
-        public int GetHashCode(CardAppearance obj)
+        public int GetHashCode(CardPrinting obj)
         {
             return obj.Set.Code.GetHashCode();
         }

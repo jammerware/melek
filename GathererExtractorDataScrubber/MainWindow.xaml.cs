@@ -254,7 +254,7 @@ namespace GathererExtractorDataScrubber
             }
         }
 
-        private Card GetCard(CardAppearance appearance, string cardTypes, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary)
+        private Card GetCard(CardPrinting printing, string cardTypes, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary)
         {
             int dummyForOutParams = 0;
 
@@ -265,13 +265,13 @@ namespace GathererExtractorDataScrubber
             text = text.Replace((char)SOFT_HYPHEN_CODE, '-');
 
             return new Card() {
-                Appearances = new List<CardAppearance>() { 
-                    appearance
-                },
                 CardTypes = GetCardTypes(cardTypes),
                 Cost = (!string.IsNullOrEmpty(cost) ? new CardCostCollection(cost) : null),
                 Name = name,
                 Power = (Int32.TryParse(power, out dummyForOutParams) ? (int?)Int32.Parse(power) : null),
+                Printings = new List<CardPrinting>() { 
+                    printing
+                },
                 Text = text,
                 Toughness = (Int32.TryParse(toughness, out dummyForOutParams) ? (int?)Int32.Parse(toughness) : null),
                 Tribe = GetCardTribe(tribeData),
@@ -362,8 +362,8 @@ namespace GathererExtractorDataScrubber
                         sluggedName = Slugger.Slugify(GetSplitCardName(name, true));
                     }
 
-                    // create the appearance, we'll need it no matter what
-                    CardAppearance appearance = new CardAppearance() {
+                    // create the printing, we'll need it no matter what
+                    CardPrinting printing = new CardPrinting() {
                         Artist = XMLPal.GetString(cardData.Element("artist")),
                         FlavorText = XMLPal.GetString(cardData.Element("flavor")),
                         MultiverseID = XMLPal.GetString(cardData.Element("id")),
@@ -373,20 +373,20 @@ namespace GathererExtractorDataScrubber
                     };
 
                     // first we need to know if this card has already been loaded (because it's in another set), in which case we need to 
-                    // add an appearance to the existing card for the current set. we can do this by checking its name, except the split
+                    // add a printing to the existing card for the current set. we can do this by checking its name, except the split
                     // cards need to be checked twice (once for each half).
                     if (cards.Keys.Contains(sluggedName)) {
                         if (!name.Contains("//")) {
                             // normal cards
-                            cards[sluggedName].Appearances.Add(appearance);
+                            cards[sluggedName].Printings.Add(printing);
                         }
                         else {
                             // split cards
                             string turnsSluggedName = sluggedName;
                             string burnsSluggedName = Slugger.Slugify(GetSplitCardName(name, false));
 
-                            cards[turnsSluggedName].Appearances.Add(appearance);
-                            cards[burnsSluggedName].Appearances.Add(appearance);
+                            cards[turnsSluggedName].Printings.Add(printing);
+                            cards[burnsSluggedName].Printings.Add(printing);
                         }
                     }
                     else {
@@ -411,7 +411,7 @@ namespace GathererExtractorDataScrubber
                         }
 
                         if (!name.Contains("//")) {
-                            Card card = GetCard(appearance, types, cost, name, power, text, toughness, tribe, watermark, setDictionary);
+                            Card card = GetCard(printing, types, cost, name, power, text, toughness, tribe, watermark, setDictionary);
                             card.Nicknames = nicknames;
                             cards.Add(Slugger.Slugify(name), card);
                         }
@@ -437,8 +437,8 @@ namespace GathererExtractorDataScrubber
                             string turnsWatermark = GetSplitCardValue(watermark, true);
                             string burnsWatermark = GetSplitCardValue(watermark, false);
 
-                            Card turn = GetCard(appearance, turnsTypes, turnsCost, turnsName, turnsPower, turnsText, turnsToughness, turnsTribe, turnsWatermark, setDictionary);
-                            Card burn = GetCard(appearance, burnsTypes, burnsCost, burnsName, burnsPower, burnsText, burnsToughness, burnsTribe, burnsWatermark, setDictionary);
+                            Card turn = GetCard(printing, turnsTypes, turnsCost, turnsName, turnsPower, turnsText, turnsToughness, turnsTribe, turnsWatermark, setDictionary);
+                            Card burn = GetCard(printing, burnsTypes, burnsCost, burnsName, burnsPower, burnsText, burnsToughness, burnsTribe, burnsWatermark, setDictionary);
 
                             turn.Nicknames = nicknames;
                             burn.Nicknames = nicknames;
@@ -456,17 +456,17 @@ namespace GathererExtractorDataScrubber
                         cardTypes.Add(new XElement("type", new XAttribute("name", cardType.ToString())));
                     }
 
-                    List<XElement> cardAppearances = new List<XElement>();
-                    foreach (CardAppearance appearance in card.Appearances) {
-                        cardAppearances.Add(
+                    List<XElement> cardPrintings = new List<XElement>();
+                    foreach (CardPrinting printing in card.Printings) {
+                        cardPrintings.Add(
                             new XElement(
                                 "appearance",
-                                new XAttribute("multiverseID", appearance.MultiverseID),
-                                new XAttribute("rarity", appearance.Rarity.ToString()),
-                                new XAttribute("setCode", appearance.Set.Code),
-                                (!string.IsNullOrEmpty(appearance.FlavorText) ? new XAttribute("flavor", appearance.FlavorText) : null),
-                                new XAttribute("artist", appearance.Artist),
-                                (!string.IsNullOrEmpty(appearance.TransformsToMultiverseID) ? new XAttribute("transformsInto", appearance.TransformsToMultiverseID) : null)
+                                new XAttribute("multiverseID", printing.MultiverseID),
+                                new XAttribute("rarity", printing.Rarity.ToString()),
+                                new XAttribute("setCode", printing.Set.Code),
+                                (!string.IsNullOrEmpty(printing.FlavorText) ? new XAttribute("flavor", printing.FlavorText) : null),
+                                new XAttribute("artist", printing.Artist),
+                                (!string.IsNullOrEmpty(printing.TransformsToMultiverseID) ? new XAttribute("transformsInto", printing.TransformsToMultiverseID) : null)
                             )
                         );
                     }
@@ -487,7 +487,7 @@ namespace GathererExtractorDataScrubber
                         (!string.IsNullOrEmpty(card.Tribe) ? new XAttribute("tribe", card.Tribe) : null),
                         (!string.IsNullOrEmpty(card.Watermark) ? new XAttribute("watermark", card.Watermark) : null),
                         new XElement("types", cardTypes),
-                        new XElement("appearances", cardAppearances),
+                        new XElement("appearances", cardPrintings),
                         (cardNicknames.Count() > 0 ? new XElement("nicknames", cardNicknames) : null)
                     );
 

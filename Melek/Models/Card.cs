@@ -6,12 +6,12 @@ namespace Melek.Models
 {
     public class Card : Slugger
     {
-        public List<CardAppearance> Appearances { get; set; }
         public CardType[] CardTypes { get; set; }
         public CardCostCollection Cost { get; set; }
         public string Name { get; set; }
         public string[] Nicknames { get; set; }
         public int? Power { get; set; }
+        public List<CardPrinting> Printings { get; set; }
         public string Text { get; set; }
         public int? Toughness { get; set; }
         public string Tribe { get; set; }
@@ -19,7 +19,7 @@ namespace Melek.Models
 
         public Card()
         {
-            Appearances = new List<CardAppearance>();
+            Printings = new List<CardPrinting>();
         }
 
         protected override string SlugBase()
