@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Melek.Models
+﻿namespace Melek.Models
 {
     public class CardAppearance
     {
@@ -13,5 +7,6 @@ namespace Melek.Models
         public string MultiverseID { get; set; }
         public CardRarity Rarity { get; set; }
         public Set Set { get; set; }
+        public string TransformsToMultiverseID { get; set; }
     }
 }

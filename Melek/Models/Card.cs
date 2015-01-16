@@ -9,7 +9,6 @@ namespace Melek.Models
         public List<CardAppearance> Appearances { get; set; }
         public CardType[] CardTypes { get; set; }
         public CardCostCollection Cost { get; set; }
-        public string FlavorText { get; set; }
         public string Name { get; set; }
         public string[] Nicknames { get; set; }
         public int? Power { get; set; }

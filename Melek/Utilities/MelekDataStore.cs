@@ -169,7 +169,8 @@ namespace Melek.Utilities
                                 FlavorText = XMLPal.GetString(appearance.Attribute("flavor")),
                                 MultiverseID = XMLPal.GetString(appearance.Attribute("multiverseID")),
                                 Rarity = EnuMaster.Parse<CardRarity>(XMLPal.GetString(appearance.Attribute("rarity"))),
-                                Set = setDictionary[XMLPal.GetString(appearance.Attribute("setCode"))]
+                                Set = setDictionary[XMLPal.GetString(appearance.Attribute("setCode"))],
+                                TransformsToMultiverseID = XMLPal.GetString(appearance.Attribute("transformsInto"))
                             }
                         ).Distinct(new CardAppearanceEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
                         Name = XMLPal.GetString(cardElement.Attribute("name")),
@@ -183,14 +184,12 @@ namespace Melek.Utilities
                             select EnuMaster.Parse<CardType>(XMLPal.GetString(cardType.Attribute("name")))
                         ).ToArray(),
                         Cost = new CardCostCollection(XMLPal.GetString(cardElement.Attribute("cost"))),
-                        FlavorText = XMLPal.GetString(cardElement.Attribute("flavor")),
                         Power = XMLPal.GetInt(cardElement.Attribute("power")),
                         Text = XMLPal.GetString(cardElement.Attribute("text")),
                         Toughness = XMLPal.GetInt(cardElement.Attribute("toughness")),
                         Tribe = XMLPal.GetString(cardElement.Attribute("tribe")),
                         Watermark = XMLPal.GetString(cardElement.Attribute("watermark"))
                     };
-
 
                     Card existingCard = cards.Where(c => c.Name == card.Name).FirstOrDefault();
                     if (existingCard == null) {
@@ -212,7 +211,6 @@ namespace Melek.Utilities
 
                             existingCard.CardTypes = card.CardTypes;
                             existingCard.Cost = card.Cost;
-                            existingCard.FlavorText = card.FlavorText;
                             existingCard.Power = card.Power;
                             existingCard.Text = card.Text;
                             existingCard.Toughness = card.Toughness;
@@ -433,6 +431,16 @@ namespace Melek.Utilities
             catch (Exception ex) {
                 _LoggingNinja.LogError(ex);
             }
+        }
+
+        public Card GetCardByMultiverseID(string multiverseID)
+        {
+            return _Cards.Where(c => c.Appearances.Where(a => a.MultiverseID == multiverseID).FirstOrDefault() != null).FirstOrDefault();
+        }
+
+        public Card GetCardByPrinting(CardAppearance printing)
+        {
+            return _Cards.Where(c => c.Appearances.Contains(printing)).FirstOrDefault();
         }
 
         public Uri GetCardImageUri(CardAppearance appearance)
