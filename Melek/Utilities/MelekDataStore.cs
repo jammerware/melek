@@ -278,22 +278,26 @@ namespace Melek.Utilities
             return image;
         }
 
-        private Uri ResolveCardImage(CardPrinting printing, Uri webUri)
+        private async Task<Uri> ResolveCardImage(CardPrinting printing, Uri webUri)
         {
-            Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseID) + ".jpg"));
+            Uri retVal = await Task.Run<Uri>(() => {
+                Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseID) + ".jpg"));
 
-            if (_SaveCardImages) {
-                if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
-                    try {
-                        new WebClient().DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
+                if (_SaveCardImages) {
+                    if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
+                        try {
+                            new WebClient().DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
+                        }
+                        catch (WebException) {
+                            // too slow motha fucka
+                        }
                     }
-                    catch (WebException) {
-                        // too slow motha fucka
-                    }
+                    return localUri;
                 }
-                return localUri;
-            }
-            return webUri;
+                return webUri;
+            });
+
+            return retVal;
         }
         #endregion
 
@@ -443,12 +447,12 @@ namespace Melek.Utilities
             return _Cards.Where(c => c.Printings.Contains(printing)).FirstOrDefault();
         }
 
-        public Uri GetCardImageUri(CardPrinting printing)
+        public async Task<Uri> GetCardImageUri(CardPrinting printing)
         {
-            return ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseID)));
+            return await ResolveCardImage(printing, new Uri(string.Format("http://mtgimage.com/multiverseid/{0}.jpg", printing.MultiverseID)));
         }
 
-        public Uri GetCardImageUri(Set set, Card card)
+        public async Task<Uri> GetCardImageUri(Set set, Card card)
         {
             CardPrinting activePrinting = null;
             foreach(CardPrinting printing in card.Printings) {
@@ -459,7 +463,7 @@ namespace Melek.Utilities
             }
 
             if (activePrinting != null) {
-                return ResolveCardImage(
+                return await ResolveCardImage(
                     activePrinting,
                     new Uri(
                         string.Format(
@@ -479,12 +483,12 @@ namespace Melek.Utilities
         // matching multiverseIDs for promo cards.
         public async Task<BitmapImage> GetCardImage(Set set, Card card)
         {
-            return await ImageFromUri(GetCardImageUri(set, card));
+            return await ImageFromUri(await GetCardImageUri(set, card));
         }
 
         public async Task<BitmapImage> GetCardImage(CardPrinting printing)
         {
-            return await ImageFromUri(GetCardImageUri(printing));
+            return await ImageFromUri(await GetCardImageUri(printing));
         }
 
         public string GetCardImageCacheSize(bool estimate = false)
