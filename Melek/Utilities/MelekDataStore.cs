@@ -514,6 +514,11 @@ namespace Melek.Utilities
             return (estimate ? "about " : string.Empty) + Math.Round(cardsDirectorySize / 1024 / 1024, 1).ToString() + " MB";
         }
 
+        public Card[] GetCards()
+        {
+            return _Cards;
+        }
+
         public string GetRandomCardName()
         {
             if (_IsLoaded) {
@@ -558,12 +563,13 @@ namespace Melek.Utilities
                             c.Name.ToLower().Contains(searchTermAlt) || 
                             c.Name.ToLower().Contains(searchTerm) || ( 
                                 c.Nicknames.Count() > 0 &&
-                                c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm) != null
+                                c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm || n.ToLower().Contains(searchTerm)) != null
                             )
                         )
                         .Where(c => c.Printings.Any(a => a.Set.Code.ToLower() == setCode) || setCode == string.Empty)
-                        .OrderBy(c => c.Name.ToLower().StartsWith(searchTermAlt) || c.Name.ToLower().StartsWith(searchTerm) ? 0 : 1)
-                        .ThenBy(c => c.Nicknames.Count() > 0 && c.Nicknames.FirstOrDefault(n => n == searchTerm) != null)
+                        .OrderBy(c => c.Name.ToLower() == searchTerm || c.Name.ToLower() == searchTermAlt ? 0 : 1)
+                        .ThenBy(c => c.Nicknames.Count() > 0 && c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm) != null ? 0 : 1)
+                        .ThenBy(c => c.Name.ToLower().StartsWith(searchTermAlt) || c.Name.ToLower().StartsWith(searchTerm) ? 0 : 1)
                         .ThenBy(c => c.Name)
                         .ToArray();
                 }
