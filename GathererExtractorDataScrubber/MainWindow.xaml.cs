@@ -168,7 +168,7 @@ namespace GathererExtractorDataScrubber
             { "Force of Will", new string[] { "FoW" }},
             { "Ghost Council of Orzhova", new string[] { "Ghost Dad" }},
             { "Gray Merchant of Asphodel", new string[] { "Gary" }},
-            { "Isamaru, Hound of Konda", new string[]  { "Very Doge. Much Value." }},
+            { "Isamaru, Hound of Konda", new string[]  { "Shiro", "Very Doge. Much Value." }},
             { "Lightning Bolt", new string[] { "Bolt" }},
             { "Melek, Izzet Paragon", new string[] { "The Weirdest Wizard in Magic" }},
             { "Prodigal Sorceror", new string[] {"Tim" }},
