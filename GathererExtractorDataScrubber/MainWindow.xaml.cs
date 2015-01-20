@@ -163,18 +163,22 @@ namespace GathererExtractorDataScrubber
             { "Blightsteel Colossus", new string[] { "One-Shot the Robot" }},
             { "Bloodbraid Elf",  new string[] { "BBE" }},
             { "Dark Confidant", new string[] { "Bob" }},
+            { "Eternal Witness", new string[] { "E Wit", "E-Wit"}},
             { "Fact or Fiction", new string[] { "EOTFOFYL", "FoF" }},
             { "Force of Will", new string[] { "FoW" }},
+            { "Ghost Council of Orzhova", new string[] { "Ghost Dad" }},
             { "Gray Merchant of Asphodel", new string[] { "Gary" }},
             { "Isamaru, Hound of Konda", new string[]  { "Very Doge. Much Value." }},
             { "Lightning Bolt", new string[] { "Bolt" }},
             { "Melek, Izzet Paragon", new string[] { "The Weirdest Wizard in Magic" }},
+            { "Prodigal Sorceror", new string[] {"Tim" }},
             { "Shadowmage Infiltrator", new string[] { "Finkel" }},
             { "Solemn Simulacrum", new string[] { "Jens", "Sad Robot" }},
             { "Thragtusk", new string[] { "Swagtusk", "Thraggles the Value Cow" }},
             { "Triskelion", new string[] { "Trike" }},
             { "Umezawa's Jitte", new string[] { "Fork of Doom" }},
             { "Wrath of God", new string[] { "WoG" }},
+            { "Wurmcoil Engine", new string[] { "The Engine for Wurm... coils" }},
         };
 
         public MainWindow()
