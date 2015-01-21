@@ -1,0 +1,138 @@
+﻿<UserControl 
+    x:Class="Nivix.Views.PackageBuilderView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Style="{StaticResource ContentRootStyle}">
+        <ScrollViewer>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Foreground="{StaticResource SubtleBrush}"
+                    Margin="{StaticResource VerticalControlMargin}"
+                    Style="{StaticResource FieldLabelStyle}"
+                    Text="name your package (heh heh)" />
+                
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+
+                <TextBlock 
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Foreground="{StaticResource SubtleBrush}"
+                    Margin="{StaticResource VerticalControlMargin}"
+                    Style="{StaticResource FieldLabelStyle}"
+                    Text="give it an id" />
+                
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+
+                <TextBlock 
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Foreground="{StaticResource SubtleBrush}"
+                    Margin="{StaticResource VerticalControlMargin}"
+                    Style="{StaticResource FieldLabelStyle}"
+                    Text="card release date" />
+                <TextBox
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+
+                <TextBlock 
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Foreground="{StaticResource SubtleBrush}"
+                    Margin="{StaticResource VerticalControlMargin}"
+                    Style="{StaticResource FieldLabelStyle}"
+                    Text="source database (xml)" />
+                <TextBox
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                <Button
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Content="select"
+                    Margin="{StaticResource VerticalControlMargin}"/>
+
+                <TextBlock 
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Foreground="{StaticResource SubtleBrush}"
+                    Margin="{StaticResource VerticalControlMargin}"
+                    Style="{StaticResource FieldLabelStyle}"
+                    Text="manifest (leave blank to create a new one)" />
+                <TextBox
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                <Button
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Content="select"
+                    Margin="{StaticResource VerticalControlMargin}"/>
+
+                <TextBlock 
+                    Grid.Row="10"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Foreground="{StaticResource SubtleBrush}"
+                    Margin="{StaticResource VerticalControlMargin}"
+                    Style="{StaticResource FieldLabelStyle}"
+                    Text="output to" />
+                <TextBox
+                    Grid.Row="11"
+                    Grid.Column="0"
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                <Button
+                    Grid.Row="11"
+                    Grid.Column="1"
+                    Content="select"
+                    Margin="{StaticResource VerticalControlMargin}"/>
+                
+                <Button
+                    Grid.Row="12"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Content="go"
+                    Margin="0,16,0,0"/>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

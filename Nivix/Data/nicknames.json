@@ -1,0 +1,24 @@
+﻿{
+    "cards": [
+        { "name": "Birds of Paradise", "nicknames": [ "BoP" ] },
+        { "name": "Blightsteel Colossus", "nicknames": [ "One-Shot the Robot", "One Shot the Robot", "1 Shot the Robot" ] },
+        { "name": "Bloodbraid Elf", "nicknames": [ "BBE" ] },
+        { "name": "Dark Confidant", "nicknames": [ "Bob" ] },
+        { "name": "Eternal Witness", "nicknames": [ "E Wit", "E-Wit" ] },
+        { "name": "Fact or Fiction", "nicknames": [ "EOTFOFYL", "FoF" ] },
+        { "name": "Force of Will", "nicknames": [ "FOW" ] },
+        { "name": "Ghost Council of Orzhova", "nicknames": [ "Ghost Dad" ] },
+        { "name": "Gray Merchant of Asphodel", "nicknames": [ "Gary" ] },
+        { "name": "Isamaru, Hound of Konda", "nicknames": [ "Shiro", "Very Doge" ] },
+        { "name": "Lightning Bolt", "nicknames": [ "Bolt" ] },
+        { "name": "Melek, Izzet Paragon", "nicknames": [ "The Weirdest Wizard in Magic" ] },
+        { "name": "Prodigal Sorceror", "nicknames": [ "Tim" ] },
+        { "name": "Shadowmage Infiltrator", "nicknames": [ "Finkel" ] },
+        { "name": "Solemn Simulacrum", "nicknames": [ "Jens", "Sad Robot" ] },
+        { "name": "Thragtusk", "nicknames": [ "Swagtusk", "Thraggles, the Value Cow" ] },
+        { "name": "Triskelion", "nicknames": [ "Trike" ] },
+        { "name": "Umezawa's Jitte", "nicknames": [ "Fork of Doom" ] },
+        { "name": "Wrath of God", "nicknames": [ "WoG" ] },
+        { "name": "Wurmcoil Engine", "nicknames": [ "The engine for wurm... coils" ] }
+    ]
+}
