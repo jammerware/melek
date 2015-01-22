@@ -1,572 +1,573 @@
 ﻿{
-    "sets": [
+    "Sets": [
         {
-            "code": "15A",
-            "name": "15th Anniversary",
-            "mtgImageCode": "p15A"
+            "Code": "15A",
+            "Name": "15th Anniversary",
+            "MtgImageCode": "p15A"
         },
         {
-            "code": "2ED",
-            "name": "Unlimited Edition",
-            "gathererCode": "U"
+            "Code": "2ED",
+            "Name": "Unlimited Edition",
+            "GathererCode": "U"
         },
         {
-            "code": "2HG",
-            "name":  "Two-Headed Giant Tournament",
-            "mtgImageCode": "p2HG"
+            "Code": "2HG",
+            "Name":  "Two-Headed Giant Tournament",
+            "MtgImageCode": "p2HG"
         },
         {
-            "code": "4ED",
-            "name": "4th Edition",
-            "gathererCode": "4E"
+            "Code": "4ED",
+            "Name": "4th Edition",
+            "GathererCode": "4E"
         },
         {
-            "code": "5DN",
-            "name": "Fifth Dawn",
-            "gathererCode": "FD"
+            "Code": "5DN",
+            "Name": "Fifth Dawn",
+            "GathererCode": "FD"
         },
         {
-            "code": "5ED",
-            "name": "5th Edition",
-            "gathererCode": "5E"
+            "Code": "5ED",
+            "Name": "5th Edition",
+            "GathererCode": "5E"
         },
         {
-            "code": "6ED",
-            "name": "6th Edition",
-            "gathererCode": "6E"
+            "Code": "6ED",
+            "Name": "6th Edition",
+            "GathererCode": "6E"
         },
         {
-            "code": "7ED",
-            "name": "7th Edition",
-            "gathererCode": "7E"
+            "Code": "7ED",
+            "Name": "7th Edition",
+            "GathererCode": "7E"
         },
         {
-            "code": "8ED",
-            "name": "8th Edition",
-            "gathererCode": "8E"
+            "Code": "8ED",
+            "Name": "8th Edition",
+            "GathererCode": "8E"
         },
         {
-            "code": "9ED",
-            "name": "9th Edition",
-            "gathererCode": "9E"
+            "Code": "9ED",
+            "Name": "9th Edition",
+            "GathererCode": "9E"
         },
         {
-            "code": "LEA",
-            "name": "Limited Edition Alpha",
-            "gathererCode": "A"
+            "Code": "LEA",
+            "Name": "Limited Edition Alpha",
+            "GathererCode": "A"
         },
         {
-            "code": "ALL",
-            "name": "Alliances",
-            "gathererCode": "AL"
+            "Code": "ALL",
+            "Name": "Alliances",
+            "GathererCode": "AL"
         },
         {
-            "code": "ARN",
-            name: "Arabian Nights",
-            "gathererCode": "AN"
+            "Code": "ARN",
+            "Name": "Arabian Nights",
+            "GathererCode": "AN"
         },
         {
-            "code": "APC",
-            "name": "Apocalypse",
-            "gathererCode": "AP"
+            "Code": "APC",
+            "Name": "Apocalypse",
+            "GathererCode": "AP"
         },
         {
-            "code": "ALP",
-            "name": "Asia-Pacific Land Program",
-            "mtgImageCode": "pALP",
-            "gathererCode": "APAC"
+            "Code": "ALP",
+            "Name": "Asia-Pacific Land Program",
+            "MtgImageCode": "pALP",
+            "GathererCode": "APAC"
         },
         {
-            "code": "ATQ",
-            "name": "Antiquities",
-            "gathererCode": "AQ"
+            "Code": "ATQ",
+            "Name": "Antiquities",
+            "GathererCode": "AQ"
         },
         {
-            "code": "ARE",
-            "name": "Arena League",
-            "mtgImageCode": "pARL"
+            "Code": "ARE",
+            "Name": "Arena League",
+            "MtgImageCode": "pARL"
         },
         {
-            "code": "LEB",
-            "name": "Limited Edition Beta",
-            "gathererCode": "B"
+            "Code": "LEB",
+            "Name": "Limited Edition Beta",
+            "GathererCode": "B"
         },
         {
-            "code": "BTD",
-            "name": "Beatdown Box Set",
-            "gathererCode": "BD"
+            "Code": "BTD",
+            "Name": "Beatdown Box Set",
+            "GathererCode": "BD"
         },
         {
-            "code": "BOK",
-            "name": "Betrayers of Kamigawa",
-            "cfName": "Betrayers"
+            "Code": "BOK",
+            "Name": "Betrayers of Kamigawa",
+            "CfName": "Betrayers"
         },
         {
-            "code": "BRB",
-            "name": "Battle Royale Box Set",
-            "gathererCode": "BR"
+            "Code": "BRB",
+            "Name": "Battle Royale Box Set",
+            "GathererCode": "BR"
         },
         {
-            "code": "c13",
-            "name": "Commander 2013",
-            "cfName": "Commander 2013",
-            "tcgPlayerName": "Commander 2013"
+            "Code": "c13",
+            "Name": "Commander 2013",
+            "CfName": "Commander 2013",
+            "TcgPlayerName": "Commander 2013"
         },
         {
-            "code": "c14",
-            "name": "Commander 2014",
-            "cfName": "Commander 2014",
-            "tcgPlayerName": "Commander 2014"
+            "Code": "c14",
+            "Name": "Commander 2014",
+            "CfName": "Commander 2014",
+            "TcgPlayerName": "Commander 2014"
         },
         {
-            "code": "CEL",
-            "name": "Celebration Cards",
-            "gathererCode": "CC",
-            "mtgImageCode": "pCEL"
+            "Code": "CEL",
+            "Name": "Celebration Cards",
+            "GathererCode": "CC",
+            "MtgImageCode": "pCEL"
         },
         {
-            "code": "CHA",
-            "name": "Champs and States",
-            "mtgImageCode": "pCMP"
+            "Code": "CHA",
+            "Name": "Champs and States",
+            "MtgImageCode": "pCMP"
         },
         {
-            "code": "CHR",
-            "name": "Chronicles",
-            "gathererCode": "CH"
+            "Code": "CHR",
+            "Name": "Chronicles",
+            "GathererCode": "CH"
         },
         {
-            "code": "CMA",
-            "name": "Commander's Arsenal",
-            "gathererCode": "CM1"
+            "Code": "CMA",
+            "Name": "Commander's Arsenal",
+            "GathererCode": "CM1"
         },
         {
-            "code": "CMD",
-            "name": "Commander",
-            "tcgPlayerName": "Commander"
+            "Code": "CMD",
+            "Name": "Commander",
+            "ReplaceName": "Commander",
+            "TcgPlayerName": "Commander"
         },
         {
-            "code": "COK",
-            "name": "Champions of Kamigawa",
-            "cfName": "Champions"
+            "Code": "COK",
+            "Name": "Champions of Kamigawa",
+            "CfName": "Champions"
         },
         {
-            "code": "CSP",
-            "name": "Coldsnap",
-            "gathererCode": "CS"
+            "Code": "CSP",
+            "Name": "Coldsnap",
+            "GathererCode": "CS"
         },
         {
-            "code": "DD2",
-            "name": "Duel Decks: Jace vs. Chandra",
-            "gathererCode": "JVC"
+            "Code": "DD2",
+            "Name": "Duel Decks: Jace vs. Chandra",
+            "GathererCode": "JVC"
         },
         {
-            "code": "DDC",
-            "name": "Duel Decks: Divine vs. Demonic",
-            "gathererCode": "DVD"
+            "Code": "DDC",
+            "Name": "Duel Decks: Divine vs. Demonic",
+            "GathererCode": "DVD"
         },
         {
-            "code": "DDD",
-            "name": "Duel Decks: Garruk vs. Liliana",
-            "gathererCode": "GVL"
+            "Code": "DDD",
+            "Name": "Duel Decks: Garruk vs. Liliana",
+            "GathererCode": "GVL"
         },
         {
-            "code": "DDE",
-            "name": "Duel Decks: Phyrexia vs. the Coalition",
-            "gathererCode": "PVC"
+            "Code": "DDE",
+            "Name": "Duel Decks: Phyrexia vs. the Coalition",
+            "GathererCode": "PVC"
         },
         {
-            "code": "DDF",
-            "name": "Duel Decks: Elspeth vs. Tezzeret",
-            "gathererCode": "EVT"
+            "Code": "DDF",
+            "Name": "Duel Decks: Elspeth vs. Tezzeret",
+            "GathererCode": "EVT"
         },
         {
-            "code": "DDG",
-            "name": "Duel Decks: Knights vs. Dragons",
-            "gathererCode": "KVD"
+            "Code": "DDG",
+            "Name": "Duel Decks: Knights vs. Dragons",
+            "GathererCode": "KVD"
         },
         {
-            "code": "DDH",
-            "name": "Duel Decks: Ajani vs. Nicol Bolas",
-            "gathererCode": "AVB"
+            "Code": "DDH",
+            "Name": "Duel Decks: Ajani vs. Nicol Bolas",
+            "GathererCode": "AVB"
         },
         {
-            "code": "DDI",
-            "name": "Duel Decks: Venser vs. Koth",
-            "gathererCode": "VVK"
+            "Code": "DDI",
+            "Name": "Duel Decks: Venser vs. Koth",
+            "GathererCode": "VVK"
         },
         {
-            "code": "DDJ",
-            "name": "Duel Decks: Izzet vs. Golgari",
-            "gathererCode": "IVG"
+            "Code": "DDJ",
+            "Name": "Duel Decks: Izzet vs. Golgari",
+            "GathererCode": "IVG"
         },
         {
-            "code": "DDK",
-            "name": "Duel Decks: Sorin vs. Tibalt",
-            "gathererCode": "SVT"
+            "Code": "DDK",
+            "Name": "Duel Decks: Sorin vs. Tibalt",
+            "GathererCode": "SVT"
         },
         {
-            "code": "DDL",
-            "name": "Duel Decks: Heroes vs. Monsters",
-            "gathererCode": "HVM"
+            "Code": "DDL",
+            "Name": "Duel Decks: Heroes vs. Monsters",
+            "GathererCode": "HVM"
         },
         {
-            "code": "DDM",
-            "name": "Duel Decks: Jace vs. Vraska",
-            "gathererCode": "JVV"
+            "Code": "DDM",
+            "Name": "Duel Decks: Jace vs. Vraska",
+            "GathererCode": "JVV"
         },
         {
-            "code": "DDN",
-            "name": "Duel Decks: Speed vs. Cunning",
-            "gathererCode": "SVC"
+            "Code": "DDN",
+            "Name": "Duel Decks: Speed vs. Cunning",
+            "GathererCode": "SVC"
         },
         {
-            "code": "DRK",
-            "name": "The Dark",
-            "gathererCode": "DK"
+            "Code": "DRK",
+            "Name": "The Dark",
+            "GathererCode": "DK"
         },
         {
-            "code": "DRB",
-            "name": "From the Vault: Dragons",
-            "gathererCode": "DRG"
+            "Code": "DRB",
+            "Name": "From the Vault: Dragons",
+            "GathererCode": "DRG"
         },
         {
-            "code": "DST",
-            "name": "Darksteel",
-            "gathererCode": "DS"
+            "Code": "DST",
+            "Name": "Darksteel",
+            "GathererCode": "DS"
         },
         {
-            "code": "EUR",
-            "name": "European Land Program",
-            "mtgImageCode": "pELP"
+            "Code": "EUR",
+            "Name": "European Land Program",
+            "MtgImageCode": "pELP"
         },
         {
-            "code": "EXO",
-            "name": "Exodus",
-            "gathererCode": "EX"
+            "Code": "EXO",
+            "Name": "Exodus",
+            "GathererCode": "EX"
         },
         {
-            "code": "FEM",
-            "name": "Fallen Empires",
-            "gathererCode": "FE"
+            "Code": "FEM",
+            "Name": "Fallen Empires",
+            "GathererCode": "FE"
         },
         {
-            "code": "FNM",
-            "name": "FNM Promos",
-            "mtgImageCode": "pFNM"
+            "Code": "FNM",
+            "Name": "FNM Promos",
+            "MtgImageCode": "pFNM"
         },
         {
-            "code": "GDC",
-            "name": "Magic Game Day",
-            "mtgImageCode": "pMGD"
+            "Code": "GDC",
+            "Name": "Magic Game Day",
+            "MtgImageCode": "pMGD"
         },
         {
-            "code": "GPT",
-            "name": "Guildpact",
-            "gathererCode": "GP"
+            "Code": "GPT",
+            "Name": "Guildpact",
+            "GathererCode": "GP"
         },
         {
-            "code": "GPX",
-            "name": "Grand Prix Promos",
-            "mtgImageCode": "pGPX"
+            "Code": "GPX",
+            "Name": "Grand Prix Promos",
+            "MtgImageCode": "pGPX"
         },
         {
-            "code": "GTW",
-            "name": "Wizards Play Network Promos",
-            "mtgImageCode": "pWPN"
+            "Code": "GTW",
+            "Name": "Wizards Play Network Promos",
+            "MtgImageCode": "pWPN"
         },
         {
-            "code": "GUR",
-            "name": "Guru",
-            "mtgImageCode": "pGRU"
+            "Code": "GUR",
+            "Name": "Guru",
+            "MtgImageCode": "pGRU"
         },
         {
-            "code": "HHO",
-            "name": "Happy Holidays",
-            "mtgImageCode": "pHHO"
+            "Code": "HHO",
+            "Name": "Happy Holidays",
+            "MtgImageCode": "pHHO"
         },
         {
-            "code": "HML",
-            "name": "Homelands",
-            "gathererCode": "HL"
+            "Code": "HML",
+            "Name": "Homelands",
+            "GathererCode": "HL"
         },
         {
-            "code": "JCG",
-            "name": "Judge Gift Program",
-            "mtgImageCode": "pJGP"
+            "Code": "JCG",
+            "Name": "Judge Gift Program",
+            "MtgImageCode": "pJGP"
         },
         {
-            "code": "LGM",
-            "name": "Legend Membership",
-            "mtgImageCode": "pLGM"
+            "Code": "LGM",
+            "Name": "Legend Membership",
+            "MtgImageCode": "pLGM"
         },
         {
-            "code": "ICE",
-            "name": "Ice Age",
-            "gathererCode": "IA"
+            "Code": "ICE",
+            "Name": "Ice Age",
+            "GathererCode": "IA"
         },
         {
-            "code": "INV",
-            "name": "Invasion",
-            "gathererCode": "IN"
+            "Code": "INV",
+            "Name": "Invasion",
+            "GathererCode": "IN"
         },
         {
-            "code": "JUD",
-            "name": "Judgment",
-            "gathererCode": "JU"
+            "Code": "JUD",
+            "Name": "Judgment",
+            "GathererCode": "JU"
         },
         {
-            "code": "LGN",
-            "name": "Legions",
-            "gathererCode": "LE"
+            "Code": "LGN",
+            "Name": "Legions",
+            "GathererCode": "LE"
         },
         {
-            "code": "LEG",
-            "name": "Legends",
-            "gathererCode": "LG"
+            "Code": "LEG",
+            "Name": "Legends",
+            "GathererCode": "LG"
         },
         {
-            "code": "LER",
-            "name": "Revised Edition",
-            "gathererCode": "R"
+            "Code": "LER",
+            "Name": "Revised Edition",
+            "GathererCode": "R"
         },
         {
-            "code": "M10",
-            "name": "Magic 2010",
-            "tcgPlayerName": "magic 2010 (m10)"
+            "Code": "M10",
+            "Name": "Magic 2010",
+            "TcgPlayerName": "magic 2010 (m10)"
         },
         {
-            "code": "M11",
-            "name": "Magic 2011",
-            "tcgPlayerName": "magic 2011 (m11)"
+            "Code": "M11",
+            "Name": "Magic 2011",
+            "TcgPlayerName": "magic 2011 (m11)"
         },
         {
-            "code": "M12",
-            "name": "Magic 2012",
-            "tcgPlayerName": "magic 2012 (m12)"
+            "Code": "M12",
+            "Name": "Magic 2012",
+            "TcgPlayerName": "magic 2012 (m12)"
         },
         {
-            "code": "M13",
-            "name": "Magic 2013",
-            "tcgPlayerName": "magic 2013 (m13)"
+            "Code": "M13",
+            "Name": "Magic 2013",
+            "TcgPlayerName": "magic 2013 (m13)"
         },
         {
-            "code": "M14",
-            "name": "Magic 2014",
-            "cfName": "Magic 2014",
-            "tcgPlayerName": "magic 2014 (m14)"
+            "Code": "M14",
+            "Name": "Magic 2014",
+            "CfName": "Magic 2014",
+            "TcgPlayerName": "magic 2014 (m14)"
         },
         {
-            "code": "M15",
-            "name": "Magic 2015",
-            "cfName": "Magic 2015",
-            "tcgPlayerName": "magic 2015 (m15)"
+            "Code": "M15",
+            "Name": "Magic 2015",
+            "CfName": "Magic 2015",
+            "TcgPlayerName": "magic 2015 (m15)"
         },
         {
-            "code": "M16",
-            "name": "Magic 2016",
-            "cfName": "Magic 2016",
-            "tcgPlayerName": "magic 2016 (m16)"
+            "Code": "M16",
+            "Name": "Magic 2016",
+            "CfName": "Magic 2016",
+            "TcgPlayerName": "magic 2016 (m16)"
         },
         {
-            "code": "MBP",
-            "name": "Media Inserts",
-            "mtgImageCode": "pMEI"
+            "Code": "MBP",
+            "Name": "Media Inserts",
+            "MtgImageCode": "pMEI"
         },
         {
-            "code": "MED",
-            "name": "Masters Edition",
-            "gathererCode": "ME"
+            "Code": "MED",
+            "Name": "Masters Edition",
+            "GathererCode": "ME"
         },
         {
-            "code": "MIR",
-            "name": "Mirage",
-            "gathererCode": "MI"
+            "Code": "MIR",
+            "Name": "Mirage",
+            "GathererCode": "MI"
         },
         {
-            "code": "MMQ",
-            "name": "Mercadian Masques",
-            "gathererCode": "MM"
+            "Code": "MMQ",
+            "Name": "Mercadian Masques",
+            "GathererCode": "MM"
         },
         {
-            "code": "MRD",
-            "name": "Mirrodin",
-            "gathererCode": "MR"
+            "Code": "MRD",
+            "Name": "Mirrodin",
+            "GathererCode": "MR"
         },
         {
-            "code": "NMS",
-            "name": "Nemesis",
-            "gathererCode": "NE"
+            "Code": "NMS",
+            "Name": "Nemesis",
+            "GathererCode": "NE"
         },
         {
-            "code": "ODY",
-            "name": "Odyssey",
-            "gathererCode": "OD"
+            "Code": "ODY",
+            "Name": "Odyssey",
+            "GathererCode": "OD"
         },
         {
-            "code": "ONS",
-            "name": "Onslaught",
-            "gathererCode": "ON"
+            "Code": "ONS",
+            "Name": "Onslaught",
+            "GathererCode": "ON"
         },
         {
-            "code": "PRE",
-            "name": "Prerelease Cards",
-            "mtgImageCode": "pPRE"
+            "Code": "PRE",
+            "Name": "Prerelease Cards",
+            "MtgImageCode": "pPRE"
         },
         {
-            "code": "PRO",
-            "name": "Pro Tour Promos",
-            "mtgImageCode": "pPRO"
-        }
+            "Code": "PRO",
+            "Name": "Pro Tour Promos",
+            "MtgImageCode": "pPRO"
+        },
         {
-            "code": "PSA",
-            "name": "Portal: Second Age",
-            "gathererCode": "P2"
+            "Code": "PSA",
+            "Name": "Portal: Second Age",
+            "GathererCode": "P2"
         },
         {
-            "code": "PTK",
-            "name": "Portal: Three Kingdoms",
-            "gathererCode": "P3"
+            "Code": "PTK",
+            "Name": "Portal: Three Kingdoms",
+            "GathererCode": "P3"
         },
         {
-            "code": "PLS",
-            "name": "Planeshift",
-            "gathererCode": "PS"
+            "Code": "PLS",
+            "Name": "Planeshift",
+            "GathererCode": "PS"
         },
         {
-            "code": "POR",
-            "name": "Portal",
-            "gathererCode": "PT"
+            "Code": "POR",
+            "Name": "Portal",
+            "GathererCode": "PT"
         },
         {
-            "code": "PCY",
-            "name": "Prophecy",
-            "gathererCode": "PY"
+            "Code": "PCY",
+            "Name": "Prophecy",
+            "GathererCode": "PY"
         },
         {
-            "code": "REW",
-            "name": "Magic Player Rewards",
-            "mtgImageCode": "pMPR"
+            "Code": "REW",
+            "Name": "Magic Player Rewards",
+            "MtgImageCode": "pMPR"
         },
         {
-            "code": "RLS",
-            "name": "Release Events",
-            "mtgImageCode": "pREL"
+            "Code": "RLS",
+            "Name": "Release Events",
+            "MtgImageCode": "pREL"
         },
         {
-            "code": "S00",
-            "name": "Starter 2000",
-            "gathererCode": "S2"
+            "Code": "S00",
+            "Name": "Starter 2000",
+            "GathererCode": "S2"
         },
         {
-            "code": "SCG",
-            "name": "Scourge",
-            "gathererCode": "SC"
+            "Code": "SCG",
+            "Name": "Scourge",
+            "GathererCode": "SC"
         },
         {
-            "code": "STH",
-            "name": "Stronghold",
-            "gathererCode": "SH"
+            "Code": "STH",
+            "Name": "Stronghold",
+            "GathererCode": "SH"
         },
         {
-            "code": "SOK",
-            "name": "Saviors of Kamigawa",
-            "cfName": "Saviors"
+            "Code": "SOK",
+            "Name": "Saviors of Kamigawa",
+            "CfName": "Saviors"
         },
         {
-            "code": "SUM",
-            "name": "Summer of Magic",
-            "mtgImageCode": "pSUM"
+            "Code": "SUM",
+            "Name": "Summer of Magic",
+            "MtgImageCode": "pSUM"
         },
         {
-            "code": "SUS",
-            "name": "Super Series",
-            "gathererCode": "SS",
-            "mtgImageCode": "pSUS"
+            "Code": "SUS",
+            "Name": "Super Series",
+            "GathererCode": "SS",
+            "MtgImageCode": "pSUS"
         },
         {
-            "code": "S99",
-            "name": "Starter 1999",
-            "gathererCode": "ST"
+            "Code": "S99",
+            "Name": "Starter 1999",
+            "GathererCode": "ST"
         },
         {
-            "code": "TMP",
-            "name": "Tempest",
-            "gathererCode": "TE"
+            "Code": "TMP",
+            "Name": "Tempest",
+            "GathererCode": "TE"
         },
         {
-            "code": "V13",
-            "name": "From the Vault: Twenty",
-            "gathererCode": "TWE"
+            "Code": "V13",
+            "Name": "From the Vault: Twenty",
+            "GathererCode": "TWE"
         },
         {
-            "code": "TOR",
-            "name": "Torment",
-            "gathererCode": "TO"
+            "Code": "TOR",
+            "Name": "Torment",
+            "GathererCode": "TO"
         },
         {
-            "code": "UDS",
-            "name": "Urza's Destiny",
-            "gathererCode": "UD"
+            "Code": "UDS",
+            "Name": "Urza's Destiny",
+            "GathererCode": "UD"
         },
         {
-            "code": "UGL",
-            "name": "Unglued",
-            "gathererCode": "UG"
+            "Code": "UGL",
+            "Name": "Unglued",
+            "GathererCode": "UG"
         },
         {
-            "code": "ULG",
-            "name": "Urza's Legacy",
-            "gathererCode": "UL"
+            "Code": "ULG",
+            "Name": "Urza's Legacy",
+            "GathererCode": "UL"
         },
         {
-            "code": "USG",
-            "name": "Urza's Saga",
-            "gathererCode": "US"
+            "Code": "USG",
+            "Name": "Urza's Saga",
+            "GathererCode": "US"
         },
         {
-            "code": "V09",
-            "name": "From the Vault: Exiled",
-            "gathererCode": "EXL"
+            "Code": "V09",
+            "Name": "From the Vault: Exiled",
+            "GathererCode": "EXL"
         },
         {
-            "code": "V10",
-            "name": "From the Vault: Relics",
-            "gathererCode": "RLC"
+            "Code": "V10",
+            "Name": "From the Vault: Relics",
+            "GathererCode": "RLC"
         },
         {
-            "code": "V11",
-            "name": "From the Vault: Legends",
-            "gathererCode": "LEG"
+            "Code": "V11",
+            "Name": "From the Vault: Legends",
+            "GathererCode": "LEG"
         },
         {
-            "code": "V12",
-            "name": "From the Vault: Realms",
-            "gathererCode": "RLM"
+            "Code": "V12",
+            "Name": "From the Vault: Realms",
+            "GathererCode": "RLM"
         },
         {
-            "code": "V14",
-            "name": "From the Vault: Annhilation",
-            "gathererCode": "ANH"
+            "Code": "V14",
+            "Name": "From the Vault: Annhilation",
+            "GathererCode": "ANH"
         },
         {
-            "code": "VIS",
-            "name": "Visions",
-            "gathererCode": "VI"
+            "Code": "VIS",
+            "Name": "Visions",
+            "GathererCode": "VI"
         },
         {
-            "code": "WCQ",
-            "name": "World Cup Qualifier Promos",
-            "mtgImageCode": "pWCQ"
+            "Code": "WCQ",
+            "Name": "World Cup Qualifier Promos",
+            "MtgImageCode": "pWCQ"
         },
         {
-            "code": "WRL",
-            "name": "Worlds",
-            "mtgImageCode": "pWOR"
+            "Code": "WRL",
+            "Name": "Worlds",
+            "MtgImageCode": "pWOR"
         },
         {
-            "code": "WTH",
-            "name": "Weatherlight",
-            "gathererCode": "WL"
+            "Code": "WTH",
+            "Name": "Weatherlight",
+            "GathererCode": "WL"
         }
     ]
 }

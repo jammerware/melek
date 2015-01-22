@@ -6,11 +6,23 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-    xmlns:b="clr-namespace:Nivix.Infrastructure.Behaviors">
+    xmlns:b="clr-namespace:Nivix.Infrastructure.Behaviors"
+    xmlns:c="clr-namespace:Nivix.Infrastructure.ValueConverters"
+    xmlns:vm="clr-namespace:Nivix.ViewModels">
+    <UserControl.DataContext>
+        <vm:PackageBuilderViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <c:StringDateConverter x:Key="StringDateConverter" />
+    </UserControl.Resources>
     <Grid Style="{StaticResource ContentRootStyle}">
         <ScrollViewer>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -43,7 +55,8 @@
                 <TextBox
                     Grid.Row="1"
                     Grid.Column="0"
-                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}"
+                    Text="{Binding PackageName}"/>
 
                 <TextBlock 
                     Grid.Row="2"
@@ -57,7 +70,8 @@
                 <TextBox
                     Grid.Row="3"
                     Grid.Column="0"
-                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}"
+                    Text="{Binding PackageID}"/>
 
                 <TextBlock 
                     Grid.Row="4"
@@ -70,7 +84,8 @@
                 <TextBox
                     Grid.Row="5"
                     Grid.Column="0"
-                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}"
+                    Text="{Binding CardReleaseDate, Converter={StaticResource StringDateConverter}}"/>
 
                 <TextBlock 
                     Grid.Row="6"
@@ -85,7 +100,8 @@
                     Grid.Column="0"
                     x:Name="txtSourceDatabase"
                     Margin="{StaticResource HorizontalAndVerticalControlMargin}"
-                    IsReadOnly="True">
+                    IsReadOnly="True"
+                    Text="{Binding SourceDatabasePath}">
                     <i:Interaction.Behaviors>
                         <b:TextBoxFileDialogBehavior TargetFileDescription="Gatherer Extractor Database" TargetFileExtension="xml" />
                     </i:Interaction.Behaviors>
@@ -112,7 +128,8 @@
                     Grid.Row="9"
                     Grid.Column="0"
                     x:Name="txtManifest"
-                    Margin="{StaticResource HorizontalAndVerticalControlMargin}">
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}"
+                    Text="{Binding ManifestPath}">
                     <i:Interaction.Behaviors>
                         <b:TextBoxFileDialogBehavior TargetFileDescription="Melek package manifest" TargetFileExtension="xml" />
                     </i:Interaction.Behaviors>
@@ -138,17 +155,56 @@
                 <TextBox
                     Grid.Row="11"
                     Grid.Column="0"
-                    Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}"
+                    Text="{Binding OutputPath}" />
                 <Button
                     Grid.Row="11"
                     Grid.Column="1"
                     Content="select"
                     Margin="{StaticResource VerticalControlMargin}"/>
-                
-                <Button
+
+                <TextBlock 
                     Grid.Row="12"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
+                    Foreground="{StaticResource SubtleBrush}"
+                    Margin="{StaticResource VerticalControlMargin}"
+                    Style="{StaticResource FieldLabelStyle}"
+                    Text="sets per package" />
+                <ComboBox
+                    Grid.Row="13"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="{StaticResource HorizontalAndVerticalControlMargin}"/>
+
+                <TextBlock 
+                    Grid.Row="14"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Foreground="{StaticResource SubtleBrush}"
+                    Margin="{StaticResource VerticalControlMargin}"
+                    Style="{StaticResource FieldLabelStyle}"
+                    Text="output environments" />
+                <StackPanel
+                    Grid.Row="15"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal">
+                    <CheckBox 
+                        Content="dev"
+                        IsChecked="{Binding DeployToDev}"
+                        Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                    <CheckBox 
+                        Content="production" 
+                        IsChecked="{Binding DeployToProd}"
+                        Margin="{StaticResource HorizontalAndVerticalControlMargin}" />
+                </StackPanel>
+
+                <Button
+                    Grid.Row="16"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Command="{Binding GoCommand}"
                     Content="go"
                     Margin="0,16,0,0"/>
             </Grid>

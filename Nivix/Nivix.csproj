@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Nivix</RootNamespace>
     <AssemblyName>Nivix</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,9 +31,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bazam">
+      <HintPath>Libs\Bazam.dll</HintPath>
+    </Reference>
+    <Reference Include="BazamWPF">
+      <HintPath>Libs\BazamWPF.dll</HintPath>
+    </Reference>
     <Reference Include="FirstFloor.ModernUI">
       <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -66,7 +80,11 @@
     <Compile Include="Infrastructure\Behaviors\FocusControlOnClickBehavior.cs" />
     <Compile Include="Infrastructure\Behaviors\FolderBrowserDialogBehavior.cs" />
     <Compile Include="Infrastructure\Behaviors\TextBoxFileDialogBehavior.cs" />
+    <Compile Include="Infrastructure\ValueConverters\StringDateConverter.cs" />
+    <Compile Include="Models\CardNickname.cs" />
     <Compile Include="Models\Meridian.cs" />
+    <Compile Include="Models\SetData.cs" />
+    <Compile Include="ViewModels\PackageBuilderViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
@@ -99,10 +117,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\logo.ico" />
     <Content Include="Data\nicknames.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Data\sets.json" />
+    <Content Include="logo.ico" />
+    <None Include="app.config" />
+    <None Include="Data\sets.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
