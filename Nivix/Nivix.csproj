@@ -44,6 +44,9 @@
     <Reference Include="FirstFloor.ModernUI">
       <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -82,7 +85,6 @@
     <Compile Include="Infrastructure\Behaviors\TextBoxFileDialogBehavior.cs" />
     <Compile Include="Infrastructure\ValueConverters\StringDateConverter.cs" />
     <Compile Include="Models\CardNickname.cs" />
-    <Compile Include="Models\Meridian.cs" />
     <Compile Include="Models\SetData.cs" />
     <Compile Include="ViewModels\PackageBuilderViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
