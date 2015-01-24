@@ -153,15 +153,24 @@
                     Style="{StaticResource FieldLabelStyle}"
                     Text="output to" />
                 <TextBox
+                    x:Name="txtOutputPath"
                     Grid.Row="11"
                     Grid.Column="0"
                     Margin="{StaticResource HorizontalAndVerticalControlMargin}"
-                    Text="{Binding OutputPath}" />
+                    Text="{Binding OutputPath}">
+                    <i:Interaction.Behaviors>
+                        <b:TextBoxFolderBrowserDialogBehavior />
+                    </i:Interaction.Behaviors>
+                </TextBox>
                 <Button
                     Grid.Row="11"
                     Grid.Column="1"
                     Content="select"
-                    Margin="{StaticResource VerticalControlMargin}"/>
+                    Margin="{StaticResource VerticalControlMargin}">
+                    <i:Interaction.Behaviors>
+                        <b:FocusControlOnClickBehavior FocusTarget="{Binding ElementName=txtOutputPath}" />
+                    </i:Interaction.Behaviors>
+                </Button>
 
                 <TextBlock 
                     Grid.Row="12"

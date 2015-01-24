@@ -3,7 +3,7 @@ using System.Windows.Interactivity;
 
 namespace Nivix.Infrastructure.Behaviors
 {
-    public class FolderBrowserDialogBehavior : Behavior<System.Windows.Controls.TextBox>
+    public class TextBoxFolderBrowserDialogBehavior : Behavior<System.Windows.Controls.TextBox>
     {
         private bool _DialogIsOpen = false;
 

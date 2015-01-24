@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
+using Bazam.APIs.SharpZipLib;
 using Bazam.Modules;
 using Bazam.Slugging;
 using BazamWPF.ViewModels;
@@ -111,8 +112,18 @@ namespace Nivix.ViewModels
             }
             outputPath = packageDirectory;
 
-            sets.Save(Path.Combine(outputPath, "sets.xml"));
-            cards.Save(Path.Combine(outputPath, "cards.xml"));
+            string setsFileName = Path.Combine(outputPath, "sets.xml");
+            string cardsFileName = Path.Combine(outputPath, "cards.xml");
+
+            sets.Save(setsFileName);
+            cards.Save(cardsFileName);
+
+            BazamZip zip = new BazamZip() {
+                ZipFileName = Path.Combine(outputPath, PackageID.ToLower() + ".gbd"),
+                Password = "jammerware.isthebest",
+            };
+            zip.Files = new string[] { setsFileName, cardsFileName };
+            SharpZipLibHelper.Zip(zip, true);
         }
 
         private string GetCardTribe(string input)
