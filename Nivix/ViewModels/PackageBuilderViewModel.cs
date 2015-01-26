@@ -11,6 +11,7 @@ using Bazam.Modules;
 using Bazam.Slugging;
 using BazamWPF.ViewModels;
 using FirstFloor.ModernUI.Presentation;
+using Melek;
 using Melek.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -120,7 +121,7 @@ namespace Nivix.ViewModels
 
             BazamZip zip = new BazamZip() {
                 ZipFileName = Path.Combine(outputPath, PackageID.ToLower() + ".gbd"),
-                Password = "jammerware.isthebest",
+                Password = Constants.ZIP_PASSWORD
             };
             zip.Files = new string[] { setsFileName, cardsFileName };
             SharpZipLibHelper.Zip(zip, true);
