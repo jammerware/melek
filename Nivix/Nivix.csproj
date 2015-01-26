@@ -35,11 +35,12 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam">
-      <HintPath>Libs\Bazam.dll</HintPath>
+    <Reference Include="Bazam, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Project\Libs\Bazam.dll</HintPath>
     </Reference>
     <Reference Include="BazamWPF">
-      <HintPath>Libs\BazamWPF.dll</HintPath>
+      <HintPath>..\Project\Libs\BazamWPF.dll</HintPath>
     </Reference>
     <Reference Include="FirstFloor.ModernUI">
       <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>

@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Bazam, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Project\Libs\Bazam.dll</HintPath>
     </Reference>

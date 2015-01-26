@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek", "Melek\Melek.csproj", "{49B35443-ED18-4644-B09B-DBEBD2476AE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GathererExtractorDataScrubber", "GathererExtractorDataScrubber\GathererExtractorDataScrubber.csproj", "{D7ECB03A-FDAB-49F0-AAF0-4FA5BB209908}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nivix", "Nivix\Nivix.csproj", "{09D3F6A9-7728-4DD2-B9F6-713724E515F3}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{49B35443-ED18-4644-B09B-DBEBD2476AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49B35443-ED18-4644-B09B-DBEBD2476AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49B35443-ED18-4644-B09B-DBEBD2476AE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D7ECB03A-FDAB-49F0-AAF0-4FA5BB209908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7ECB03A-FDAB-49F0-AAF0-4FA5BB209908}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7ECB03A-FDAB-49F0-AAF0-4FA5BB209908}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7ECB03A-FDAB-49F0-AAF0-4FA5BB209908}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
