@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -99,15 +100,15 @@ namespace Nivix.ViewModels
         }
         #endregion
 
-        #region Utility methods (c&p'd from 1.0 mostly)
-        private void DeployToEnvironment(XDocument sets, XDocument cards, string environment)
+        #region Internal utility methods
+        private void DeployToEnvironment(XDocument sets, XDocument cards, Manifest manifest, string environment)
         {
             string outputPath = Path.Combine(OutputPath, environment);
             if (!Directory.Exists(outputPath)) {
                 Directory.CreateDirectory(outputPath);
             }
 
-            string packageDirectory = Path.Combine(outputPath, PackageID.ToLower());
+            string packageDirectory = Path.Combine(outputPath, "packages");
             if (!Directory.Exists(packageDirectory)) {
                 Directory.CreateDirectory(packageDirectory);
             }
@@ -119,130 +120,27 @@ namespace Nivix.ViewModels
             sets.Save(setsFileName);
             cards.Save(cardsFileName);
 
+            // zip up and delete the component files
             BazamZip zip = new BazamZip() {
                 ZipFileName = Path.Combine(outputPath, PackageID.ToLower() + ".gbd"),
                 Password = Constants.ZIP_PASSWORD
             };
             zip.Files = new string[] { setsFileName, cardsFileName };
             SharpZipLibHelper.Zip(zip, true);
+
+            // deploy the manifest
+            XDocument manifestDoc = manifest.ToXML();
+            manifestDoc.Save(Path.Combine(outputPath, "packages.xml"));
         }
 
-        private string GetCardTribe(string input)
+        private Manifest GetManifest()
         {
-            if (input.IndexOf('—') >= 0) {
-                input = input.Substring(input.IndexOf('—') + 1);
+            Manifest manifest = new Manifest();
+
+            if (!string.IsNullOrEmpty(ManifestPath) && File.Exists(ManifestPath)) {
+                return Manifest.FromXML(XDocument.Load(ManifestPath));
             }
-            return input.Trim();
-        }
-
-        private CardType[] GetCardTypes(string input)
-        {
-            List<CardType> retVal = new List<CardType>();
-            input = input.ToUpper();
-
-            if (input.IndexOf('—') >= 0) {
-                input = input.Substring(0, input.IndexOf('—'));
-            }
-            string[] splitInput = input.Split(new Char[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (input.Contains("ENCHANT ")) {
-                retVal.Add(CardType.ENCHANTMENT);
-            }
-            else if (input.Contains("SCHEME")) {
-                retVal.Add(CardType.SCHEME);
-            }
-            else {
-                foreach (string inputPiece in splitInput) {
-                    if (inputPiece == "EATURECRAY") {
-                        retVal.Add(CardType.CREATURE);
-                    }
-                    else if (inputPiece == "INTERRUPT") {
-                        retVal.Add(CardType.INSTANT);
-                    }
-                    else {
-                        retVal.Add(EnuMaster.Parse<CardType>(inputPiece.ToUpper().Trim()));
-                    }
-                }
-            }
-
-            return retVal.ToArray();
-        }
-
-        private DateTime? GetSetDate(string input)
-        {
-            DateTime? retVal = null;
-            DateTime parseTarget;
-            if (DateTime.TryParse(input, out parseTarget)) {
-                retVal = new DateTime?(parseTarget);
-            }
-            else {
-                Match match = Regex.Match(input, "([0-9]{2})/([0-9]{4})");
-                int month, year;
-                Int32.TryParse(match.Groups[1].Value, out month);
-                Int32.TryParse(match.Groups[2].Value, out year);
-
-                if (month > 0 && year > 0) {
-                    retVal = new DateTime?(new DateTime(year, month, 1));
-                }
-            }
-
-            return retVal;
-        }
-
-        private CardRarity GetRarity(string input)
-        {
-            try {
-                return EnuMaster.Parse<CardRarity>(input[0].ToString());
-            }
-            catch (Exception) {
-                return CardRarity.C;
-            }
-        }
-
-        private Card GetCard(CardPrinting printing, string cardTypes, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary)
-        {
-            int dummyForOutParams = 0;
-
-            // With the gatherer update in 2014, Wizards stopped using hard hyphens (the subtraction sign on every keyboard) and instead
-            // replaced them with ASCII character 8722, which http://www.ascii.cl/htmlcodes.htm describes as a "soft hyphen." BECAUSE
-            // THAT FUCKING MAKES SENSE. How do they even enter the data in the DB with a character that isn't on a keyboard?
-            // ... GOD. Just replace them with the normal hyphen sign, which was good enough for our parents.
-            text = text.Replace((char)SOFT_HYPHEN_CODE, '-');
-
-            return new Card() {
-                CardTypes = GetCardTypes(cardTypes),
-                Cost = (!string.IsNullOrEmpty(cost) ? new CardCostCollection(cost) : null),
-                Name = name,
-                Power = (Int32.TryParse(power, out dummyForOutParams) ? (int?)Int32.Parse(power) : null),
-                Printings = new List<CardPrinting>() { 
-                    printing
-                },
-                Text = text,
-                Toughness = (Int32.TryParse(toughness, out dummyForOutParams) ? (int?)Int32.Parse(toughness) : null),
-                Tribe = GetCardTribe(tribeData),
-                Watermark = watermark
-            };
-        }
-
-        private string GetRealSetCodeFromFakeSetCode(IList<SetData> setData, string fakeCode)
-        {
-            SetData match = setData.Where(s => s.GathererCode == fakeCode).FirstOrDefault();
-            if (match != null) return match.Code;
-            return string.Empty;
-        }
-
-        private string GetSplitCardName(string name, bool firstHalf)
-        {
-            return name + " (" + name.Split("//".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[firstHalf ? 0 : 1].Trim() + ")";
-        }
-
-        private string GetSplitCardValue(string input, bool firstHalf)
-        {
-            Match match = Regex.Match(input, "([\\s\\S]+)//([\\s\\S]+)");
-            if (match.Value != string.Empty) {
-                return (firstHalf ? match.Groups[1].Value : match.Groups[2].Value).Trim();
-            }
-            return input;
+            return manifest;
         }
 
         private void StartTheProcess()
@@ -482,13 +380,29 @@ namespace Nivix.ViewModels
                 XDocument outputCards = new XDocument(new XElement("cards"));
                 outputCards.Root.Add(cardElements);
 
+                // make the manifest
+                Manifest manifest = GetManifest();
+
+                if (manifest.Packages.FirstOrDefault(p => p.ID == PackageID) == null) {
+                    manifest.Packages.Add(new Package() {
+                        CardsReleased = CardReleaseDate,
+                        DataUpdated = DateTime.Now,
+                        ID = PackageID,
+                        Name = PackageName
+                    });
+                }
+
+                // deploy
                 if (DeployToDev) {
-                    DeployToEnvironment(outputSets, outputCards, "dev");
+                    DeployToEnvironment(outputSets, outputCards, manifest, "dev");
                 }
 
                 if (DeployToProd) {
-                    DeployToEnvironment(outputSets, outputCards, "prod");
+                    DeployToEnvironment(outputSets, outputCards, manifest, "prod");
                 }
+
+                // open 'er up
+                Process.Start("explorer.exe", OutputPath);
 
                 Console.WriteLine(cardElements.Count.ToString() + " cards in " + setElements.Count().ToString() + " sets generated.");
             }
@@ -496,6 +410,126 @@ namespace Nivix.ViewModels
                 Console.WriteLine(ex.Message);
                 MessageBox.Show(ex.Message, ex.GetType().Name);
             }
+        }
+        #endregion
+
+        #region Parsing helpers
+        private string GetCardTribe(string input)
+        {
+            if (input.IndexOf('—') >= 0) {
+                input = input.Substring(input.IndexOf('—') + 1);
+            }
+            return input.Trim();
+        }
+
+        private CardType[] GetCardTypes(string input)
+        {
+            List<CardType> retVal = new List<CardType>();
+            input = input.ToUpper();
+
+            if (input.IndexOf('—') >= 0) {
+                input = input.Substring(0, input.IndexOf('—'));
+            }
+            string[] splitInput = input.Split(new Char[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (input.Contains("ENCHANT ")) {
+                retVal.Add(CardType.ENCHANTMENT);
+            }
+            else if (input.Contains("SCHEME")) {
+                retVal.Add(CardType.SCHEME);
+            }
+            else {
+                foreach (string inputPiece in splitInput) {
+                    if (inputPiece == "EATURECRAY") {
+                        retVal.Add(CardType.CREATURE);
+                    }
+                    else if (inputPiece == "INTERRUPT") {
+                        retVal.Add(CardType.INSTANT);
+                    }
+                    else {
+                        retVal.Add(EnuMaster.Parse<CardType>(inputPiece.ToUpper().Trim()));
+                    }
+                }
+            }
+
+            return retVal.ToArray();
+        }
+
+        private DateTime? GetSetDate(string input)
+        {
+            DateTime? retVal = null;
+            DateTime parseTarget;
+            if (DateTime.TryParse(input, out parseTarget)) {
+                retVal = new DateTime?(parseTarget);
+            }
+            else {
+                Match match = Regex.Match(input, "([0-9]{2})/([0-9]{4})");
+                int month, year;
+                Int32.TryParse(match.Groups[1].Value, out month);
+                Int32.TryParse(match.Groups[2].Value, out year);
+
+                if (month > 0 && year > 0) {
+                    retVal = new DateTime?(new DateTime(year, month, 1));
+                }
+            }
+
+            return retVal;
+        }
+
+        private CardRarity GetRarity(string input)
+        {
+            try {
+                return EnuMaster.Parse<CardRarity>(input[0].ToString());
+            }
+            catch (Exception) {
+                return CardRarity.C;
+            }
+        }
+
+        private Card GetCard(CardPrinting printing, string cardTypes, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary)
+        {
+            int dummyForOutParams = 0;
+
+            // With the gatherer update in 2014, Wizards stopped using hard hyphens (the subtraction sign on every keyboard) and instead
+            // replaced them with ASCII character 8722, which http://www.ascii.cl/htmlcodes.htm describes as a "soft hyphen." BECAUSE
+            // THAT FUCKING MAKES SENSE. How do they even enter the data in the DB with a character that isn't on a keyboard?
+            // ... GOD. Just replace them with the normal hyphen sign, which was good enough for our parents.
+            text = text.Replace((char)SOFT_HYPHEN_CODE, '-');
+
+            return new Card() {
+                CardTypes = GetCardTypes(cardTypes),
+                Cost = (!string.IsNullOrEmpty(cost) ? new CardCostCollection(cost) : null),
+                Name = name,
+                Power = (Int32.TryParse(power, out dummyForOutParams) ? (int?)Int32.Parse(power) : null),
+                Printings = new List<CardPrinting>() { 
+                    printing
+                },
+                Text = text,
+                Toughness = (Int32.TryParse(toughness, out dummyForOutParams) ? (int?)Int32.Parse(toughness) : null),
+                Tribe = GetCardTribe(tribeData),
+                Watermark = watermark
+            };
+        }
+
+        private string GetRealSetCodeFromFakeSetCode(IList<SetData> setData, string fakeCode)
+        {
+            SetData match = setData.Where(s => s.GathererCode == fakeCode).FirstOrDefault();
+            if (match != null) return match.Code;
+            return string.Empty;
+        }
+
+        private string GetSplitCardName(string name, bool firstHalf)
+        {
+            return name + " (" + name.Split("//".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[firstHalf ? 0 : 1].Trim() + ")";
+        }
+
+        private string GetSplitCardValue(string input, bool firstHalf)
+        {
+            Match match = Regex.Match(input, "([\\s\\S]+)//([\\s\\S]+)");
+            if (match.Value != string.Empty) {
+                return (firstHalf ? match.Groups[1].Value : match.Groups[2].Value).Trim();
+            }
+            return input;
         }
         #endregion
     }

@@ -86,6 +86,7 @@
     <Compile Include="Infrastructure\Behaviors\TextBoxFileDialogBehavior.cs" />
     <Compile Include="Infrastructure\ValueConverters\StringDateConverter.cs" />
     <Compile Include="Models\CardNickname.cs" />
+    <Compile Include="Models\Manifest.cs" />
     <Compile Include="Models\SetData.cs" />
     <Compile Include="ViewModels\PackageBuilderViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
