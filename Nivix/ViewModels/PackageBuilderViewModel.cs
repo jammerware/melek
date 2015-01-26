@@ -16,6 +16,7 @@ using Melek;
 using Melek.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Nivix.Infrastructure;
 using Nivix.Models;
 
 namespace Nivix.ViewModels
@@ -155,15 +156,8 @@ namespace Nivix.ViewModels
                 Dictionary<string, Set> sets = new Dictionary<string, Set>();
 
                 // load local data - card nicknames, set code overrides, things like that
-                string jsonData = File.ReadAllText("Data/nicknames.json");
-                JObject jObject = JObject.Parse(jsonData);
-
-                IList<CardNickname> cardNicknamesDeserialized = JsonConvert.DeserializeObject<IList<CardNickname>>(jObject["Cards"].ToString());
-
-                jsonData = File.ReadAllText("Data/sets.json");
-                jObject = JObject.Parse(jsonData);
-
-                IList<SetData> setDataDeserialized = JsonConvert.DeserializeObject<IList<SetData>>(jObject["Sets"].ToString());
+                IList<CardNickname> cardNicknamesDeserialized = DataBeast.GetCardNicknames();
+                IList<SetData> setDataDeserialized = DataBeast.GetSetData();
 
                 foreach (CardNickname card in cardNicknamesDeserialized) {
                     cardNicknames.Add(card.Name, card.Nicknames);
