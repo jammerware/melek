@@ -18,9 +18,8 @@ namespace Nivix.Infrastructure.Behaviors
                     _DialogIsOpen = true;
 
                     OpenFileDialog dlg = new OpenFileDialog();
-                    dlg.DefaultExt = ".xml";
                     if (TargetFileDescription != string.Empty && TargetFileExtension != string.Empty) {
-                        dlg.Filter = TargetFileDescription + "(." + TargetFileExtension + ".xml)|*." + TargetFileExtension;
+                        dlg.Filter = TargetFileDescription + "|*." + TargetFileExtension;
                     }
 
                     // Show open file dialog box

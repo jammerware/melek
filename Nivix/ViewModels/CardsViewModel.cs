@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using BazamWPF.ViewModels;
 using Nivix.Infrastructure;
 using Nivix.Models;
@@ -7,8 +8,10 @@ namespace Nivix.ViewModels
 {
     public class CardsViewModel : ViewModelBase
     {
-        [RelatedProperty("CardsWithNicknames")]
-        private IList<CardNickname> _CardsWithNicknames;
+        [RelatedProperty("CardNicknames")]
+        private IList<CardNickname> _CardNicknames;
+        [RelatedProperty("DataIsDirty")]
+        private bool _DataIsDirty;
         [RelatedProperty("SelectedCard")]
         private CardNickname _SelectedCard;
         [RelatedProperty("SelectedCardName")]
@@ -16,10 +19,16 @@ namespace Nivix.ViewModels
         [RelatedProperty("SelectedNicknames")]
         private string[] _SelectedNicknames;
 
-        public IList<CardNickname> CardsWithNicknames
+        public IList<CardNickname> CardNicknames
         {
-            get { return _CardsWithNicknames; }
-            set { ChangeProperty<CardsViewModel>(c => c.CardsWithNicknames, value); }
+            get { return _CardNicknames; }
+            set { ChangeProperty<CardsViewModel>(c => c.CardNicknames, value); }
+        }
+
+        public bool DataIsDirty
+        {
+            get { return _DataIsDirty; }
+            set { ChangeProperty<CardsViewModel>(c => c.DataIsDirty, value); }
         }
 
         public CardNickname SelectedCard
@@ -46,12 +55,27 @@ namespace Nivix.ViewModels
 
         public CardsViewModel()
         {
-            LoadCardsWithNicknames();
+            DataIsDirty = false;
+            LoadData();
         }
 
-        private void LoadCardsWithNicknames()
+        private BindingList<CardNickname> GetNicknameData()
         {
-            CardsWithNicknames = DataBeast.GetCardNicknames();
+            BindingList<CardNickname> bindingList = new BindingList<CardNickname>();
+            foreach(CardNickname nick in DataBeast.GetCardNicknames()) {
+                bindingList.Add(nick);
+            }
+
+            return bindingList;
+        }
+
+        private void LoadData()
+        {
+            BindingList<CardNickname> data = GetNicknameData();
+            data.ListChanged += (theList, somethingHappenedWithIt) => {
+                DataIsDirty = !(data.Equals(CardNicknames));
+            };
+            CardNicknames = data;
         }
     }
 }

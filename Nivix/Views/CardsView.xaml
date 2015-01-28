@@ -13,20 +13,28 @@
         <vm:CardsViewModel />
     </UserControl.DataContext>
     <Grid Style="{StaticResource ContentRoot}" Margin="0">
+        <Grid.Resources>
+            <c:ArrayStringConverter x:Key="ArrayStringConverter" />
+        </Grid.Resources>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         
         <ListBox 
             Grid.Row="0"
             Grid.Column="0"
-            ItemsSource="{Binding CardsWithNicknames}"
-            Margin="{StaticResource HorizontalControlMargin}"
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding CardNicknames}"
+            Margin="0,0,20,0"
             SelectedItem="{Binding SelectedCard}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -34,23 +42,38 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
-        <StackPanel
+
+        <TextBlock 
             Grid.Row="0"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Margin="{StaticResource VerticalControlMargin}"
+            Style="{StaticResource Heading2}" 
+            Text="{Binding SelectedCardName}" />
+        <TextBox 
+            Grid.Row="1"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            AcceptsReturn="True"
+            MinHeight="200"
+            Text="{Binding SelectedNicknames, Converter={StaticResource ArrayStringConverter}}"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"/>
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="add"
+            Margin="{StaticResource HorizontalControlMargin}"/>
+        <Button
+            Grid.Row="2"
             Grid.Column="1"
-            Grid.RowSpan="2">
-            <StackPanel.Resources>
-                <c:ArrayStringConverter x:Key="ArrayStringConverter" />
-            </StackPanel.Resources>
-            <TextBlock 
-                Margin="{StaticResource VerticalControlMargin}"
-                Style="{StaticResource Heading2}" 
-                Text="{Binding SelectedCardName}" />
-            <TextBox 
-                AcceptsReturn="True"
-                Height="200"
-                Text="{Binding SelectedNicknames, Converter={StaticResource ArrayStringConverter}}"
-                TextWrapping="Wrap" />
-        </StackPanel>
+            Content="delete" />
+        
+        <Button
+            Grid.Row="2"
+            Grid.Column="4"
+            Content="save"
+            IsEnabled="{Binding DataIsDirty}" />
     </Grid>
 </UserControl>
