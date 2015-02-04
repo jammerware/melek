@@ -32,7 +32,10 @@ namespace Nivix.Infrastructure.ValueConverters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value != null && !string.IsNullOrEmpty(value.ToString())) {
+                return value.ToString().Split(Delimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            }
+            return new string[] { };
         }
     }
 }

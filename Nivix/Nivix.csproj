@@ -89,13 +89,25 @@
     <Compile Include="Infrastructure\ValueConverters\StringDateConverter.cs" />
     <Compile Include="Infrastructure\ValueConverters\ArrayStringConverter.cs" />
     <Compile Include="Models\CardNickname.cs" />
-    <Compile Include="Models\Comparers\CardNicknameComparer.cs" />
     <Compile Include="Models\Manifest.cs" />
     <Compile Include="Models\SetData.cs" />
     <Compile Include="ViewModels\CardsViewModel.cs" />
     <Compile Include="ViewModels\PackageBuilderViewModel.cs" />
+    <Compile Include="ViewModels\SetsViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\DeleteCardNicknameView.xaml.cs">
+      <DependentUpon>DeleteCardNicknameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\DeleteSetView.xaml.cs">
+      <DependentUpon>DeleteSetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\NewCardNicknameView.xaml.cs">
+      <DependentUpon>NewCardNicknameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\NewSetView.xaml.cs">
+      <DependentUpon>NewSetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PackageBuilderView.xaml.cs">
       <DependentUpon>PackageBuilderView.xaml</DependentUpon>
@@ -104,6 +116,18 @@
       <DependentUpon>SetsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\DeleteCardNicknameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\DeleteSetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\NewSetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,6 +140,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Page Include="Views\Dialogs\NewCardNicknameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PackageBuilderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,14 +154,16 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\logo.ico" />
+    <Content Include="Assets\logo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\nicknames.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="logo.ico" />
     <None Include="app.config" />
     <None Include="Data\sets.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -145,7 +175,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Assets\logo.png" />
+    <Content Include="Assets\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
