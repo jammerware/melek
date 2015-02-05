@@ -461,7 +461,7 @@ namespace Melek.Utilities
 
         public async Task<Uri> GetCardImageUri(CardPrinting printing)
         {
-            return await ResolveCardImage(printing, new Uri(string.Format("http://mtgimage.com/multiverseid/{0}.jpg", printing.MultiverseID)));
+            return await ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseID)));
         }
 
         public async Task<Uri> GetCardImageUri(Set set, Card card)
