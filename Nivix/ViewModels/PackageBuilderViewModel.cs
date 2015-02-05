@@ -109,7 +109,13 @@ namespace Nivix.ViewModels
                 Directory.CreateDirectory(outputPath);
             }
 
-            string packageDirectory = Path.Combine(outputPath, "packages");
+            string packagesDirectory = Path.Combine(outputPath, "packages");
+            if (!Directory.Exists(packagesDirectory)) {
+                Directory.CreateDirectory(packagesDirectory);
+            }
+            outputPath = packagesDirectory;
+
+            string packageDirectory = Path.Combine(outputPath, PackageID);
             if (!Directory.Exists(packageDirectory)) {
                 Directory.CreateDirectory(packageDirectory);
             }
@@ -123,15 +129,20 @@ namespace Nivix.ViewModels
 
             // zip up and delete the component files
             BazamZip zip = new BazamZip() {
-                ZipFileName = Path.Combine(outputPath, PackageID.ToLower() + ".gbd"),
+                ZipFileName = Path.Combine(packagesDirectory, PackageID.ToLower() + ".gbd"),
                 Password = Constants.ZIP_PASSWORD
             };
             zip.Files = new string[] { setsFileName, cardsFileName };
+            zip.FilesRelativeRootForZip = packagesDirectory;
+            zip.PreserveFilePaths = true;
             SharpZipLibHelper.Zip(zip, true);
 
             // deploy the manifest
             XDocument manifestDoc = manifest.ToXML();
-            manifestDoc.Save(Path.Combine(outputPath, "packages.xml"));
+            manifestDoc.Save(Path.Combine(packagesDirectory, "packages.xml"));
+
+            // clean up
+            Directory.Delete(packageDirectory);
         }
 
         private Manifest GetManifest()
@@ -194,19 +205,21 @@ namespace Nivix.ViewModels
                         set.TCGPlayerName = thisSetData.TcgPlayerName;
                     }
 
-                    sets.Add(set.Code, set);
-                    setElements.Add(
-                        new XElement(
-                            "set",
-                            new XAttribute("name", set.Name),
-                            new XAttribute("code", set.Code),
-                            (string.IsNullOrEmpty(set.CFName) ? null : new XAttribute("cfName", set.CFName)),
-                            new XAttribute("isPromo", set.IsPromo),
-                            (string.IsNullOrEmpty(set.MtgImageName) ? null : new XAttribute("mtgImageName", set.MtgImageName)),
-                            (string.IsNullOrEmpty(set.TCGPlayerName) ? null : new XAttribute("tcgPlayerName", set.TCGPlayerName)),
-                            (set.Date == null ? null : new XAttribute("date", set.Date))
-                        )
-                    );
+                    if(!sets.ContainsKey(set.Code)) {
+                        sets.Add(set.Code, set);
+                        setElements.Add(
+                            new XElement(
+                                "set",
+                                new XAttribute("name", setData.Keys.Contains(set.Code) ? setData[set.Code].Name : set.Name),
+                                new XAttribute("code", set.Code),
+                                (string.IsNullOrEmpty(set.CFName) ? null : new XAttribute("cfName", set.CFName)),
+                                new XAttribute("isPromo", set.IsPromo),
+                                (string.IsNullOrEmpty(set.MtgImageName) ? null : new XAttribute("mtgImageName", set.MtgImageName)),
+                                (string.IsNullOrEmpty(set.TCGPlayerName) ? null : new XAttribute("tcgPlayerName", set.TCGPlayerName)),
+                                (set.Date == null ? null : new XAttribute("date", set.Date))
+                            )
+                        );
+                    }
                 }
 
                 Dictionary<string, Card> cards = new Dictionary<string, Card>();

@@ -10,6 +10,11 @@ namespace Nivix.Models
     {
         public List<Package> Packages { get; set; }
 
+        public Manifest()
+        {
+            Packages = new List<Package>();
+        }
+
         public static Manifest FromXML(XDocument xml)
         {
             Manifest retVal = new Manifest();
