@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="225" />
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
@@ -38,7 +38,7 @@
             SelectedItem="{Binding SelectedCard}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock MaxWidth="184" Text="{Binding Name}" TextWrapping="Wrap" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

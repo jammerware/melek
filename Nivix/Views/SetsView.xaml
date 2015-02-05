@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="225" />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -39,7 +39,7 @@
             SelectedItem="{Binding SelectedSet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock MaxWidth="164" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                    <TextBlock MaxWidth="184" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
