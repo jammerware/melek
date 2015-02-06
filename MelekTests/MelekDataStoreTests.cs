@@ -13,7 +13,7 @@ namespace MelekTests
         {
             try {
                 LoggingNinja logger = new LoggingNinja("errors.log");
-                MelekDataStore dataStore = new MelekDataStore("C:\\Users\\bstein\\AppData\\Roaming\\Jammerware.MtGBar", true, logger, true, "iStHEdEVaUTHhAPPENING4621");
+                MelekDataStore dataStore = new MelekDataStore("C:\\Users\\Jammer\\AppData\\Roaming\\Jammerware.MtGBar", true, logger, true, "iStHEdEVaUTHhAPPENING4621");
                 Task.Run(async () => {
                     dataStore.CheckForPackageUpdates();
                     await dataStore.ForceLoad(); 
