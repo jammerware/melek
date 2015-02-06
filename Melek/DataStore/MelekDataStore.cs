@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -12,8 +13,9 @@ using Bazam.Modules;
 using Bazam.Slugging;
 using Melek.Models;
 using Melek.Models.Helpers;
+using Melek.Utilities;
 
-namespace Melek.Utilities
+namespace Melek.DataStore
 {
     public class MelekDataStore
     {
@@ -551,39 +553,45 @@ namespace Melek.Utilities
 
         public Card[] Search(string searchTerm)
         {
-            return Search(searchTerm, string.Empty);
+            MatchCollection matches = Regex.Matches(searchTerm.Trim(), "([a-zA-Z0-9]{0,3}):(\\S+)");
+            return Search(new DataStoreSearchArgs() {
+                Name = searchTerm
+            });
         }
 
-        public Card[] Search(string searchTerm, string setCode)
+        public Card[] Search(DataStoreSearchArgs args)
         {
-            if (_IsLoaded && !string.IsNullOrEmpty(searchTerm)) {
-                searchTerm = searchTerm.Trim().ToLower();
-
-                // clean this up at some point - add support for a collection of search terms to support possible other "replacement" exceptions
-                // character codes are utf8 by default (utf32)?
-                string searchTermAlt = searchTerm;
-                if (searchTermAlt.Contains("ae")) {
-                    searchTermAlt = searchTermAlt.Replace("ae", ((Char)230).ToString());
-                }
-                if (searchTermAlt.Contains("u")) {
-                    searchTermAlt = searchTermAlt.Replace("u", ((Char)251).ToString());
-                }
+            if (_IsLoaded) {
+                string searchTerm = args.Name.Trim().ToLower();
+                string setCode = args.SetCode.Trim().ToLower();
 
                 if (searchTerm != string.Empty) {
-                    return _Cards
-                        .Where(c => 
-                            c.Name.ToLower().Contains(searchTermAlt) || 
-                            c.Name.ToLower().Contains(searchTerm) || ( 
-                                c.Nicknames.Count() > 0 &&
-                                c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm || n.ToLower().Contains(searchTerm)) != null
+                    // clean this up at some point - add support for a collection of search terms to support possible other "replacement" exceptions
+                    // character codes are utf8 by default (utf32)?
+                    string searchTermAlt = searchTerm;
+                    if (searchTermAlt.Contains("ae")) {
+                        searchTermAlt = searchTermAlt.Replace("ae", ((Char)230).ToString());
+                    }
+                    if (searchTermAlt.Contains("u")) {
+                        searchTermAlt = searchTermAlt.Replace("u", ((Char)251).ToString());
+                    }
+
+                    if (searchTerm != string.Empty) {
+                        return _Cards
+                            .Where(c =>
+                                c.Name.ToLower().Contains(searchTermAlt) ||
+                                c.Name.ToLower().Contains(searchTerm) || (
+                                    c.Nicknames.Count() > 0 &&
+                                    c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm || n.ToLower().Contains(searchTerm)) != null
+                                )
                             )
-                        )
-                        .Where(c => c.Printings.Any(a => a.Set.Code.ToLower() == setCode) || setCode == string.Empty)
-                        .OrderBy(c => c.Name.ToLower() == searchTerm || c.Name.ToLower() == searchTermAlt ? 0 : 1)
-                        .ThenBy(c => c.Nicknames.Count() > 0 && c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm) != null ? 0 : 1)
-                        .ThenBy(c => c.Name.ToLower().StartsWith(searchTermAlt) || c.Name.ToLower().StartsWith(searchTerm) ? 0 : 1)
-                        .ThenBy(c => c.Name)
-                        .ToArray();
+                            .Where(c => c.Printings.Any(a => a.Set.Code.ToLower() == setCode) || setCode == string.Empty)
+                            .OrderBy(c => c.Name.ToLower() == searchTerm || c.Name.ToLower() == searchTermAlt ? 0 : 1)
+                            .ThenBy(c => c.Nicknames.Count() > 0 && c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm) != null ? 0 : 1)
+                            .ThenBy(c => c.Name.ToLower().StartsWith(searchTermAlt) || c.Name.ToLower().StartsWith(searchTerm) ? 0 : 1)
+                            .ThenBy(c => c.Name)
+                            .ToArray();
+                    }
                 }
             }
 

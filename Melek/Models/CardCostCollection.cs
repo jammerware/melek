@@ -7,9 +7,7 @@ namespace Melek.Models
 {
     public class CardCostCollection : List<CardCost>
     {
-        private CardCostCollection()
-        {
-        }
+        private CardCostCollection() {}
 
         // {3}{B}
         public CardCostCollection(string cost)

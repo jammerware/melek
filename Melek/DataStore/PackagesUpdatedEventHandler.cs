@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Melek.Models;
 
-namespace Melek.Utilities
+namespace Melek.DataStore
 {
     public delegate void PackagesUpdatedEventHandler(Package[] newPackages);
 }
