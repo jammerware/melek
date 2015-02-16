@@ -21,9 +21,7 @@ namespace MelekTests
             try {
                 Directory.CreateDirectory(_TestStoreDirectory);
                 _TestStore = new MelekDataStore(_TestStoreDirectory, false, _LoggingNinja, true);
-
                 await _TestStore.CheckForPackageUpdates();
-                await _TestStore.ForceLoad();
             }
             catch (Exception ex) {
                 throw new Exception("The initialization of the test store failed: " + ex.Message);

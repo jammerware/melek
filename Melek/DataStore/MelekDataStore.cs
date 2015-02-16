@@ -100,6 +100,130 @@ namespace Melek.DataStore
         #endregion
 
         #region data management utility methods
+        private void DoLoad()
+        {
+            XDocument packagesManifest = XDocument.Load(Path.Combine(PackagesDirectory, "packages.xml"));
+            _Packages = new List<Package>();
+            _Packages.AddRange(GetPackagesFromManifest(packagesManifest));
+
+            List<Card> cards = new List<Card>();
+            List<Set> sets = new List<Set>();
+
+            foreach (Package package in _Packages) {
+                XDocument setDoc = null;
+                using (var reader = XmlReader.Create(Path.Combine(PackagesDirectory, package.ID, "sets.xml"))) {
+                    setDoc = XDocument.Load(reader);
+                }
+
+                // iterate through each set, adding it if it hasn't appeared in another package or updating it if it has
+                foreach (XElement setElement in setDoc.Element("sets").Elements("set")) {
+                    Set set = new Set() {
+                        Code = XMLPal.GetString(setElement.Attribute("code")),
+                        CFName = XMLPal.GetString(setElement.Attribute("cfName")),
+                        Date = XMLPal.GetDate(setElement.Attribute("date")),
+                        IsPromo = (setElement.Attribute("isPromo") != null ? XMLPal.GetBool(setElement.Attribute("isPromo")) : false),
+                        MtgImageName = (setElement.Attribute("mtgImageName") != null ? XMLPal.GetString(setElement.Attribute("mtgImageName")) : string.Empty),
+                        Name = XMLPal.GetString(setElement.Attribute("name")),
+                        TCGPlayerName = XMLPal.GetString(setElement.Attribute("tcgPlayerName"))
+                    };
+
+                    Set existingSet = sets.Where(s => s.Code == set.Code).FirstOrDefault();
+
+                    if (existingSet == null) {
+                        sets.Add(set);
+                    }
+                    else {
+                        existingSet.CFName = set.CFName;
+                        existingSet.Date = set.Date;
+                        existingSet.Name = set.Name;
+                        existingSet.TCGPlayerName = set.TCGPlayerName;
+                    }
+                }
+
+                Dictionary<string, Set> setDictionary = new Dictionary<string, Set>();
+                foreach (Set set in sets) {
+                    setDictionary.Add(set.Code, set);
+                }
+
+                string cardsDocPath = Path.Combine(PackagesDirectory, package.ID, "cards.xml");
+                XDocument cardsDoc = XDocument.Load(cardsDocPath);
+
+                foreach (XElement cardElement in cardsDoc.Element("cards").Elements("card")) {
+                    Card card = new Card() {
+                        Name = XMLPal.GetString(cardElement.Attribute("name")),
+                        Nicknames = (
+                            cardElement.Element("nicknames") == null ? new List<string>() :
+                            from nickname in cardElement.Element("nicknames").Elements("nickname")
+                            select nickname.Value
+                        ).ToArray(),
+                        CardTypes = (
+                            from cardType in cardElement.Elements("types").Elements("type")
+                            select EnuMaster.Parse<CardType>(XMLPal.GetString(cardType.Attribute("name")))
+                        ).ToArray(),
+                        Cost = new CardCostCollection(XMLPal.GetString(cardElement.Attribute("cost"))),
+                        Power = XMLPal.GetInt(cardElement.Attribute("power")),
+                        Printings = (
+                            from printing in cardElement.Element("appearances").Elements("appearance")
+                            select new CardPrinting() {
+                                Artist = XMLPal.GetString(printing.Attribute("artist")),
+                                FlavorText = XMLPal.GetString(printing.Attribute("flavor")),
+                                MultiverseID = XMLPal.GetString(printing.Attribute("multiverseID")),
+                                Rarity = EnuMaster.Parse<CardRarity>(XMLPal.GetString(printing.Attribute("rarity"))),
+                                Set = setDictionary[XMLPal.GetString(printing.Attribute("setCode"))],
+                                TransformsToMultiverseID = XMLPal.GetString(printing.Attribute("transformsInto"))
+                            }
+                        ).Distinct(new CardPrintingEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
+                        Text = XMLPal.GetString(cardElement.Attribute("text")),
+                        Toughness = XMLPal.GetInt(cardElement.Attribute("toughness")),
+                        Tribe = XMLPal.GetString(cardElement.Attribute("tribe")),
+                        Watermark = XMLPal.GetString(cardElement.Attribute("watermark"))
+                    };
+
+                    Card existingCard = cards.Where(c => c.Name == card.Name).FirstOrDefault();
+                    if (existingCard == null) {
+                        cards.Add(card);
+                    }
+                    else {
+                        foreach (CardPrinting printing in card.Printings) {
+                            CardPrinting existingPrinting = existingCard.Printings.Where(a => a.Set.Code == printing.Set.Code).FirstOrDefault();
+                            if (existingPrinting == null) {
+                                existingCard.Printings.Add(printing);
+                            }
+                            else {
+                                existingPrinting.Artist = printing.Artist;
+                                existingPrinting.FlavorText = printing.FlavorText;
+                                existingPrinting.MultiverseID = printing.MultiverseID;
+                                existingPrinting.Rarity = printing.Rarity;
+                                existingPrinting.Set = printing.Set;
+                            }
+
+                            existingCard.CardTypes = card.CardTypes;
+                            existingCard.Cost = card.Cost;
+                            existingCard.Power = card.Power;
+                            existingCard.Text = card.Text;
+                            existingCard.Toughness = card.Toughness;
+                            existingCard.Tribe = card.Tribe;
+                            existingCard.Watermark = card.Watermark;
+                        }
+                    }
+                }
+            }
+
+            _Cards = cards.ToArray();
+            _Sets = sets.ToArray();
+
+            if (_Packages.Count() > 0) {
+                _IsLoaded = true;
+                _LoggingNinja.LogMessage("Data loaded.");
+                if (DataLoaded != null) {
+                    DataLoaded(this, EventArgs.Empty);
+                }
+            }
+            else {
+                _LoggingNinja.LogMessage("Data loaded, but no packages were present.");
+            }
+        }
+
         private Package[] GetPackagesFromManifest(XDocument manifest)
         {
             return (
@@ -121,128 +245,12 @@ namespace Melek.DataStore
         /// </summary>
         public async Task ForceLoad()
         {
-            await Task.Run(() => {
-                XDocument packagesManifest = XDocument.Load(Path.Combine(PackagesDirectory, "packages.xml"));
-                _Packages = new List<Package>();
-                _Packages.AddRange(GetPackagesFromManifest(packagesManifest));
-
-                List<Card> cards = new List<Card>();
-                List<Set> sets = new List<Set>();
-
-                foreach (Package package in _Packages) {
-                    XDocument setDoc = null;
-                    using (var reader = XmlReader.Create(Path.Combine(PackagesDirectory, package.ID, "sets.xml"))) {
-                        setDoc = XDocument.Load(reader);
-                    }
-
-                    // iterate through each set, adding it if it hasn't appeared in another package or updating it if it has
-                    foreach (XElement setElement in setDoc.Element("sets").Elements("set")) {
-                        Set set = new Set() {
-                            Code = XMLPal.GetString(setElement.Attribute("code")),
-                            CFName = XMLPal.GetString(setElement.Attribute("cfName")),
-                            Date = XMLPal.GetDate(setElement.Attribute("date")),
-                            IsPromo = (setElement.Attribute("isPromo") != null ? XMLPal.GetBool(setElement.Attribute("isPromo")) : false),
-                            MtgImageName = (setElement.Attribute("mtgImageName") != null ? XMLPal.GetString(setElement.Attribute("mtgImageName")) : string.Empty),
-                            Name = XMLPal.GetString(setElement.Attribute("name")),
-                            TCGPlayerName = XMLPal.GetString(setElement.Attribute("tcgPlayerName"))
-                        };
-
-                        Set existingSet = sets.Where(s => s.Code == set.Code).FirstOrDefault();
-
-                        if (existingSet == null) {
-                            sets.Add(set);
-                        }
-                        else {
-                            existingSet.CFName = set.CFName;
-                            existingSet.Date = set.Date;
-                            existingSet.Name = set.Name;
-                            existingSet.TCGPlayerName = set.TCGPlayerName;
-                        }
-                    }
-
-                    Dictionary<string, Set> setDictionary = new Dictionary<string, Set>();
-                    foreach (Set set in sets) {
-                        setDictionary.Add(set.Code, set);
-                    }
-
-                    string cardsDocPath = Path.Combine(PackagesDirectory, package.ID, "cards.xml");
-                    XDocument cardsDoc = XDocument.Load(cardsDocPath);
-
-                    foreach (XElement cardElement in cardsDoc.Element("cards").Elements("card")) {
-                        Card card = new Card() {
-                            Name = XMLPal.GetString(cardElement.Attribute("name")),
-                            Nicknames = (
-                                cardElement.Element("nicknames") == null ? new List<string>() :
-                                from nickname in cardElement.Element("nicknames").Elements("nickname")
-                                select nickname.Value
-                            ).ToArray(),
-                            CardTypes = (
-                                from cardType in cardElement.Elements("types").Elements("type")
-                                select EnuMaster.Parse<CardType>(XMLPal.GetString(cardType.Attribute("name")))
-                            ).ToArray(),
-                            Cost = new CardCostCollection(XMLPal.GetString(cardElement.Attribute("cost"))),
-                            Power = XMLPal.GetInt(cardElement.Attribute("power")),
-                            Printings = (
-                                from printing in cardElement.Element("appearances").Elements("appearance")
-                                select new CardPrinting() {
-                                    Artist = XMLPal.GetString(printing.Attribute("artist")),
-                                    FlavorText = XMLPal.GetString(printing.Attribute("flavor")),
-                                    MultiverseID = XMLPal.GetString(printing.Attribute("multiverseID")),
-                                    Rarity = EnuMaster.Parse<CardRarity>(XMLPal.GetString(printing.Attribute("rarity"))),
-                                    Set = setDictionary[XMLPal.GetString(printing.Attribute("setCode"))],
-                                    TransformsToMultiverseID = XMLPal.GetString(printing.Attribute("transformsInto"))
-                                }
-                            ).Distinct(new CardPrintingEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
-                            Text = XMLPal.GetString(cardElement.Attribute("text")),
-                            Toughness = XMLPal.GetInt(cardElement.Attribute("toughness")),
-                            Tribe = XMLPal.GetString(cardElement.Attribute("tribe")),
-                            Watermark = XMLPal.GetString(cardElement.Attribute("watermark"))
-                        };
-
-                        Card existingCard = cards.Where(c => c.Name == card.Name).FirstOrDefault();
-                        if (existingCard == null) {
-                            cards.Add(card);
-                        }
-                        else {
-                            foreach (CardPrinting printing in card.Printings) {
-                                CardPrinting existingPrinting = existingCard.Printings.Where(a => a.Set.Code == printing.Set.Code).FirstOrDefault();
-                                if (existingPrinting == null) {
-                                    existingCard.Printings.Add(printing);
-                                }
-                                else {
-                                    existingPrinting.Artist = printing.Artist;
-                                    existingPrinting.FlavorText = printing.FlavorText;
-                                    existingPrinting.MultiverseID = printing.MultiverseID;
-                                    existingPrinting.Rarity = printing.Rarity;
-                                    existingPrinting.Set = printing.Set;
-                                }
-
-                                existingCard.CardTypes = card.CardTypes;
-                                existingCard.Cost = card.Cost;
-                                existingCard.Power = card.Power;
-                                existingCard.Text = card.Text;
-                                existingCard.Toughness = card.Toughness;
-                                existingCard.Tribe = card.Tribe;
-                                existingCard.Watermark = card.Watermark;
-                            }
-                        }
-                    }
-                }
-
-                _Cards = cards.ToArray();
-                _Sets = sets.ToArray();
-
-                if (_Packages.Count() > 0) {
-                    _IsLoaded = true;
-                    _LoggingNinja.LogMessage("Data loaded.");
-                    if (DataLoaded != null) {
-                        DataLoaded(this, EventArgs.Empty);
-                    }
-                }
-                else {
-                    _LoggingNinja.LogMessage("Data loaded, but no packages were present.");
-                }
-            });
+            try {
+                await Task.Run(() => { DoLoad(); });
+            }
+            catch (AggregateException) {
+                throw;
+            }
         }
 
         private void SavePackagesManifest()
