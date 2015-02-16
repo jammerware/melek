@@ -71,10 +71,12 @@ namespace Melek.DataStore
                 doc.Save(packagesManifestFileName);
             }
 
+            _Packages = new List<Package>();
+
             if (!lazyLoad) {
                 BackgroundBuddy.RunAsync(async() => {
                     await ForceLoad();
-                    CheckForPackageUpdates();
+                    await CheckForPackageUpdates();
                 });
             }
         }
@@ -163,15 +165,8 @@ namespace Melek.DataStore
                         setDictionary.Add(set.Code, set);
                     }
 
-                    XDocument cardsDoc = null;
-                    try {
-                        using (var reader = XmlReader.Create(Path.Combine(PackagesDirectory, package.ID, "cards.xml"))) {
-                            cardsDoc = XDocument.Load(reader);
-                        }
-                    }
-                    catch (Exception ex) {
-                        _LoggingNinja.LogMessage("Locking error on the cards thing: " + ex.Message);
-                    }
+                    string cardsDocPath = Path.Combine(PackagesDirectory, package.ID, "cards.xml");
+                    XDocument cardsDoc = XDocument.Load(cardsDocPath);
 
                     foreach (XElement cardElement in cardsDoc.Element("cards").Elements("card")) {
                         Card card = new Card() {
@@ -316,7 +311,7 @@ namespace Melek.DataStore
         #endregion
 
         #region exposed so the updater can force a check for updates
-        public void CheckForPackageUpdates()
+        public async Task CheckForPackageUpdates()
         {
             _LoggingNinja.LogMessage("Checking for package updates...");
             string packagesFolderUrl = Constants.PACKAGES_URL_PROD;
@@ -325,102 +320,102 @@ namespace Melek.DataStore
             }
             string packagesManifestUrl = packagesFolderUrl + "packages.xml";
 
-            BackgroundBuddy.RunAsync(async () => {
-                try {
-                    XDocument manifest = XDocument.Load(packagesManifestUrl);
-                    Package[] remotePackages = GetPackagesFromManifest(manifest);
-                    Package[] localPackages = GetPackages().ToArray();
-                    List<string> packagesToUpdate = new List<string>();
+            try {
+                XDocument manifest = XDocument.Load(packagesManifestUrl);
+                Package[] remotePackages = GetPackagesFromManifest(manifest);
+                Package[] localPackages = GetPackages().ToArray();
+                List<string> packagesToUpdate = new List<string>();
 
-                    foreach (Package remotePackage in remotePackages) {
-                        Package localPackage = null;
-                        foreach (Package package in localPackages) {
-                            if (package.ID == remotePackage.ID) {
-                                localPackage = package;
-                            }
-                        }
-                        if (localPackage == null || localPackage.DataUpdated < remotePackage.DataUpdated) {
-                            packagesToUpdate.Add(remotePackage.ID);
-                        }
-                    }
-
-                    List<Package> newPackages = new List<Package>();
-                    foreach (string packageID in packagesToUpdate) {
-                        _LoggingNinja.LogMessage("Updating package data for " + packageID + "...");
-                        using (WebClient client = new WebClient()) {
-                            // file names n shit
-                            string fileName = packageID + ".gbd";
-                            string remotePath = packagesFolderUrl + fileName;
-                            string localPath = Path.Combine(PackagesDirectory, packageID + ".zip");
-
-                            // download the .gbd file, unzip it into the data directory
-                            client.DownloadFile(remotePath, localPath);
-                            SharpZipLibHelper.Unzip(localPath, PackagesDirectory, Constants.ZIP_PASSWORD, true);
-
-                            // update the local list of packages with new and improved data from the update packages
-                            Package localPackage = _Packages.Where(p => p.ID == packageID).FirstOrDefault();
-                            if (localPackage != null) {
-                                _Packages.Remove(localPackage);
-                            }
-
-                            Package newPackage = remotePackages.Where(p => p.ID == packageID).First();
-                            newPackages.Add(newPackage);
-                            _Packages.Add(newPackage);
-                        }
-                        _LoggingNinja.LogMessage("Package " + packageID + " updated.");
-                    }
-
-                    // delete any decomissioned packages
-                    List<Package> packagesToRemove = new List<Package>();
+                foreach (Package remotePackage in remotePackages) {
+                    Package localPackage = null;
                     foreach (Package package in localPackages) {
-                        bool packageFound = false;
-                        foreach (Package updatePackage in remotePackages) {
-                            if (updatePackage.ID == package.ID) {
-                                packageFound = true;
-                            }
-                        }
-
-                        if (!packageFound) {
-                            _LoggingNinja.LogMessage("Package " + package.ID + " wasn't found in the update manifest. It's decomissioned - removing from local the app's search DB.");
-                            packagesToRemove.Add(package);
+                        if (package.ID == remotePackage.ID) {
+                            localPackage = package;
                         }
                     }
-
-                    if (packagesToRemove.Count() > 0) {
-                        foreach (Package package in packagesToRemove) {
-                            _Packages.Remove(package);
-                        }
-                    }
-
-                    
-                    if (packagesToUpdate.Count() > 0 || packagesToRemove.Count() > 0) {
-                        // save the local packages manifest to reflect updates
-                        SavePackagesManifest();
-                        _LoggingNinja.LogMessage("Package update complete.");
-
-                        // reload, bitches
-                        await ForceLoad();
-
-                        // clean up any package folders that need to go
-                        foreach (Package package in packagesToRemove) {
-                            _LoggingNinja.LogMessage("Deleting the data directory for package " + package.ID + ".");
-                            string directory = Path.Combine(PackagesDirectory, package.ID);
-                            if (Directory.Exists(directory)) {
-                                Directory.Delete(directory, true);
-                                _LoggingNinja.LogMessage("Deleted directory for package " + package.ID + ".");
-                            }
-                        }
-
-                        if (PackagesUpdated != null) {
-                            PackagesUpdated(newPackages.ToArray());
-                        }
+                    if (localPackage == null || localPackage.DataUpdated < remotePackage.DataUpdated) {
+                        packagesToUpdate.Add(remotePackage.ID);
                     }
                 }
-                catch (WebException) {
-                    _LoggingNinja.LogMessage("Tried to check for package updates, but didn't have internetz.");
+
+                List<Package> newPackages = new List<Package>();
+                foreach (string packageID in packagesToUpdate) {
+                    _LoggingNinja.LogMessage("Updating package data for " + packageID + "...");
+                    using (WebClient client = new WebClient()) {
+                        // file names n shit
+                        string fileName = packageID + ".gbd";
+                        string remotePath = packagesFolderUrl + fileName;
+                        string localPath = Path.Combine(PackagesDirectory, packageID + ".zip");
+
+                        // download the .gbd file, unzip it into the data directory
+                        client.DownloadFile(remotePath, localPath);
+                        SharpZipLibHelper.Unzip(localPath, PackagesDirectory, Constants.ZIP_PASSWORD, true);
+
+                        // update the local list of packages with new and improved data from the update packages
+                        Package localPackage = _Packages.Where(p => p.ID == packageID).FirstOrDefault();
+                        if (localPackage != null) {
+                            _Packages.Remove(localPackage);
+                        }
+
+                        Package newPackage = remotePackages.Where(p => p.ID == packageID).First();
+                        newPackages.Add(newPackage);
+                        _Packages.Add(newPackage);
+                    }
+                    _LoggingNinja.LogMessage("Package " + packageID + " updated.");
                 }
 
-            });
+                // delete any decomissioned packages
+                List<Package> packagesToRemove = new List<Package>();
+                foreach (Package package in localPackages) {
+                    bool packageFound = false;
+                    foreach (Package updatePackage in remotePackages) {
+                        if (updatePackage.ID == package.ID) {
+                            packageFound = true;
+                        }
+                    }
+
+                    if (!packageFound) {
+                        _LoggingNinja.LogMessage("Package " + package.ID + " wasn't found in the update manifest. It's decomissioned - removing from local the app's search DB.");
+                        packagesToRemove.Add(package);
+                    }
+                }
+
+                if (packagesToRemove.Count() > 0) {
+                    foreach (Package package in packagesToRemove) {
+                        _Packages.Remove(package);
+                    }
+                }
+
+
+                if (packagesToUpdate.Count() > 0 || packagesToRemove.Count() > 0) {
+                    // save the local packages manifest to reflect updates
+                    SavePackagesManifest();
+                    _LoggingNinja.LogMessage("Package update complete.");
+
+                    // reload, bitches
+                    await ForceLoad();
+
+                    // clean up any package folders that need to go
+                    foreach (Package package in packagesToRemove) {
+                        _LoggingNinja.LogMessage("Deleting the data directory for package " + package.ID + ".");
+                        string directory = Path.Combine(PackagesDirectory, package.ID);
+                        if (Directory.Exists(directory)) {
+                            Directory.Delete(directory, true);
+                            _LoggingNinja.LogMessage("Deleted directory for package " + package.ID + ".");
+                        }
+                    }
+
+                    if (PackagesUpdated != null) {
+                        PackagesUpdated(newPackages.ToArray());
+                    }
+                }
+            }
+            catch (WebException) {
+                _LoggingNinja.LogMessage("Tried to check for package updates, but didn't have internetz.");
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
         #endregion
 
