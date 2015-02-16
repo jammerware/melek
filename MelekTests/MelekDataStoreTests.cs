@@ -11,17 +11,20 @@ namespace MelekTests
     [TestClass]
     public class MelekDataStoreTests
     {
-        private static readonly LoggingNinja _LoggingNinja = new LoggingNinja("C:\\Users\\Jammer\\AppData\\Roaming\\Jammerware.MtGBar.Test\\errors.log");
         private static MelekDataStore _TestStore;
-        private static readonly string _TestStoreDirectory = "C:\\Users\\Jammer\\AppData\\Roaming\\Jammerware.MtGBar.Test";
+        private static string _TestStoreDirectory = string.Empty;
 
         [ClassInitialize]
-        public async static void Initialize(TestContext context)
+        public static void Initialize(TestContext context)
         {
             try {
+                string _TestStoreDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jammerware.MtGBar.Test");
+                string errorLogFile = Path.Combine(_TestStoreDirectory, "errors.log");
+                LoggingNinja loggingNinja = new LoggingNinja(errorLogFile);
                 Directory.CreateDirectory(_TestStoreDirectory);
-                _TestStore = new MelekDataStore(_TestStoreDirectory, false, _LoggingNinja, true);
-                await _TestStore.CheckForPackageUpdates();
+
+                _TestStore = new MelekDataStore(_TestStoreDirectory, false, loggingNinja, true);
+                _TestStore.CheckForPackageUpdates().Wait();
             }
             catch (Exception ex) {
                 throw new Exception("The initialization of the test store failed: " + ex.Message);

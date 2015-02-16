@@ -100,7 +100,7 @@ namespace Melek.DataStore
         #endregion
 
         #region data management utility methods
-        private void DoLoad()
+        public void DoLoad()
         {
             XDocument packagesManifest = XDocument.Load(Path.Combine(PackagesDirectory, "packages.xml"));
             _Packages = new List<Package>();
@@ -401,7 +401,7 @@ namespace Melek.DataStore
                     _LoggingNinja.LogMessage("Package update complete.");
 
                     // reload, bitches
-                    await ForceLoad();
+                    DoLoad();
 
                     // clean up any package folders that need to go
                     foreach (Package package in packagesToRemove) {
@@ -565,8 +565,11 @@ namespace Melek.DataStore
         public Card[] Search(DataStoreSearchArgs args)
         {
             if (_IsLoaded) {
-                string searchTerm = args.Name.Trim().ToLower();
-                string setCode = args.SetCode.Trim().ToLower();
+                string searchTerm = string.Empty;
+                string setCode = string.Empty;
+
+                if (!string.IsNullOrEmpty(args.Name)) searchTerm = args.Name.Trim().ToLower();
+                if (!string.IsNullOrEmpty(args.SetCode)) setCode = args.SetCode.Trim().ToLower();
 
                 if (searchTerm != string.Empty) {
                     // clean this up at some point - add support for a collection of search terms to support possible other "replacement" exceptions
