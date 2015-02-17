@@ -23,7 +23,7 @@ namespace MelekTests
                 LoggingNinja loggingNinja = new LoggingNinja(errorLogFile);
                 Directory.CreateDirectory(_TestStoreDirectory);
 
-                _TestStore = new MelekDataStore(_TestStoreDirectory, false, loggingNinja, true);
+                _TestStore = new MelekDataStore(_TestStoreDirectory, false, loggingNinja, true, "iStHEdEVaUTHhAPPENING4621");
                 _TestStore.CheckForPackageUpdates().Wait();
             }
             catch (Exception ex) {

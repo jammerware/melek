@@ -2,4 +2,5 @@
 <packages>
   <package id="core" name="Core (through Khans of Tarkir)" cardsReleased="2014-11-07T00:00:00" dataUpdated="2015-01-20T15:48:00" />
   <package id="frf" name="Fate Reforged" cardsReleased="2015-01-23T00:00:00" dataUpdated="2015-01-14T09:07:00" />
+  <package id="frf_ugin" name="Fate Reforged - Ugin's Fate Promos" cardsReleased="2015-01-23T00:00:00" dataUpdated="2015-02-17T12:33:29.2081495-06:00" />
 </packages>
