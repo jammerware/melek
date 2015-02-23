@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="DataStore\DataStoreSearchArgs.cs" />
     <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\MagicColor.cs" />
     <Compile Include="Models\CardPrinting.cs" />
     <Compile Include="Models\CardCost.cs" />
     <Compile Include="Models\CardCostCollection.cs" />

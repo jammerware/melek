@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Bazam.Modules;
 using Melek.DataStore;
 using Melek.Models;
 using Melek.Utilities;
@@ -59,10 +60,10 @@ namespace MelekTests
         {
             Card[] results = _TestStore.Search("c:u");
             if (results.Length == 0) {
-                Assert.Fail("The datastore didn't return any results for a color-based search.");
+                Assert.Fail("The datastore didn't return any results for a color-based search. There are totally blue cards in magic. Just saying.");
             }
             foreach (Card card in results) {
-                if (!card.Cost.ToString().Contains("u")) {
+                if (!card.Cost.ToString().ToLower().Contains("u")) {
                     Assert.Fail("One or more of the results returned from a color-based search didn't have the right color.");
                 }
             }
