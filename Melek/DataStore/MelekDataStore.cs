@@ -100,7 +100,7 @@ namespace Melek.DataStore
         #endregion
 
         #region data management utility methods
-        public void DoLoad()
+        private void DoLoad()
         {
             XDocument packagesManifest = XDocument.Load(Path.Combine(PackagesDirectory, "packages.xml"));
             _Packages = new List<Package>();
@@ -168,7 +168,7 @@ namespace Melek.DataStore
                                 Artist = XMLPal.GetString(printing.Attribute("artist")),
                                 FlavorText = XMLPal.GetString(printing.Attribute("flavor")),
                                 MultiverseID = XMLPal.GetString(printing.Attribute("multiverseID")),
-                                Rarity = EnuMaster.Parse<CardRarity>(XMLPal.GetString(printing.Attribute("rarity"))),
+                                Rarity = StringToCardRarityConverter.GetRarity(XMLPal.GetString(printing.Attribute("rarity"))),
                                 Set = setDictionary[XMLPal.GetString(printing.Attribute("setCode"))],
                                 TransformsToMultiverseID = XMLPal.GetString(printing.Attribute("transformsInto"))
                             }
@@ -245,12 +245,7 @@ namespace Melek.DataStore
         /// </summary>
         public async Task ForceLoad()
         {
-            try {
-                await Task.Run(() => { DoLoad(); });
-            }
-            catch (AggregateException) {
-                throw;
-            }
+            await Task.Run(() => { DoLoad(); });
         }
 
         private void SavePackagesManifest()
@@ -516,7 +511,6 @@ namespace Melek.DataStore
                 cardsDirectorySize = (Directory.GetFiles(CardImagesDirectory).Count() * 34816); // a card is ABOUT 34kb
                 cardsDirectorySize = Math.Round(cardsDirectorySize);
             }
-
             else {
                 try {
                     foreach (string file in Directory.GetFiles(CardImagesDirectory)) {
@@ -556,68 +550,106 @@ namespace Melek.DataStore
 
         public Card[] Search(string searchTerm)
         {
-            MatchCollection matches = Regex.Matches(searchTerm.Trim(), "([a-zA-Z0-9]{0,3}):(\\S+)");
-
+            MatchCollection matches = Regex.Matches(searchTerm.Trim(), "([a-zA-Z0-9]{0,3})([:!])(\\S+)");
+            
             if (matches.Count == 0) {
-                return Search(new DataStoreSearchArgs() {
-                    Name = searchTerm
-                });
+                return Search(searchTerm, null);
             }
+            else {
+                List<CardSearchDelegate> criteria = new List<CardSearchDelegate>();
 
-            DataStoreSearchArgs args = new DataStoreSearchArgs();
-            foreach (Match match in matches) {
-                if (match.Groups[1].Value == "c") {
-                    List<MagicColor> colors = new List<MagicColor>();
-                    MagicColor tempColor = MagicColor.B;
-                    foreach (char c in match.Groups[2].Value) {
-                        if (EnuMaster.TryParse<MagicColor>(c.ToString(), out tempColor, true)) {
-                            colors.Add(tempColor);
-                        }
+                foreach (Match match in matches) {
+                    string criteriaType = match.Groups[1].Value.ToLower();
+                    string criteriaOperator = match.Groups[2].Value;
+                    string criteriaValue = match.Groups[3].Value.ToLower();
+
+                    switch (criteriaType) {
+                        case "c":
+                            bool requireMulticolored = false;
+                            List<MagicColor> colors = new List<MagicColor>();
+                            MagicColor tempColor = MagicColor.B;
+
+                            foreach (char c in criteriaValue) {
+                                if (c == 'm') requireMulticolored = true;
+                                else if (EnuMaster.TryParse<MagicColor>(c.ToString(), out tempColor, true)) {
+                                    colors.Add(tempColor);
+                                }
+                            }                            
+
+                            if (criteriaOperator == "!")
+                                criteria.Add((Card card) => { return card.IsColors(colors) && (!requireMulticolored || card.IsMulticolored()); });
+                            else if (criteriaOperator == ":") 
+                                criteria.Add((Card card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored())); });
+                            break;
+                        case "r":
+                            CardRarity? rarity = null;
+                            switch (criteriaValue) {
+                                case "common":
+                                case "c":
+                                    rarity = CardRarity.Common;
+                                    break;
+                                case "uncommon":
+                                case "u":
+                                    rarity = CardRarity.Uncommon;
+                                    break;
+                                case "rare":
+                                case "r":
+                                    rarity = CardRarity.Rare;
+                                    break;
+                                case "mythic":
+                                case "m":
+                                    rarity = CardRarity.MythicRare;
+                                    break;
+                            }
+
+                            if (rarity != null) {
+                                criteria.Add((Card card) => { return card.Printings.Any(p => p.Rarity == rarity.Value); });
+                            }
+
+                            break;
+                        default:
+                            break;
                     }
-                    args.Colors = colors;
                 }
-            }
 
-            return Search(args);
+                return Search(null, criteria);
+            }
         }
 
-        public Card[] Search(DataStoreSearchArgs args)
+        private Card[] Search(string nameTerm, List<CardSearchDelegate> filters)
         {
-            if (_IsLoaded) {
-                string searchTerm = string.Empty;
-                string setCode = string.Empty;
+            if (_IsLoaded && (!string.IsNullOrEmpty(nameTerm) || (filters != null && filters.Count > 0))) {
+                IEnumerable<Card> cards = _Cards;
+                string nameTermPattern = string.Empty;
 
-                if (!string.IsNullOrEmpty(args.Name)) searchTerm = args.Name.Trim().ToLower();
-                if (!string.IsNullOrEmpty(args.SetCode)) setCode = args.SetCode.Trim().ToLower();
-
-                if (args.HasArguments()) {
-                    // clean this up at some point - add support for a collection of search terms to support possible other "replacement" exceptions
-                    // character codes are utf8 by default (utf32)?
-                    string searchTermAlt = searchTerm;
-                    if (searchTermAlt.Contains("ae")) {
-                        searchTermAlt = searchTermAlt.Replace("ae", ((Char)230).ToString());
-                    }
-                    if (searchTermAlt.Contains("u")) {
-                        searchTermAlt = searchTermAlt.Replace("u", ((Char)251).ToString());
+                if (!string.IsNullOrEmpty(nameTerm)) {
+                    Dictionary<string, string> replacementSequences = new Dictionary<string, string>() {
+                        { "a", "æ" },
+                        { "u", "û" }
+                    };
+                    nameTermPattern = nameTerm.ToLower().Replace(" ", @"\s");
+                    foreach (string replacementSequence in replacementSequences.Keys) {
+                        nameTermPattern = nameTermPattern.Replace(replacementSequence, "[" + replacementSequence + replacementSequences[replacementSequence] + "]");
                     }
 
-                    return _Cards
-                        .Where(c =>
-                            c.Name.ToLower().Contains(searchTermAlt) ||
-                            c.Name.ToLower().Contains(searchTerm) || (
-                                c.Nicknames.Count() > 0 &&
-                                c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm || n.ToLower().Contains(searchTerm)) != null
-                            )
-                        )
-                        .Where(c => c.Printings.Any(a => a.Set.Code.ToLower() == setCode) || setCode == string.Empty)
-                        .Where(c => c.IsColors(args.Colors) || args.Colors.Count() == 0)
-                        //.Where(c => c.Printings.Any(p => args.Rarities.Contains(p.Rarity)) || args.Rarities == null || args.Rarities.Count() == 0)
-                        .OrderBy(c => c.Name.ToLower() == searchTerm || c.Name.ToLower() == searchTermAlt ? 0 : 1)
-                        .ThenBy(c => c.Nicknames.Count() > 0 && c.Nicknames.FirstOrDefault(n => n.ToLower() == searchTerm) != null ? 0 : 1)
-                        .ThenBy(c => c.Name.ToLower().StartsWith(searchTermAlt) || c.Name.ToLower().StartsWith(searchTerm) ? 0 : 1)
-                        .ThenBy(c => c.Name)
-                        .ToArray();
+                    if (filters == null) filters = new List<CardSearchDelegate>();
+                    filters.Add((Card card) => { 
+                        return 
+                            Regex.IsMatch(card.Name, nameTermPattern, RegexOptions.IgnoreCase) ||
+                            card.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)); 
+                    });
                 }
+
+                foreach (CardSearchDelegate filter in filters) {
+                    cards = cards.Where(c => filter(c));
+                }
+
+                return cards
+                    .OrderBy(c => string.IsNullOrEmpty(nameTerm) || Regex.IsMatch(c.Name, nameTermPattern) ? 0 : 1)
+                    .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)) ? 0 : 1)
+                    .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Name.StartsWith(nameTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
+                    .ThenBy(c => c.Name)
+                    .ToArray();
             }
 
             return new Card[] { };

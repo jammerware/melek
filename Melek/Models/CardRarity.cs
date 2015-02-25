@@ -8,9 +8,9 @@ namespace Melek.Models
 {
     public enum CardRarity
     {
-        C,
-        U,
-        R,
-        M
+        Common,
+        Uncommon,
+        Rare,
+        MythicRare
     }
 }

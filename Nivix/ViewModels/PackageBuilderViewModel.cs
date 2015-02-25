@@ -14,6 +14,7 @@ using BazamWPF.ViewModels;
 using FirstFloor.ModernUI.Presentation;
 using Melek;
 using Melek.Models;
+using Melek.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Nivix.Infrastructure;
@@ -246,7 +247,7 @@ namespace Nivix.ViewModels
                         Artist = XMLPal.GetString(cardData.Element("artist")),
                         FlavorText = XMLPal.GetString(cardData.Element("flavor")),
                         MultiverseID = XMLPal.GetString(cardData.Element("id")),
-                        Rarity = GetRarity(XMLPal.GetString(cardData.Element("rarity"))),
+                        Rarity = StringToCardRarityConverter.GetRarity(XMLPal.GetString(cardData.Element("rarity"))),
                         Set = sets[setCode],
                         TransformsToMultiverseID = XMLPal.GetString(cardData.Element("back_id"))
                     };
@@ -481,16 +482,6 @@ namespace Nivix.ViewModels
             }
 
             return retVal;
-        }
-
-        private CardRarity GetRarity(string input)
-        {
-            try {
-                return EnuMaster.Parse<CardRarity>(input[0].ToString());
-            }
-            catch (Exception) {
-                return CardRarity.C;
-            }
         }
 
         private Card GetCard(CardPrinting printing, string cardTypes, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Bazam.Modules;
 using Melek.DataStore;
@@ -24,7 +25,7 @@ namespace MelekTests
                 LoggingNinja loggingNinja = new LoggingNinja(errorLogFile);
                 Directory.CreateDirectory(_TestStoreDirectory);
 
-                _TestStore = new MelekDataStore(_TestStoreDirectory, false, loggingNinja, true, "iStHEdEVaUTHhAPPENING4621");
+                _TestStore = new MelekDataStore(_TestStoreDirectory, false, loggingNinja, true);
                 _TestStore.CheckForPackageUpdates().Wait();
             }
             catch (Exception ex) {
@@ -73,7 +74,9 @@ namespace MelekTests
         public void SearchByMultipleWorks()
         {
             Card[] results = _TestStore.Search("c:u r:mythic");
-            Assert.Fail("Not implemented yet");
+
+            Assert.IsTrue(results.Length > 0, "A search for blue mythics didn't return any cards.");
+            Assert.IsTrue(results.All(c => c.IsColor(MagicColor.U) && c.Printings.Any(p => p.Rarity == CardRarity.MythicRare)), "A search for blue mythics returned something that wasn't blue or wasn't mythic or both.");
         }
 
         [TestMethod]
@@ -89,6 +92,41 @@ namespace MelekTests
             else if (results[0].Name != "Melek, Izzet Paragon") {
                 Assert.Fail("An exact name search found the wrong card.");
             }
+        }
+
+        [TestMethod]
+        public void SearchByNameWithFunnyCharWorks()
+        {
+            Card[] results = _TestStore.Search("lim-dul the necromancer");
+
+            Assert.IsTrue(results.Length == 1);
+            Assert.IsTrue(results[0].Name == "Lim-Dûl the Necromancer", "Searching a card with funny characters in its name failed. (Expected \"Lim-Dûl the Necromancer\")");
+        }
+
+        [TestMethod]
+        public void SearchByNameWithANormalVersionOfAFunnyChar()
+        {
+            Card[] results = _TestStore.Search("nuckla");
+            Assert.IsTrue(results.Length == 1);
+            Assert.IsTrue(results[0].Name == "Nucklavee", "Searching for a card with a normal version of a funny character (like how \"Nucklavee\" contains \"u\" which is replaced with \"û\" in \"Lim-Dûl the Necromancer\") failed.");
+        }
+
+        [TestMethod]
+        public void SearchByNicknameExactWorks()
+        {
+            Card[] results = _TestStore.Search("sad robot");
+            
+            Assert.IsTrue(results.Length == 1, "Searching for a card by exact nickname returned the wrong number of results (should be 1).");
+            Assert.IsTrue(results[0].Name == "Solemn Simulacrum", "Searching for a card by exact nickname found the wrong card.");
+        }
+
+        [TestMethod]
+        public void SearchByRarityWorks()
+        {
+            Card[] results = _TestStore.Search("r:uncommon");
+
+            Assert.IsTrue(results.Length > 0, "A search by rarity returned no results.");
+            Assert.IsTrue(results.All(c => c.Printings.Any(p => p.Rarity == CardRarity.Uncommon)), "A search by rarity returned a card that doesn't have a printing of appropriate rarity.");
         }
     }
 }

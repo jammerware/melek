@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Bazam.Slugging;
 
 namespace Melek.Models
@@ -60,6 +61,11 @@ namespace Melek.Models
             }
 
             return true;
+        }
+
+        public bool IsMulticolored()
+        {
+            return Regex.IsMatch(Cost.ToString(), @"[BGRUW]\S+[BGRUW]");
         }
     }
 }

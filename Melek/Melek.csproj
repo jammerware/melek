@@ -48,7 +48,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStore\DataStoreSearchArgs.cs" />
+    <Compile Include="DataStore\CardSearchDelegate.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\MagicColor.cs" />
     <Compile Include="Models\CardPrinting.cs" />
@@ -66,6 +66,7 @@
     <Compile Include="Models\Package.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Set.cs" />
+    <Compile Include="Utilities\CardRarityStringConverter.cs" />
     <Compile Include="Utilities\LoggingNinja.cs" />
     <Compile Include="DataStore\PackagesUpdatedEventHandler.cs" />
   </ItemGroup>
