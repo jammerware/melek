@@ -41,20 +41,23 @@ namespace MelekTests
             }
         }
 
-        //[TestMethod]
-        //public void LoadsInActiveMelekFolder()
-        //{
-        //    try {
-        //        Task.Run(async () => {
-        //            MelekDataStore productionStore = new MelekDataStore("C:\\Users\\Jammer\\AppData\\Roaming\\Jammerware.MtGBar", true, _LoggingNinja, true);
-        //            await productionStore.CheckForPackageUpdates();
-        //            await productionStore.ForceLoad();
-        //        }).GetAwaiter().GetResult();
-        //    }
-        //    catch (Exception e) {
-        //        Assert.Fail(e.Message);
-        //    }
-        //}
+        [TestMethod]
+        public void LoadsInActiveMelekFolder()
+        {
+            try {
+                Task.Run(async () => {
+                    string productionPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jammerware.MtGBar.Test");
+                    LoggingNinja productionNinja = new LoggingNinja(Path.Combine(productionPath, "errors.log"));
+                    MelekDataStore productionStore = new MelekDataStore(productionPath, true, productionNinja, true);
+
+                    await productionStore.CheckForPackageUpdates();
+                    await productionStore.ForceLoad();
+                }).GetAwaiter().GetResult();
+            }
+            catch (Exception e) {
+                Assert.Fail(e.Message);
+            }
+        }
 
         [TestMethod]
         public void SearchByColorWorks()
