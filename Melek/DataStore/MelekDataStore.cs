@@ -624,7 +624,7 @@ namespace Melek.DataStore
 
                 if (!string.IsNullOrEmpty(nameTerm)) {
                     Dictionary<string, string> replacementSequences = new Dictionary<string, string>() {
-                        { "a", "æ" },
+                        { "ae", "æ" },
                         { "u", "û" }
                     };
                     nameTermPattern = nameTerm.ToLower().Replace(" ", @"\s");

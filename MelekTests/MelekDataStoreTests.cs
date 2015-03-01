@@ -98,6 +98,15 @@ namespace MelekTests
         }
 
         [TestMethod]
+        public void SearchByNameWithAEWorks()
+        {
+            Card[] results = _TestStore.Search("aetherize");
+
+            Assert.IsTrue(results.Length > 0);
+            Assert.IsTrue(results[0].Name == "Ætherize", "Searching for a card with an Æ in its name failed.");
+        }
+
+        [TestMethod]
         public void SearchByNameWithFunnyCharWorks()
         {
             Card[] results = _TestStore.Search("lim-dul the necromancer");
