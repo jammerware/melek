@@ -131,5 +131,13 @@ namespace MelekTests
             Assert.IsTrue(results.Length > 0, "A search by rarity returned no results.");
             Assert.IsTrue(results.All(c => c.Printings.Any(p => p.Rarity == CardRarity.Uncommon)), "A search by rarity returned a card that doesn't have a printing of appropriate rarity.");
         }
+
+        [TestMethod]
+        public void SearchResultSortWorks()
+        {
+            Card[] results = _TestStore.Search("wort");
+
+            Assert.IsTrue(results.First().Name.StartsWith("Wort"));
+        }
     }
 }
