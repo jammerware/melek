@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Bazam.Modules;
 using Melek.DataStore;
 using Melek.Models;
 using Melek.Utilities;
