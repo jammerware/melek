@@ -41,6 +41,17 @@ namespace MelekTests
         }
 
         [TestMethod]
+        public void GetPromoCardUriWorks()
+        {
+            Uri uri = _TestStore.GetCardImageUri(new CardPrinting() {
+                MultiverseID = "WMCQ_2",
+                Set = new Set() { IsPromo = true }
+            }).GetAwaiter().GetResult();
+
+            Assert.AreEqual(new Uri("http://magiccards.info/scans/en/wmcq/2.jpg").ToString(), uri.ToString());
+        }
+
+        [TestMethod]
         public void LoadsInActiveMelekFolder()
         {
             try {

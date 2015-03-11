@@ -461,41 +461,26 @@ namespace Melek.DataStore
 
         public async Task<Uri> GetCardImageUri(CardPrinting printing)
         {
-            return await ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseID)));
-        }
-
-        public async Task<Uri> GetCardImageUri(Set set, Card card)
-        {
-            CardPrinting activePrinting = null;
-            foreach(CardPrinting printing in card.Printings) {
-                if (printing.Set.Code == set.Code) {
-                    activePrinting = printing;
-                    break;
+            if (!printing.Set.IsPromo) {
+                return await ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseID)));
+            }
+            else {
+                Match match = Regex.Match(printing.MultiverseID, @"([a-zA-Z0-9]+)_([a-zA-Z0-9]+)");
+                if (match != null && match.Groups.Count == 3) {
+                    return await ResolveCardImage(
+                        printing,
+                        new Uri(
+                            string.Format(
+                                "http://magiccards.info/scans/en/{0}/{1}.jpg",
+                                match.Groups[1].Value.ToLower(),
+                                match.Groups[2].Value
+                            )
+                        )
+                    );
                 }
             }
 
-            if (activePrinting != null) {
-                return await ResolveCardImage(
-                    activePrinting,
-                    new Uri(
-                        string.Format(
-                            "http://mtgimage.com/set/{0}/{1}.jpg",
-                            (!string.IsNullOrEmpty(activePrinting.Set.MtgImageName) ? activePrinting.Set.MtgImageName : activePrinting.Set.Code),
-                            card.Name
-                        )
-                    )
-                );
-            }
-
-            throw new InvalidOperationException("Looks like you tried to get an image for a set/card combination that doesn't exist. Try again.");
-        }
-
-        // overload that allows the end developer to request images by card and set. this has to be available
-        // because Melek provides images for promo cards from a mtgimage.com, and the site doesn't seem to have
-        // matching multiverseIDs for promo cards.
-        public async Task<BitmapImage> GetCardImage(Set set, Card card)
-        {
-            return await ImageFromUri(await GetCardImageUri(set, card));
+            return null;
         }
 
         public async Task<BitmapImage> GetCardImage(CardPrinting printing)
