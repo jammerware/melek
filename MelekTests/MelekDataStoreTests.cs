@@ -154,9 +154,9 @@ namespace MelekTests
         [TestMethod]
         public void SearchResultSortWorks()
         {
-            Card[] results = _TestStore.Search("wort");
+            Card[] results = _TestStore.Search("r");
 
-            Assert.IsTrue(results.First().Name.StartsWith("Wort"));
+            Assert.IsTrue(results.First().Name.StartsWith("R"));
         }
     }
 }

@@ -287,6 +287,7 @@ namespace Melek.DataStore
                 }
                 return null;
             });
+
             return image;
         }
 
@@ -461,10 +462,12 @@ namespace Melek.DataStore
 
         public async Task<Uri> GetCardImageUri(CardPrinting printing)
         {
-            if (!printing.Set.IsPromo) {
+            if (Regex.IsMatch(printing.MultiverseID, "[0-9]+")) {
+                // these are typical non-promo cards
                 return await ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseID)));
             }
             else {
+                // promo cards we have to get from magiccards.info
                 Match match = Regex.Match(printing.MultiverseID, @"([a-zA-Z0-9]+)_([a-zA-Z0-9]+)");
                 if (match != null && match.Groups.Count == 3) {
                     return await ResolveCardImage(
@@ -630,9 +633,9 @@ namespace Melek.DataStore
                 }
 
                 return cards
-                    .OrderBy(c => string.IsNullOrEmpty(nameTerm) || Regex.IsMatch(c.Name, nameTermPattern, RegexOptions.IgnoreCase) ? 0 : 1)
+                    .OrderBy(c => string.IsNullOrEmpty(nameTerm) || c.Name.StartsWith(nameTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
+                    .ThenBy(c => string.IsNullOrEmpty(nameTerm) || Regex.IsMatch(c.Name, nameTermPattern, RegexOptions.IgnoreCase) ? 0 : 1)
                     .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)) ? 0 : 1)
-                    .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Name.StartsWith(nameTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
                     .ThenBy(c => c.Name)
                     .ToArray();
             }
