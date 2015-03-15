@@ -53,10 +53,9 @@ namespace Melek.DataStore
             _StorageDirectory = storageDirectory;
 
             if (!Directory.Exists(storageDirectory)) {
-                throw new InvalidOperationException("The storage directory specified for the MelekDataStore doesn't exist. And it probably should.");
+                Directory.CreateDirectory(storageDirectory);
             }
 
-            // as long as the base directory exists, we can assume you know what you're doing... MAYBE
             if (!Directory.Exists(CardImagesDirectory) && storeCardImages) {
                 Directory.CreateDirectory(CardImagesDirectory);
             }
