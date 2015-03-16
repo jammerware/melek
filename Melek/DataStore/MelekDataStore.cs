@@ -568,6 +568,9 @@ namespace Melek.DataStore
                             else if (criteriaOperator == ":") 
                                 criteria.Add((Card card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored())); });
                             break;
+                        case "mid":
+                            criteria.Add((Card card) => { return card.Printings.Any(p => p.MultiverseID.Equals(criteriaValue, StringComparison.InvariantCultureIgnoreCase)); });
+                            break;
                         case "r":
                             CardRarity? rarity = null;
                             switch (criteriaValue) {

@@ -67,5 +67,13 @@ namespace Melek.Models
         {
             return Regex.IsMatch(Cost.ToString(), @"[BGRUW]\S+[BGRUW]");
         }
+
+        public string LastPrintingMultiverseID()
+        {
+            CardPrinting lastPrinting = Printings.LastOrDefault(p => !p.Set.IsPromo);
+            if (lastPrinting == null) Printings.LastOrDefault();
+
+            return lastPrinting.MultiverseID;
+        }
     }
 }

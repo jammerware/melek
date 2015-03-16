@@ -93,6 +93,15 @@ namespace MelekTests
         }
 
         [TestMethod]
+        public void SearchByMultiverseIDWorks()
+        {
+            Card[] results = _TestStore.Search("mid:369062");
+
+            Assert.IsTrue(results.Length == 1, "A search by multiverseID failed.");
+            Assert.IsTrue(results[0].Name == "Melek, Izzet Paragon");
+        }
+
+        [TestMethod]
         public void SearchByNameExactWorks()
         {
             Card[] results = _TestStore.Search("Melek, izzet");
