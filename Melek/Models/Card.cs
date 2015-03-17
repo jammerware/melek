@@ -68,12 +68,16 @@ namespace Melek.Models
             return Regex.IsMatch(Cost.ToString(), @"[BGRUW]\S+[BGRUW]");
         }
 
-        public string LastPrintingMultiverseID()
+        /// <summary>
+        /// Gets the last non-promo printing of this card (or the last printing if there aren't any non-promo ones).
+        /// </summary>
+        /// <returns></returns>
+        public CardPrinting GetLastPrinting()
         {
             CardPrinting lastPrinting = Printings.LastOrDefault(p => !p.Set.IsPromo);
             if (lastPrinting == null) Printings.LastOrDefault();
 
-            return lastPrinting.MultiverseID;
+            return lastPrinting;
         }
     }
 }
