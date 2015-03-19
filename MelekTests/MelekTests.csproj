@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="MelekDataStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CardTests.cs" />
+    <Compile Include="TestUtils\MelekDataStoreTestClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Melek\Melek.csproj">

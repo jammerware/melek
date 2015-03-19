@@ -461,7 +461,7 @@ namespace Melek.DataStore
 
         public async Task<Uri> GetCardImageUri(CardPrinting printing)
         {
-            if (Regex.IsMatch(printing.MultiverseID, "[0-9]+")) {
+            if (Regex.IsMatch(printing.MultiverseID, "^[0-9]+$")) {
                 // these are typical non-promo cards
                 return await ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseID)));
             }

@@ -74,7 +74,7 @@ namespace Melek.Models
         /// <returns></returns>
         public CardPrinting GetLastPrinting()
         {
-            CardPrinting lastPrinting = Printings.LastOrDefault(p => !p.Set.IsPromo);
+            CardPrinting lastPrinting = Printings.OrderByDescending(p => p.Set.Date).FirstOrDefault(p => !p.Set.IsPromo);
             if (lastPrinting == null) Printings.LastOrDefault();
 
             return lastPrinting;

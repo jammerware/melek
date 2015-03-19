@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Melek.DataStore;
 using Melek.Models;
 using Melek.Utilities;
+using MelekTests.TestUtils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MelekTests
@@ -12,38 +13,25 @@ namespace MelekTests
     [TestClass]
     public class MelekDataStoreTests
     {
-        private static MelekDataStore _TestStore;
+        private static MelekDataStoreTestClient _TestClient;
         private static string _TestStoreDirectory = string.Empty;
 
         [ClassInitialize]
         public static void Initialize(TestContext context)
         {
-            try {
-                string _TestStoreDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jammerware.MtGBar.Test");
-                string errorLogFile = Path.Combine(_TestStoreDirectory, "errors.log");
-                LoggingNinja loggingNinja = new LoggingNinja(errorLogFile);
-                Directory.CreateDirectory(_TestStoreDirectory);
-
-                _TestStore = new MelekDataStore(_TestStoreDirectory, false, loggingNinja, true);
-                _TestStore.CheckForPackageUpdates().Wait();
-            }
-            catch (Exception ex) {
-                throw new Exception("The initialization of the test store failed: " + ex.Message);
-            }
+            _TestClient = new MelekDataStoreTestClient();
         }
 
         [ClassCleanup]
         public static void Cleanup()
         {
-            if (Directory.Exists(_TestStoreDirectory)) {
-                Directory.Delete(_TestStoreDirectory, true);
-            }
+            _TestClient.Cleanup();
         }
 
         [TestMethod]
         public void GetPromoCardUriWorks()
         {
-            Uri uri = _TestStore.GetCardImageUri(new CardPrinting() {
+            Uri uri = _TestClient.Store.GetCardImageUri(new CardPrinting() {
                 MultiverseID = "WMCQ_2",
                 Set = new Set() { IsPromo = true }
             }).GetAwaiter().GetResult();
@@ -72,7 +60,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByColorWorks()
         {
-            Card[] results = _TestStore.Search("c:u");
+            Card[] results = _TestClient.Store.Search("c:u");
             if (results.Length == 0) {
                 Assert.Fail("The datastore didn't return any results for a color-based search. There are totally blue cards in magic. Just saying.");
             }
@@ -86,7 +74,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByMultipleWorks()
         {
-            Card[] results = _TestStore.Search("c:u r:mythic");
+            Card[] results = _TestClient.Store.Search("c:u r:mythic");
 
             Assert.IsTrue(results.Length > 0, "A search for blue mythics didn't return any cards.");
             Assert.IsTrue(results.All(c => c.IsColor(MagicColor.U) && c.Printings.Any(p => p.Rarity == CardRarity.MythicRare)), "A search for blue mythics returned something that wasn't blue or wasn't mythic or both.");
@@ -95,7 +83,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByMultiverseIDWorks()
         {
-            Card[] results = _TestStore.Search("mid:369062");
+            Card[] results = _TestClient.Store.Search("mid:369062");
 
             Assert.IsTrue(results.Length == 1, "A search by multiverseID failed.");
             Assert.IsTrue(results[0].Name == "Melek, Izzet Paragon");
@@ -104,7 +92,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByNameExactWorks()
         {
-            Card[] results = _TestStore.Search("Melek, izzet");
+            Card[] results = _TestClient.Store.Search("Melek, izzet");
             if (results.Length > 1) {
                 Assert.Fail("An exact name search returned too many results.");
             }
@@ -119,7 +107,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByNameWithAEWorks()
         {
-            Card[] results = _TestStore.Search("aetherize");
+            Card[] results = _TestClient.Store.Search("aetherize");
 
             Assert.IsTrue(results.Length > 0);
             Assert.IsTrue(results[0].Name == "Ætherize", "Searching for a card with an Æ in its name failed.");
@@ -128,7 +116,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByNameWithFunnyCharWorks()
         {
-            Card[] results = _TestStore.Search("lim-dul the necromancer");
+            Card[] results = _TestClient.Store.Search("lim-dul the necromancer");
 
             Assert.IsTrue(results.Length == 1);
             Assert.IsTrue(results[0].Name == "Lim-Dûl the Necromancer", "Searching a card with funny characters in its name failed. (Expected \"Lim-Dûl the Necromancer\")");
@@ -137,7 +125,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByNameWithANormalVersionOfAFunnyChar()
         {
-            Card[] results = _TestStore.Search("nuckla");
+            Card[] results = _TestClient.Store.Search("nuckla");
             Assert.IsTrue(results.Length == 1);
             Assert.IsTrue(results[0].Name == "Nucklavee", "Searching for a card with a normal version of a funny character (like how \"Nucklavee\" contains \"u\" which is replaced with \"û\" in \"Lim-Dûl the Necromancer\") failed.");
         }
@@ -145,7 +133,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByNicknameExactWorks()
         {
-            Card[] results = _TestStore.Search("sad robot");
+            Card[] results = _TestClient.Store.Search("sad robot");
             
             Assert.IsTrue(results.Length == 1, "Searching for a card by exact nickname returned the wrong number of results (should be 1).");
             Assert.IsTrue(results[0].Name == "Solemn Simulacrum", "Searching for a card by exact nickname found the wrong card.");
@@ -154,7 +142,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchByRarityWorks()
         {
-            Card[] results = _TestStore.Search("r:uncommon");
+            Card[] results = _TestClient.Store.Search("r:uncommon");
 
             Assert.IsTrue(results.Length > 0, "A search by rarity returned no results.");
             Assert.IsTrue(results.All(c => c.Printings.Any(p => p.Rarity == CardRarity.Uncommon)), "A search by rarity returned a card that doesn't have a printing of appropriate rarity.");
@@ -163,7 +151,7 @@ namespace MelekTests
         [TestMethod]
         public void SearchResultSortWorks()
         {
-            Card[] results = _TestStore.Search("r");
+            Card[] results = _TestClient.Store.Search("r");
 
             Assert.IsTrue(results.First().Name.StartsWith("R"));
         }
