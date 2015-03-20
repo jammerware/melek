@@ -580,9 +580,9 @@ namespace Melek.DataStore
                             }                            
 
                             if (criteriaOperator == "!")
-                                criteria.Add((Card card) => { return card.IsColors(colors) && (!requireMulticolored || card.IsMulticolored()); });
+                                criteria.Add((Card card) => { return card.IsColors(colors) && (!requireMulticolored || card.IsMulticolored); });
                             else if (criteriaOperator == ":") 
-                                criteria.Add((Card card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored())); });
+                                criteria.Add((Card card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored)); });
                             break;
                         case "mid":
                             criteria.Add((Card card) => { return card.Printings.Any(p => p.MultiverseID.Equals(criteriaValue, StringComparison.InvariantCultureIgnoreCase)); });

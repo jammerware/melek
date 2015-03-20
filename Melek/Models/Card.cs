@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Bazam.Modules;
 using Bazam.Slugging;
 
 namespace Melek.Models
@@ -13,8 +14,10 @@ namespace Melek.Models
             CardCostType.X
         };
 
+        public bool IsColorless { get; private set; }
+        public bool IsMulticolored { get; private set; }
         public CardType[] CardTypes { get; set; }
-        public CardCostCollection Cost { get; set; }
+        public MagicColor[] Colors { get; set; }
         public Format[] LegalFormats { get; set; }
         public string Name { get; set; }
         public string[] Nicknames { get; set; }
@@ -25,6 +28,18 @@ namespace Melek.Models
         public int? Toughness { get; set; }
         public string Tribe { get; set; }
         public string Watermark { get; set; }
+
+        // need to listen for Cost getting set to compute color identity
+        private CardCostCollection _Cost = null;
+        public CardCostCollection Cost 
+        {
+            get { return _Cost; }
+            set
+            {
+                _Cost = value;
+                ComputeColorProperties();
+            }
+        }
 
         public Card()
         {
@@ -48,7 +63,7 @@ namespace Melek.Models
             if(color == MagicColor.COLORLESS) {
                 return Cost.Count == 0 || Cost.All(cost => COLORLESS_COSTS.Contains(cost.Type));
             }
-            return Cost.ToString().Contains(color.ToString());
+            return Colors.Contains(color);
         }
 
         public bool IsColors(IEnumerable<MagicColor> colors)
@@ -67,11 +82,6 @@ namespace Melek.Models
             return true;
         }
 
-        public bool IsMulticolored()
-        {
-            return Regex.IsMatch(Cost.ToString(), @"[BGRUW]\S+[BGRUW]");
-        }
-
         /// <summary>
         /// Gets the last non-promo printing of this card (or the last printing if there aren't any non-promo ones).
         /// </summary>
@@ -83,5 +93,33 @@ namespace Melek.Models
 
             return lastPrinting;
         }
+
+        #region internal utility
+        private void ComputeColorProperties()
+        {
+            if (Cost != null) {
+                string cost = Cost.ToString();
+                List<MagicColor> colors = new List<MagicColor>();
+
+                foreach(Match match in Regex.Matches(cost, @"\{(?<Color>[WUBRG])\}")) {
+                    MagicColor color = (EnuMaster.Parse<MagicColor>(match.Groups["Color"].Value));
+                    if (!colors.Contains(color)) {
+                        colors.Add(color);
+                    }
+                }
+
+                if (colors.Count == 0) { this.Colors = new MagicColor[] { MagicColor.COLORLESS }; }
+                else { this.Colors = colors.ToArray(); }
+
+                IsColorless = (Colors.Length == 1 && Colors[0] == MagicColor.COLORLESS);
+                IsMulticolored = Colors.Length > 1;
+            }
+            else {
+                IsColorless = false;
+                IsMulticolored = false;
+                Colors = new MagicColor[] { };
+            }
+        }
+        #endregion
     }
 }
