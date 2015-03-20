@@ -186,6 +186,14 @@ namespace Melek.DataStore
                         card.LegalFormats = legalFormats.ToArray();
                     }
 
+                    if (cardElement.Element("rulings") != null) {
+                        List<Ruling> rulings = new List<Ruling>();
+                        foreach (XElement rulingElement in cardElement.Element("rulings").Elements("ruling")) {
+                            rulings.Add(new Ruling() { Date = XMLPal.GetDate(rulingElement.Attribute("date")), Text = XMLPal.GetString(rulingElement.Attribute("text")) });
+                        }
+                        card.Rulings = rulings.ToArray();
+                    }
+
                     Card existingCard = cards.Where(c => c.Name == card.Name).FirstOrDefault();
                     if (existingCard == null) {
                         cards.Add(card);

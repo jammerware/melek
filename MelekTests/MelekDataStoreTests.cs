@@ -58,6 +58,15 @@ namespace MelekTests
         }
 
         [TestMethod]
+        public void RulingsAreLoading()
+        {
+            Card sledge = _TestClient.Store.Search("Behemoth Sledge").FirstOrDefault();
+
+            Assert.IsTrue(sledge.Rulings.Count() > 0);
+        }
+
+
+        [TestMethod]
         public void SearchByColorWorks()
         {
             Card[] results = _TestClient.Store.Search("c:u");

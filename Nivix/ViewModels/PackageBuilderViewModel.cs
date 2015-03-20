@@ -239,8 +239,9 @@ namespace Nivix.ViewModels
                     string name = XMLPal.GetString(cardData.Element("name"));
                     string sluggedName = Slugger.Slugify(name);
                     string setCode = cardData.Element("set").Value;
-                    List<Format> legalFormats = new List<Format>();
 
+                    // format legalities
+                    List<Format> legalFormats = new List<Format>();
                     if (XMLPal.GetString(cardData.Element("legality_Standard")) == "v") {
                         legalFormats.Add(Format.Standard);
                     }
@@ -255,11 +256,35 @@ namespace Nivix.ViewModels
                     }
 
                     // if the value is "g", the card can be played in EDH but not as commander
+                    // Commander AND CommanderGeneral means the card can be both a commander and a general
+                    // GetCard() takes out CommanderGeneral if the card isn't a legendary creature
                     string commanderLegalityValue = XMLPal.GetString(cardData.Element("legality_Commander"));
                     if (commanderLegalityValue == "g" || commanderLegalityValue == "v") {
                         legalFormats.Add(Format.Commander);
                         if (commanderLegalityValue == "v") {
                             legalFormats.Add(Format.CommanderGeneral);
+                        }
+                    }
+
+                    // rulings
+                    string rulingsData = XMLPal.GetString(cardData.Element("ruling"));
+                    List<Ruling> rulings = new List<Ruling>();
+                    if (!string.IsNullOrEmpty(rulingsData)) {
+                        foreach (string rulingData in rulingsData.Split(new string[] { "\\n" }, StringSplitOptions.RemoveEmptyEntries)) {
+                            Match match = Regex.Match(rulingData, @"(?<date>[0-9/]+)\s?:\s?(?<text>.+)$");
+
+                            string dateText = match.Groups["date"].Value;
+                            DateTime parseResult = DateTime.MinValue;
+                            DateTime? finalDate = null;
+
+                            if (DateTime.TryParse(dateText, out parseResult)) {
+                                finalDate = parseResult;
+                            }
+
+                            rulings.Add(new Ruling() {
+                                Date = finalDate,
+                                Text = match.Groups["text"].Value
+                            });
                         }
                     }
                     
@@ -325,7 +350,7 @@ namespace Nivix.ViewModels
                         }
 
                         if (!name.Contains("//")) {
-                            Card card = GetCard(printing, types, cost, name, power, text, toughness, tribe, watermark, sets, legalFormats);
+                            Card card = GetCard(printing, types, cost, name, power, text, toughness, tribe, watermark, sets, legalFormats, rulings);
                             card.Nicknames = nicknames;
                             cards.Add(Slugger.Slugify(name), card);
                         }
@@ -351,8 +376,8 @@ namespace Nivix.ViewModels
                             string turnsWatermark = GetSplitCardValue(watermark, true);
                             string burnsWatermark = GetSplitCardValue(watermark, false);
 
-                            Card turn = GetCard(printing, turnsTypes, turnsCost, turnsName, turnsPower, turnsText, turnsToughness, turnsTribe, turnsWatermark, sets, legalFormats);
-                            Card burn = GetCard(printing, burnsTypes, burnsCost, burnsName, burnsPower, burnsText, burnsToughness, burnsTribe, burnsWatermark, sets, legalFormats);
+                            Card turn = GetCard(printing, turnsTypes, turnsCost, turnsName, turnsPower, turnsText, turnsToughness, turnsTribe, turnsWatermark, sets, legalFormats, rulings);
+                            Card burn = GetCard(printing, burnsTypes, burnsCost, burnsName, burnsPower, burnsText, burnsToughness, burnsTribe, burnsWatermark, sets, legalFormats, rulings);
 
                             turn.Nicknames = nicknames;
                             burn.Nicknames = nicknames;
@@ -390,6 +415,17 @@ namespace Nivix.ViewModels
                         legalFormats.Add(new XElement("format", new XAttribute("name", format.ToString())));
                     }
 
+                    List<XElement> rulings = new List<XElement>();
+                    foreach (Ruling ruling in card.Rulings) {
+                        rulings.Add(
+                            new XElement(
+                                "ruling",
+                                (ruling.Date != null ? new XAttribute("date", ruling.Date.Value.ToShortDateString()) : null), 
+                                new XAttribute("text", ruling.Text)
+                            )
+                        );
+                    }
+
                     List<XElement> cardNicknamesElement = new List<XElement>();
                     foreach (string nickname in card.Nicknames) {
                         cardNicknamesElement.Add(new XElement("nickname", nickname));
@@ -408,6 +444,7 @@ namespace Nivix.ViewModels
                         new XElement("types", cardTypes),
                         new XElement("appearances", cardPrintings),
                         (legalFormats.Count > 0 ? new XElement("legalFormats", legalFormats) : null),
+                        (rulings.Count > 0 ? new XElement("rulings", rulings) : null),
                         (cardNicknamesElement.Count() > 0 ? new XElement("nicknames", cardNicknamesElement) : null)
                     );
 
@@ -470,7 +507,7 @@ namespace Nivix.ViewModels
             return input.Trim();
         }
 
-        private CardType[] GetCardTypes(string input)
+        private List<CardType> GetCardTypes(string input)
         {
             List<CardType> retVal = new List<CardType>();
             input = input.ToUpper();
@@ -500,7 +537,7 @@ namespace Nivix.ViewModels
                 }
             }
 
-            return retVal.ToArray();
+            return retVal;
         }
 
         private DateTime? GetSetDate(string input)
@@ -524,7 +561,7 @@ namespace Nivix.ViewModels
             return retVal;
         }
 
-        private Card GetCard(CardPrinting printing, string cardTypes, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary, List<Format> legalFormats)
+        private Card GetCard(CardPrinting printing, string cardTypesData, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary, List<Format> legalFormats, List<Ruling> rulings)
         {
             int dummyForOutParams = 0;
 
@@ -534,8 +571,14 @@ namespace Nivix.ViewModels
             // ... GOD. Just replace them with the normal hyphen sign, which was good enough for our parents.
             text = text.Replace((char)SOFT_HYPHEN_CODE, '-');
 
+            // if the card isn't a legendary creature, it's not legal as a general in commander
+            List<CardType> cardTypes = GetCardTypes(cardTypesData);
+            if(legalFormats.Contains(Format.CommanderGeneral) && !(cardTypes.Contains(CardType.LEGENDARY) && cardTypes.Contains(CardType.CREATURE))) {
+                legalFormats.Remove(Format.CommanderGeneral);
+            }
+
             return new Card() {
-                CardTypes = GetCardTypes(cardTypes),
+                CardTypes = cardTypes.ToArray(),
                 Cost = (!string.IsNullOrEmpty(cost) ? new CardCostCollection(cost) : null),
                 LegalFormats = legalFormats.ToArray(),
                 Name = name,
@@ -543,6 +586,7 @@ namespace Nivix.ViewModels
                 Printings = new List<CardPrinting>() { 
                     printing
                 },
+                Rulings = rulings.ToArray(),
                 Text = text,
                 Toughness = (Int32.TryParse(toughness, out dummyForOutParams) ? (int?)Int32.Parse(toughness) : null),
                 Tribe = GetCardTribe(tribeData),

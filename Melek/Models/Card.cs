@@ -20,6 +20,7 @@ namespace Melek.Models
         public string[] Nicknames { get; set; }
         public int? Power { get; set; }
         public List<CardPrinting> Printings { get; set; }
+        public Ruling[] Rulings { get; set; }
         public string Text { get; set; }
         public int? Toughness { get; set; }
         public string Tribe { get; set; }
@@ -27,7 +28,9 @@ namespace Melek.Models
 
         public Card()
         {
+            LegalFormats = new Format[] { };
             Printings = new List<CardPrinting>();
+            Rulings = new Ruling[] { };
         }
 
         protected override string SlugBase()
