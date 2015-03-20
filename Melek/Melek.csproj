@@ -38,6 +38,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -70,6 +71,14 @@
     <Compile Include="Utilities\CardRarityStringConverter.cs" />
     <Compile Include="Utilities\LoggingNinja.cs" />
     <Compile Include="DataStore\PackagesUpdatedEventHandler.cs" />
+    <Compile Include="Vendors\AmazonClient.cs" />
+    <Compile Include="Vendors\ChannelFireballClient.cs" />
+    <Compile Include="Vendors\GathererClient.cs" />
+    <Compile Include="Vendors\InfoClient.cs" />
+    <Compile Include="Vendors\MagicCardsInfoClient.cs" />
+    <Compile Include="Vendors\MtgoTradersClient.cs" />
+    <Compile Include="Vendors\TcgPlayerClient.cs" />
+    <Compile Include="Vendors\VendorClient.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

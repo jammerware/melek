@@ -503,8 +503,9 @@ namespace Nivix.ViewModels
         {
             if (input.IndexOf('—') >= 0) {
                 input = input.Substring(input.IndexOf('—') + 1);
+                return input.Trim();
             }
-            return input.Trim();
+            return string.Empty;
         }
 
         private List<CardType> GetCardTypes(string input)
