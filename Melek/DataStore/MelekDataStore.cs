@@ -178,6 +178,14 @@ namespace Melek.DataStore
                         Watermark = XMLPal.GetString(cardElement.Attribute("watermark"))
                     };
 
+                    if (cardElement.Element("legalFormats") != null) {
+                        List<Format> legalFormats = new List<Format>();
+                        foreach (XElement formatElement in cardElement.Element("legalFormats").Elements("format")) {
+                            legalFormats.Add(EnuMaster.Parse<Format>(formatElement.Attribute("name").Value));
+                        }
+                        card.LegalFormats = legalFormats.ToArray();
+                    }
+
                     Card existingCard = cards.Where(c => c.Name == card.Name).FirstOrDefault();
                     if (existingCard == null) {
                         cards.Add(card);

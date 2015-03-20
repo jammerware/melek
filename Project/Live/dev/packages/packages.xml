@@ -1,8 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <packages>
-  <package id="core" name="Core (through Khans of Tarkir)" cardsReleased="2014-11-07T00:00:00" dataUpdated="2015-01-20T15:48:00" />
-  <package id="frf" name="Fate Reforged" cardsReleased="2015-01-23T00:00:00" dataUpdated="2015-01-14T09:07:00" />
-  <package id="frf_ugin" name="Fate Reforged - Ugin's Fate Promos" cardsReleased="2015-01-23T00:00:00" dataUpdated="2015-02-17T12:33:29.2081495-06:00" />
-  <package id="ddo" name="Duel Decks: Kiora vs. Elspeth" cardsReleased="2015-02-27T00:00:00" dataUpdated="2015-02-28T17:17:15.7747912-06:00" />
-  <package id="dtk" name="Dragons of Tarkir" cardsReleased="2015-03-18T00:00:00" dataUpdated="2015-03-18T17:42:10.780911-05:00" />
+  <package id="core" name="Core (through Dragons of Tarkir)" cardsReleased="2015-03-27T00:00:00" dataUpdated="2015-03-19T21:40:20.3215459-05:00" />
 </packages>

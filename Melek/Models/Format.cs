@@ -2,14 +2,15 @@
 {
     public enum Format
     {
-        ARCHENEMY,
-        BLOCK,
-        COMMANDER,
-        CONSPIRACY,
-        LEGACY,
-        MODERN,
-        PLANECHASE,
-        STANDARD,
-        VINTAGE
+        Archenemy,
+        Block,
+        Commander,
+        CommanderGeneral,
+        Conspiracy,
+        Legacy,
+        Modern,
+        Planechase,
+        Standard,
+        Vintage
     }
 }

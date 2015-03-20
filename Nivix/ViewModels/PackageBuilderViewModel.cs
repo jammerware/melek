@@ -47,6 +47,14 @@ namespace Nivix.ViewModels
         private string _SourceDatabasePath;
         #endregion
 
+        #region Constructor
+        public PackageBuilderViewModel()
+        {
+            OutputPath = @"E:\Dev\Melek\Project\Live";
+            SourceDatabasePath = @"E:\Dev\Melek\Nivix\Data\core.xml";
+        }
+        #endregion
+
         #region Properties
         public DateTime? CardReleaseDate
         {
@@ -231,7 +239,30 @@ namespace Nivix.ViewModels
                     string name = XMLPal.GetString(cardData.Element("name"));
                     string sluggedName = Slugger.Slugify(name);
                     string setCode = cardData.Element("set").Value;
+                    List<Format> legalFormats = new List<Format>();
 
+                    if (XMLPal.GetString(cardData.Element("legality_Standard")) == "v") {
+                        legalFormats.Add(Format.Standard);
+                    }
+                    if (XMLPal.GetString(cardData.Element("legality_Modern")) == "v") {
+                        legalFormats.Add(Format.Modern);
+                    }
+                    if (XMLPal.GetString(cardData.Element("legality_Legacy")) == "v") {
+                        legalFormats.Add(Format.Legacy);
+                    }
+                    if (XMLPal.GetString(cardData.Element("legality_Vintage")) == "v") {
+                        legalFormats.Add(Format.Vintage);
+                    }
+
+                    // if the value is "g", the card can be played in EDH but not as commander
+                    string commanderLegalityValue = XMLPal.GetString(cardData.Element("legality_Commander"));
+                    if (commanderLegalityValue == "g" || commanderLegalityValue == "v") {
+                        legalFormats.Add(Format.Commander);
+                        if (commanderLegalityValue == "v") {
+                            legalFormats.Add(Format.CommanderGeneral);
+                        }
+                    }
+                    
                     string realCode = GetRealSetCodeFromFakeSetCode(setDataDeserialized, setCode);
                     if (!string.IsNullOrEmpty(realCode)) {
                         setCode = realCode;
@@ -243,11 +274,14 @@ namespace Nivix.ViewModels
                     }
 
                     // create the printing, we'll need it no matter what
+                    string rarityData = XMLPal.GetString(cardData.Element("rarity"));
+                    if (string.IsNullOrEmpty(rarityData)) rarityData = "C";
+                    else { rarityData = rarityData.Substring(0, 1); }
                     CardPrinting printing = new CardPrinting() {
                         Artist = XMLPal.GetString(cardData.Element("artist")),
                         FlavorText = XMLPal.GetString(cardData.Element("flavor")),
                         MultiverseID = XMLPal.GetString(cardData.Element("id")),
-                        Rarity = StringToCardRarityConverter.GetRarity(XMLPal.GetString(cardData.Element("rarity"))),
+                        Rarity = StringToCardRarityConverter.GetRarity(rarityData),
                         Set = sets[setCode],
                         TransformsToMultiverseID = XMLPal.GetString(cardData.Element("back_id"))
                     };
@@ -291,7 +325,7 @@ namespace Nivix.ViewModels
                         }
 
                         if (!name.Contains("//")) {
-                            Card card = GetCard(printing, types, cost, name, power, text, toughness, tribe, watermark, sets);
+                            Card card = GetCard(printing, types, cost, name, power, text, toughness, tribe, watermark, sets, legalFormats);
                             card.Nicknames = nicknames;
                             cards.Add(Slugger.Slugify(name), card);
                         }
@@ -317,8 +351,8 @@ namespace Nivix.ViewModels
                             string turnsWatermark = GetSplitCardValue(watermark, true);
                             string burnsWatermark = GetSplitCardValue(watermark, false);
 
-                            Card turn = GetCard(printing, turnsTypes, turnsCost, turnsName, turnsPower, turnsText, turnsToughness, turnsTribe, turnsWatermark, sets);
-                            Card burn = GetCard(printing, burnsTypes, burnsCost, burnsName, burnsPower, burnsText, burnsToughness, burnsTribe, burnsWatermark, sets);
+                            Card turn = GetCard(printing, turnsTypes, turnsCost, turnsName, turnsPower, turnsText, turnsToughness, turnsTribe, turnsWatermark, sets, legalFormats);
+                            Card burn = GetCard(printing, burnsTypes, burnsCost, burnsName, burnsPower, burnsText, burnsToughness, burnsTribe, burnsWatermark, sets, legalFormats);
 
                             turn.Nicknames = nicknames;
                             burn.Nicknames = nicknames;
@@ -351,6 +385,11 @@ namespace Nivix.ViewModels
                         );
                     }
 
+                    List<XElement> legalFormats = new List<XElement>();
+                    foreach (Format format in card.LegalFormats) {
+                        legalFormats.Add(new XElement("format", new XAttribute("name", format.ToString())));
+                    }
+
                     List<XElement> cardNicknamesElement = new List<XElement>();
                     foreach (string nickname in card.Nicknames) {
                         cardNicknamesElement.Add(new XElement("nickname", nickname));
@@ -368,6 +407,7 @@ namespace Nivix.ViewModels
                         (!string.IsNullOrEmpty(card.Watermark) ? new XAttribute("watermark", card.Watermark) : null),
                         new XElement("types", cardTypes),
                         new XElement("appearances", cardPrintings),
+                        (legalFormats.Count > 0 ? new XElement("legalFormats", legalFormats) : null),
                         (cardNicknamesElement.Count() > 0 ? new XElement("nicknames", cardNicknamesElement) : null)
                     );
 
@@ -484,7 +524,7 @@ namespace Nivix.ViewModels
             return retVal;
         }
 
-        private Card GetCard(CardPrinting printing, string cardTypes, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary)
+        private Card GetCard(CardPrinting printing, string cardTypes, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary, List<Format> legalFormats)
         {
             int dummyForOutParams = 0;
 
@@ -497,6 +537,7 @@ namespace Nivix.ViewModels
             return new Card() {
                 CardTypes = GetCardTypes(cardTypes),
                 Cost = (!string.IsNullOrEmpty(cost) ? new CardCostCollection(cost) : null),
+                LegalFormats = legalFormats.ToArray(),
                 Name = name,
                 Power = (Int32.TryParse(power, out dummyForOutParams) ? (int?)Int32.Parse(power) : null),
                 Printings = new List<CardPrinting>() { 
