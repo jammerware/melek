@@ -28,6 +28,15 @@ namespace MelekTests
         }
 
         [TestMethod]
+        public void GetLastPrintingPromoOnly()
+        {
+            Card card = _TestClient.Store.Search("Sakashima's Student").First();
+            CardPrinting printing = card.GetLastPrinting();
+
+            Assert.IsNotNull(printing);
+        }
+
+        [TestMethod]
         public void IsColorWorks()
         {
             Card card = _TestClient.Store.Search("Niv-Mizzet, Dracogenius").First();
