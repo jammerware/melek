@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Melek.DataStore;
 using Melek.Models;
 using Melek.Utilities;
-using MelekTests.TestUtils;
+using Melek.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MelekTests

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Melek.DataStore;
 using Melek.Utilities;
 
-namespace MelekTests.TestUtils
+namespace Melek.Tests.Utils
 {
     public class MelekDataStoreTestClient
     {

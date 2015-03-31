@@ -2,10 +2,10 @@
 using System.Linq;
 using Melek.DataStore;
 using Melek.Models;
-using MelekTests.TestUtils;
+using Melek.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MelekTests
+namespace Melek.Tests
 {
     [TestClass]
     public class CardTests
