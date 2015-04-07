@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Xml.Linq;
 using Bazam.APIs.SharpZipLib;
 using Bazam.Modules;
+using Bazam.Modules.Enumerations;
 using Bazam.Slugging;
 using BazamWPF.ViewModels;
 using FirstFloor.ModernUI.Presentation;
@@ -210,7 +211,6 @@ namespace Nivix.ViewModels
                         SetData thisSetData = setData[set.Code];
 
                         set.CFName = thisSetData.CfName;
-                        set.MtgImageName = thisSetData.MtgImageCode;
                         set.TCGPlayerName = thisSetData.TcgPlayerName;
                     }
 
@@ -223,7 +223,6 @@ namespace Nivix.ViewModels
                                 new XAttribute("code", set.Code),
                                 (string.IsNullOrEmpty(set.CFName) ? null : new XAttribute("cfName", set.CFName)),
                                 new XAttribute("isPromo", set.IsPromo),
-                                (string.IsNullOrEmpty(set.MtgImageName) ? null : new XAttribute("mtgImageName", set.MtgImageName)),
                                 (string.IsNullOrEmpty(set.TCGPlayerName) ? null : new XAttribute("tcgPlayerName", set.TCGPlayerName)),
                                 (set.Date == null ? null : new XAttribute("date", set.Date))
                             )

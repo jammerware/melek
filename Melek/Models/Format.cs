@@ -4,13 +4,13 @@
     {
         Archenemy,
         Block,
-        Commander,
+        Commander = 5,
         CommanderGeneral,
         Conspiracy,
-        Legacy,
-        Modern,
+        Legacy = 3,
+        Modern = 2,
         Planechase,
-        Standard,
-        Vintage
+        Standard = 1,
+        Vintage = 4
     }
 }

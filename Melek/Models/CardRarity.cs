@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Melek.Models
+﻿namespace Melek.Models
 {
     public enum CardRarity
     {
-        Common,
-        Uncommon,
-        Rare,
-        MythicRare
+        Common = 1,
+        Uncommon = 2,
+        Rare = 3,
+        MythicRare = 4
     }
 }

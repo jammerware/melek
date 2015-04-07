@@ -8,7 +8,6 @@ namespace Melek.Models
         public string Code { get; set; }
         public DateTime? Date { get; set; }
         public bool IsPromo { get; set; }
-        public string MtgImageName { get; set; }
         public string Name { get; set; }
         public string TCGPlayerName { get; set; }
     }

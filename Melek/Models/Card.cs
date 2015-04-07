@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Bazam.Modules;
+using Bazam.Modules.Enumerations;
 using Bazam.Slugging;
 
 namespace Melek.Models

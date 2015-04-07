@@ -1,0 +1,16 @@
+﻿IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Sets') BEGIN;
+	DROP TABLE [Sets];
+END;
+GO
+
+CREATE TABLE [dbo].[Sets]
+(
+	[SetId] INT NOT NULL PRIMARY KEY,
+	[Name] VARCHAR(500) NOT NULL,
+	[Code] VARCHAR(10) NOT NULL,
+	[IsPromo] BIT DEFAULT(0) NOT NULL,
+	[ReleaseDate] DATETIME NOT NULL,
+	[ChannelFireballName] varchar(500),
+	[TCGPlayerName] varchar(500)
+);
+GO

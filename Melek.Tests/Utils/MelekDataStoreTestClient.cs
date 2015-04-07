@@ -17,12 +17,12 @@ namespace Melek.Tests.Utils
         public MelekDataStoreTestClient()
         {
             try {
-                string _TestStoreDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jammerware.MtGBar.Test");
-                string errorLogFile = Path.Combine(_TestStoreDirectory, "errors.log");
+                _TestDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jammerware.MtGBar.Test");
+                string errorLogFile = Path.Combine(_TestDirectory, "errors.log");
                 LoggingNinja loggingNinja = new LoggingNinja(errorLogFile);
-                Directory.CreateDirectory(_TestStoreDirectory);
+                Directory.CreateDirectory(_TestDirectory);
 
-                Store = new MelekDataStore(_TestStoreDirectory, false, loggingNinja, true);
+                Store = new MelekDataStore(_TestDirectory, false, loggingNinja, true);
                 Store.CheckForPackageUpdates().Wait();
             }
             catch (Exception ex) {

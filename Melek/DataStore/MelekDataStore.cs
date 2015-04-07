@@ -10,6 +10,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Bazam.APIs.SharpZipLib;
 using Bazam.Modules;
+using Bazam.Modules.Enumerations;
 using Bazam.Slugging;
 using Melek.Models;
 using Melek.Models.Helpers;
@@ -121,7 +122,6 @@ namespace Melek.DataStore
                         CFName = XMLPal.GetString(setElement.Attribute("cfName")),
                         Date = XMLPal.GetDate(setElement.Attribute("date")),
                         IsPromo = (setElement.Attribute("isPromo") != null ? XMLPal.GetBool(setElement.Attribute("isPromo")) : false),
-                        MtgImageName = (setElement.Attribute("mtgImageName") != null ? XMLPal.GetString(setElement.Attribute("mtgImageName")) : string.Empty),
                         Name = XMLPal.GetString(setElement.Attribute("name")),
                         TCGPlayerName = XMLPal.GetString(setElement.Attribute("tcgPlayerName"))
                     };

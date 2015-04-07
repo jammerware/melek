@@ -1,4 +1,4 @@
-﻿using Bazam.Modules;
+﻿using Bazam.Modules.Enumerations;
 using Melek.Models;
 
 namespace Melek.Utilities
