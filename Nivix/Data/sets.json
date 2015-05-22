@@ -4,7 +4,6 @@
       "CfName": "",
       "Code": "15A",
       "GathererCode": "",
-      "MtgImageCode": "p15A",
       "Name": "15th Anniversary",
       "TcgPlayerName": ""
     },
@@ -12,7 +11,6 @@
       "CfName": "",
       "Code": "4ED",
       "GathererCode": "4E",
-      "MtgImageCode": "",
       "Name": "4th Edition",
       "TcgPlayerName": ""
     },
@@ -20,7 +18,6 @@
       "CfName": "",
       "Code": "5ED",
       "GathererCode": "5E",
-      "MtgImageCode": "",
       "Name": "5th Edition",
       "TcgPlayerName": ""
     },
@@ -28,7 +25,6 @@
       "CfName": "",
       "Code": "6ED",
       "GathererCode": "6E",
-      "MtgImageCode": "",
       "Name": "6th Edition",
       "TcgPlayerName": ""
     },
@@ -36,7 +32,6 @@
       "CfName": "",
       "Code": "7ED",
       "GathererCode": "7E",
-      "MtgImageCode": "",
       "Name": "7th Edition",
       "TcgPlayerName": ""
     },
@@ -44,7 +39,6 @@
       "CfName": "",
       "Code": "8ED",
       "GathererCode": "8E",
-      "MtgImageCode": "",
       "Name": "8th Edition",
       "TcgPlayerName": ""
     },
@@ -52,7 +46,6 @@
       "CfName": "",
       "Code": "9ED",
       "GathererCode": "9E",
-      "MtgImageCode": "",
       "Name": "9th Edition",
       "TcgPlayerName": ""
     },
@@ -60,7 +53,6 @@
       "CfName": "",
       "Code": "ALL",
       "GathererCode": "AL",
-      "MtgImageCode": "",
       "Name": "Alliances",
       "TcgPlayerName": ""
     },
@@ -68,7 +60,6 @@
       "CfName": "",
       "Code": "ATQ",
       "GathererCode": "AQ",
-      "MtgImageCode": "",
       "Name": "Antiquities",
       "TcgPlayerName": ""
     },
@@ -76,7 +67,6 @@
       "CfName": "",
       "Code": "APC",
       "GathererCode": "AP",
-      "MtgImageCode": "",
       "Name": "Apocalypse",
       "TcgPlayerName": ""
     },
@@ -84,7 +74,6 @@
       "CfName": "",
       "Code": "ARN",
       "GathererCode": "AN",
-      "MtgImageCode": "",
       "Name": "Arabian Nights",
       "TcgPlayerName": ""
     },
@@ -92,7 +81,6 @@
       "CfName": "",
       "Code": "ARE",
       "GathererCode": "",
-      "MtgImageCode": "pARL",
       "Name": "Arena League",
       "TcgPlayerName": ""
     },
@@ -100,7 +88,6 @@
       "CfName": "",
       "Code": "ALP",
       "GathererCode": "APAC",
-      "MtgImageCode": "pALP",
       "Name": "Asia-Pacific Land Program",
       "TcgPlayerName": ""
     },
@@ -108,7 +95,6 @@
       "CfName": "",
       "Code": "BRB",
       "GathererCode": "BR",
-      "MtgImageCode": "",
       "Name": "Battle Royale Box Set",
       "TcgPlayerName": ""
     },
@@ -116,7 +102,6 @@
       "CfName": "",
       "Code": "BTD",
       "GathererCode": "BD",
-      "MtgImageCode": "",
       "Name": "Beatdown Box Set",
       "TcgPlayerName": ""
     },
@@ -124,7 +109,6 @@
       "CfName": "Betrayers",
       "Code": "BOK",
       "GathererCode": "",
-      "MtgImageCode": "",
       "Name": "Betrayers of Kamigawa",
       "TcgPlayerName": ""
     },
@@ -132,7 +116,6 @@
       "CfName": "",
       "Code": "CEL",
       "GathererCode": "CC",
-      "MtgImageCode": "pCEL",
       "Name": "Celebration Cards",
       "TcgPlayerName": ""
     },
@@ -140,7 +123,6 @@
       "CfName": "Champions",
       "Code": "COK",
       "GathererCode": "",
-      "MtgImageCode": "",
       "Name": "Champions of Kamigawa",
       "TcgPlayerName": ""
     },
@@ -148,7 +130,6 @@
       "CfName": "",
       "Code": "CHA",
       "GathererCode": "",
-      "MtgImageCode": "pCMP",
       "Name": "Champs and States",
       "TcgPlayerName": ""
     },
@@ -156,7 +137,6 @@
       "CfName": "",
       "Code": "CHR",
       "GathererCode": "CH",
-      "MtgImageCode": "",
       "Name": "Chronicles",
       "TcgPlayerName": ""
     },
@@ -164,7 +144,6 @@
       "CfName": "",
       "Code": "CSP",
       "GathererCode": "CS",
-      "MtgImageCode": "",
       "Name": "Coldsnap",
       "TcgPlayerName": ""
     },
@@ -172,7 +151,6 @@
       "CfName": "",
       "Code": "CMD",
       "GathererCode": "",
-      "MtgImageCode": "",
       "Name": "Commander",
       "TcgPlayerName": "Commander"
     },
@@ -180,7 +158,6 @@
       "CfName": "Commander 2013",
       "Code": "c13",
       "GathererCode": "",
-      "MtgImageCode": "",
       "Name": "Commander 2013",
       "TcgPlayerName": "Commander 2013"
     },
@@ -188,7 +165,6 @@
       "CfName": "Commander 2014",
       "Code": "c14",
       "GathererCode": "",
-      "MtgImageCode": "",
       "Name": "Commander 2014",
       "TcgPlayerName": "Commander 2014"
     },
@@ -196,7 +172,6 @@
       "CfName": "",
       "Code": "CMA",
       "GathererCode": "CM1",
-      "MtgImageCode": "",
       "Name": "Commander's Arsenal",
       "TcgPlayerName": ""
     },
@@ -204,7 +179,6 @@
       "CfName": "",
       "Code": "DST",
       "GathererCode": "DS",
-      "MtgImageCode": "",
       "Name": "Darksteel",
       "TcgPlayerName": ""
     },
@@ -212,7 +186,6 @@
       "CfName": "",
       "Code": "DDH",
       "GathererCode": "AVB",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Ajani vs. Nicol Bolas",
       "TcgPlayerName": ""
     },
@@ -220,7 +193,6 @@
       "CfName": "",
       "Code": "DDC",
       "GathererCode": "DVD",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Divine vs. Demonic",
       "TcgPlayerName": ""
     },
@@ -228,7 +200,6 @@
       "CfName": "",
       "Code": "DDO",
       "GathererCode": "EVK",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Elspeth vs. Kiora",
       "TcgPlayerName": ""
     },
@@ -236,7 +207,6 @@
       "CfName": "",
       "Code": "DDF",
       "GathererCode": "EVT",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Elspeth vs. Tezzeret",
       "TcgPlayerName": ""
     },
@@ -244,7 +214,6 @@
       "CfName": "",
       "Code": "DDD",
       "GathererCode": "GVL",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Garruk vs. Liliana",
       "TcgPlayerName": ""
     },
@@ -252,7 +221,6 @@
       "CfName": "",
       "Code": "DDL",
       "GathererCode": "HVM",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Heroes vs. Monsters",
       "TcgPlayerName": ""
     },
@@ -260,7 +228,6 @@
       "CfName": "",
       "Code": "DDJ",
       "GathererCode": "IVG",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Izzet vs. Golgari",
       "TcgPlayerName": ""
     },
@@ -268,7 +235,6 @@
       "CfName": "",
       "Code": "DD2",
       "GathererCode": "JVC",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Jace vs. Chandra",
       "TcgPlayerName": ""
     },
@@ -276,7 +242,6 @@
       "CfName": "",
       "Code": "DDM",
       "GathererCode": "JVV",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Jace vs. Vraska",
       "TcgPlayerName": ""
     },
@@ -284,7 +249,6 @@
       "CfName": "",
       "Code": "DDG",
       "GathererCode": "KVD",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Knights vs. Dragons",
       "TcgPlayerName": ""
     },
@@ -292,7 +256,6 @@
       "CfName": "",
       "Code": "DDE",
       "GathererCode": "PVC",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Phyrexia vs. the Coalition",
       "TcgPlayerName": ""
     },
@@ -300,7 +263,6 @@
       "CfName": "",
       "Code": "DDK",
       "GathererCode": "SVT",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Sorin vs. Tibalt",
       "TcgPlayerName": ""
     },
@@ -308,7 +270,6 @@
       "CfName": "",
       "Code": "DDN",
       "GathererCode": "SVC",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Speed vs. Cunning",
       "TcgPlayerName": ""
     },
@@ -316,7 +277,6 @@
       "CfName": "",
       "Code": "DDI",
       "GathererCode": "VVK",
-      "MtgImageCode": "",
       "Name": "Duel Decks: Venser vs. Koth",
       "TcgPlayerName": ""
     },
@@ -324,7 +284,6 @@
       "CfName": "",
       "Code": "EUR",
       "GathererCode": "",
-      "MtgImageCode": "pELP",
       "Name": "European Land Program",
       "TcgPlayerName": ""
     },
@@ -332,7 +291,6 @@
       "CfName": "",
       "Code": "EXO",
       "GathererCode": "EX",
-      "MtgImageCode": "",
       "Name": "Exodus",
       "TcgPlayerName": ""
     },
@@ -340,7 +298,6 @@
       "CfName": "",
       "Code": "FEM",
       "GathererCode": "FE",
-      "MtgImageCode": "",
       "Name": "Fallen Empires",
       "TcgPlayerName": ""
     },
@@ -348,7 +305,6 @@
       "CfName": "",
       "Code": "5DN",
       "GathererCode": "FD",
-      "MtgImageCode": "",
       "Name": "Fifth Dawn",
       "TcgPlayerName": ""
     },
@@ -356,7 +312,6 @@
       "CfName": "",
       "Code": "FNM",
       "GathererCode": "",
-      "MtgImageCode": "pFNM",
       "Name": "FNM Promos",
       "TcgPlayerName": ""
     },
@@ -364,7 +319,6 @@
       "CfName": "",
       "Code": "V14",
       "GathererCode": "ANH",
-      "MtgImageCode": "",
       "Name": "From the Vault: Annhilation",
       "TcgPlayerName": ""
     },
@@ -372,7 +326,6 @@
       "CfName": "",
       "Code": "DRB",
       "GathererCode": "DRG",
-      "MtgImageCode": "",
       "Name": "From the Vault: Dragons",
       "TcgPlayerName": ""
     },
@@ -380,7 +333,6 @@
       "CfName": "",
       "Code": "V09",
       "GathererCode": "EXL",
-      "MtgImageCode": "",
       "Name": "From the Vault: Exiled",
       "TcgPlayerName": ""
     },
@@ -388,7 +340,6 @@
       "CfName": "",
       "Code": "V11",
       "GathererCode": "LEG",
-      "MtgImageCode": "",
       "Name": "From the Vault: Legends",
       "TcgPlayerName": ""
     },
@@ -396,7 +347,6 @@
       "CfName": "",
       "Code": "V12",
       "GathererCode": "RLM",
-      "MtgImageCode": "",
       "Name": "From the Vault: Realms",
       "TcgPlayerName": ""
     },
@@ -404,7 +354,6 @@
       "CfName": "",
       "Code": "V10",
       "GathererCode": "RLC",
-      "MtgImageCode": "",
       "Name": "From the Vault: Relics",
       "TcgPlayerName": ""
     },
@@ -412,7 +361,6 @@
       "CfName": "",
       "Code": "V13",
       "GathererCode": "TWE",
-      "MtgImageCode": "",
       "Name": "From the Vault: Twenty",
       "TcgPlayerName": ""
     },
@@ -420,7 +368,6 @@
       "CfName": "",
       "Code": "GPX",
       "GathererCode": "",
-      "MtgImageCode": "pGPX",
       "Name": "Grand Prix Promos",
       "TcgPlayerName": ""
     },
@@ -428,7 +375,6 @@
       "CfName": "",
       "Code": "GPT",
       "GathererCode": "GP",
-      "MtgImageCode": "",
       "Name": "Guildpact",
       "TcgPlayerName": ""
     },
@@ -436,7 +382,6 @@
       "CfName": "",
       "Code": "GUR",
       "GathererCode": "",
-      "MtgImageCode": "pGRU",
       "Name": "Guru",
       "TcgPlayerName": ""
     },
@@ -444,7 +389,6 @@
       "CfName": "",
       "Code": "HHO",
       "GathererCode": "",
-      "MtgImageCode": "pHHO",
       "Name": "Happy Holidays",
       "TcgPlayerName": ""
     },
