@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-    xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
+    xmlns:bazamConvert="clr-namespace:Bazam.WPF.ValueConverters;assembly=Bazam.WPF"
     xmlns:c="clr-namespace:Nivix.Infrastructure.ValueConverters"
     xmlns:vm="clr-namespace:Nivix.ViewModels"
     mc:Ignorable="d" 

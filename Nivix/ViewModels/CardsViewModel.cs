@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using BazamWPF.UIHelpers;
-using BazamWPF.ViewModels;
+using Bazam.WPF.UIHelpers;
+using Bazam.WPF.ViewModels;
 using Nivix.Infrastructure;
 using Nivix.Models;
 using Nivix.Views;

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Linq;
-using Bazam.APIs.SharpZipLib;
 using Bazam.Modules;
 using Bazam.Modules.Enumerations;
 using Bazam.Slugging;
 using Melek.Models;
+using Melek.Models.Cards;
 using Melek.Models.Helpers;
 using Melek.Utilities;
 
@@ -74,10 +74,11 @@ namespace Melek.DataStore
             _Packages = new List<Package>();
 
             if (!lazyLoad) {
-                BackgroundBuddy.RunAsync(async() => {
+                Action lolz = async () => {
                     await ForceLoad();
-                    await CheckForPackageUpdates();
-                });
+                };
+
+                lolz.BeginInvoke(null, null);
             }
         }
         #endregion
@@ -326,115 +327,6 @@ namespace Melek.DataStore
             });
 
             return retVal;
-        }
-        #endregion
-
-        #region exposed so the updater can force a check for updates
-        public async Task CheckForPackageUpdates()
-        {
-            _LoggingNinja.LogMessage("Checking for package updates...");
-            string packagesFolderUrl = Constants.PACKAGES_URL_PROD;
-            if (_DevMode) {
-                packagesFolderUrl = Constants.PACKAGES_URL_DEV;
-            }
-            string packagesManifestUrl = packagesFolderUrl + "packages.xml";
-
-            try {
-                XDocument manifest = XDocument.Load(packagesManifestUrl);
-                Package[] remotePackages = GetPackagesFromManifest(manifest);
-                Package[] localPackages = GetPackages().ToArray();
-                List<string> packagesToUpdate = new List<string>();
-
-                foreach (Package remotePackage in remotePackages) {
-                    Package localPackage = null;
-                    foreach (Package package in localPackages) {
-                        if (package.ID == remotePackage.ID) {
-                            localPackage = package;
-                        }
-                    }
-                    if (localPackage == null || localPackage.DataUpdated < remotePackage.DataUpdated) {
-                        packagesToUpdate.Add(remotePackage.ID);
-                    }
-                }
-
-                List<Package> newPackages = new List<Package>();
-                foreach (string packageID in packagesToUpdate) {
-                    _LoggingNinja.LogMessage("Updating package data for " + packageID + "...");
-                    using (WebClient client = new WebClient()) {
-                        // file names n shit
-                        string fileName = packageID + ".gbd";
-                        string remotePath = packagesFolderUrl + fileName;
-                        string localPath = Path.Combine(PackagesDirectory, packageID + ".zip");
-
-                        // download the .gbd file, unzip it into the data directory
-                        client.DownloadFile(remotePath, localPath);
-                        SharpZipLibHelper.Unzip(localPath, PackagesDirectory, Constants.ZIP_PASSWORD, true);
-
-                        // update the local list of packages with new and improved data from the update packages
-                        Package localPackage = _Packages.Where(p => p.ID == packageID).FirstOrDefault();
-                        if (localPackage != null) {
-                            _Packages.Remove(localPackage);
-                        }
-
-                        Package newPackage = remotePackages.Where(p => p.ID == packageID).First();
-                        newPackages.Add(newPackage);
-                        _Packages.Add(newPackage);
-                    }
-                    _LoggingNinja.LogMessage("Package " + packageID + " updated.");
-                }
-
-                // delete any decomissioned packages
-                List<Package> packagesToRemove = new List<Package>();
-                foreach (Package package in localPackages) {
-                    bool packageFound = false;
-                    foreach (Package updatePackage in remotePackages) {
-                        if (updatePackage.ID == package.ID) {
-                            packageFound = true;
-                        }
-                    }
-
-                    if (!packageFound) {
-                        _LoggingNinja.LogMessage("Package " + package.ID + " wasn't found in the update manifest. It's decomissioned - removing from local the app's search DB.");
-                        packagesToRemove.Add(package);
-                    }
-                }
-
-                if (packagesToRemove.Count() > 0) {
-                    foreach (Package package in packagesToRemove) {
-                        _Packages.Remove(package);
-                    }
-                }
-
-
-                if (packagesToUpdate.Count() > 0 || packagesToRemove.Count() > 0) {
-                    // save the local packages manifest to reflect updates
-                    SavePackagesManifest();
-                    _LoggingNinja.LogMessage("Package update complete.");
-
-                    // reload, bitches
-                    DoLoad();
-
-                    // clean up any package folders that need to go
-                    foreach (Package package in packagesToRemove) {
-                        _LoggingNinja.LogMessage("Deleting the data directory for package " + package.ID + ".");
-                        string directory = Path.Combine(PackagesDirectory, package.ID);
-                        if (Directory.Exists(directory)) {
-                            Directory.Delete(directory, true);
-                            _LoggingNinja.LogMessage("Deleted directory for package " + package.ID + ".");
-                        }
-                    }
-
-                    if (PackagesUpdated != null) {
-                        PackagesUpdated(newPackages.ToArray());
-                    }
-                }
-            }
-            catch (WebException) {
-                _LoggingNinja.LogMessage("Tried to check for package updates, but didn't have internetz.");
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
         }
         #endregion
 

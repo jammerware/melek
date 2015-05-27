@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Bazam.Slugging;
 using Melek.Models;
+using Melek.Models.Cards;
 
 namespace Melek.Vendors
 {

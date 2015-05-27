@@ -31,9 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.3.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Project\Libs\Bazam.dll</HintPath>
+    <Reference Include="Bazam, Version=2.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.2.6.3.0\lib\net45\Bazam.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -50,7 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataStore\CardSearchDelegate.cs" />
-    <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\Cards\Card.cs" />
+    <Compile Include="Models\Cards\TransformingCard.cs" />
     <Compile Include="Models\MagicColor.cs" />
     <Compile Include="Models\CardPrinting.cs" />
     <Compile Include="Models\CardCost.cs" />
@@ -78,7 +83,9 @@
     <Compile Include="Vendors\TcgPlayerClient.cs" />
     <Compile Include="Vendors\VendorClient.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

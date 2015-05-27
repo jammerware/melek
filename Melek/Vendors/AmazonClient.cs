@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using Melek.Models;
+using Melek.Models.Cards;
 
 namespace Melek.Vendors
 {

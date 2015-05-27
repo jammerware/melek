@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
 using Melek.Models;
+using Melek.Models.Cards;
 
 namespace Melek.Vendors
 {

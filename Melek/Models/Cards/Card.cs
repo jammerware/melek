@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Bazam.Modules;
 using Bazam.Modules.Enumerations;
 using Bazam.Slugging;
 
-namespace Melek.Models
+namespace Melek.Models.Cards
 {
-    public class Card : Slugger
+    public class Card : ISluggable
     {
         private static readonly List<CardCostType> COLORLESS_COSTS = new List<CardCostType>() {
             CardCostType._,
@@ -47,11 +45,6 @@ namespace Melek.Models
             LegalFormats = new Format[] { };
             Printings = new List<CardPrinting>();
             Rulings = new Ruling[] { };
-        }
-
-        protected override string SlugBase()
-        {
-            return Name;
         }
 
         public Card Copy()
@@ -120,6 +113,13 @@ namespace Melek.Models
                 IsMulticolored = false;
                 Colors = new MagicColor[] { };
             }
+        }
+        #endregion
+
+        #region ISluggable
+        public string GetSlugBase()
+        {
+            return Name;
         }
         #endregion
     }

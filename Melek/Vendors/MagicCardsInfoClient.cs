@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using Melek.Models;
+using Melek.Models.Cards;
 
 namespace Melek.Vendors
 {

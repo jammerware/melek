@@ -1,4 +1,5 @@
 ﻿using Melek.Models;
+using Melek.Models.Cards;
 
 namespace Melek.DataStore
 {

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Melek.Models;
+using Melek.Models.Cards;
 
 namespace Melek.Vendors
 {
