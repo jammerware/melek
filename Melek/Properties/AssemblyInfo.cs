@@ -7,7 +7,7 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Melek")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A toolbox library enabling .NET developers to make full-featured M:tG apps.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jammerware")]
 [assembly: AssemblyProduct("Melek")]

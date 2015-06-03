@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="DataStore\CardSearchDelegate.cs" />
     <Compile Include="Models\Cards\Card.cs" />
+    <Compile Include="Models\Cards\FlippingCard.cs" />
     <Compile Include="Models\Cards\TransformingCard.cs" />
     <Compile Include="Models\MagicColor.cs" />
     <Compile Include="Models\CardPrinting.cs" />
