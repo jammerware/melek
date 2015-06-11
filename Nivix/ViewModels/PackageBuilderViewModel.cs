@@ -234,6 +234,9 @@ namespace Nivix.ViewModels
                 Dictionary<string, Card> cards = new Dictionary<string, Card>();
 
                 // pass to load card data
+                // flip cards (like Erayo, Soratami Ascendant) have ——— in their text
+                // split cards (like Beck // Call) have // in their text
+                // transforming cards (like Huntmaster of the Fells) have a back_id property in the source db
                 foreach (XElement cardData in doc.Root.Element("cards").Elements("card")) {
                     // read some generally useful things
                     string name = XMLPal.GetString(cardData.Element("name"));
@@ -302,7 +305,7 @@ namespace Nivix.ViewModels
                     string rarityData = XMLPal.GetString(cardData.Element("rarity"));
                     if (string.IsNullOrEmpty(rarityData)) rarityData = "C";
                     else { rarityData = rarityData.Substring(0, 1); }
-                    CardPrinting printing = new CardPrinting() {
+                    Printing printing = new Printing() {
                         Artist = XMLPal.GetString(cardData.Element("artist")),
                         FlavorText = XMLPal.GetString(cardData.Element("flavor")),
                         MultiverseID = XMLPal.GetString(cardData.Element("id")),
@@ -396,7 +399,7 @@ namespace Nivix.ViewModels
                     }
 
                     List<XElement> cardPrintings = new List<XElement>();
-                    foreach (CardPrinting printing in card.Printings) {
+                    foreach (Printing printing in card.Printings) {
                         cardPrintings.Add(
                             new XElement(
                                 "appearance",
@@ -562,7 +565,7 @@ namespace Nivix.ViewModels
             return retVal;
         }
 
-        private Card GetCard(CardPrinting printing, string cardTypesData, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary, List<Format> legalFormats, List<Ruling> rulings)
+        private Card GetCard(PrintingBase printing, string cardTypesData, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary, List<Format> legalFormats, List<Ruling> rulings)
         {
             int dummyForOutParams = 0;
 
@@ -584,7 +587,7 @@ namespace Nivix.ViewModels
                 LegalFormats = legalFormats.ToArray(),
                 Name = name,
                 Power = (Int32.TryParse(power, out dummyForOutParams) ? (int?)Int32.Parse(power) : null),
-                Printings = new List<CardPrinting>() { 
+                Printings = new List<Printing>() { 
                     printing
                 },
                 Rulings = rulings.ToArray(),

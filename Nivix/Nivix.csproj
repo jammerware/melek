@@ -94,6 +94,7 @@
     <Compile Include="Infrastructure\DataBeast.cs" />
     <Compile Include="Infrastructure\ValueConverters\StringDateConverter.cs" />
     <Compile Include="Infrastructure\ValueConverters\ArrayStringConverter.cs" />
+    <Compile Include="Models\CardBaseFactory.cs" />
     <Compile Include="Models\CardNickname.cs" />
     <Compile Include="Models\Manifest.cs" />
     <Compile Include="Models\SetData.cs" />

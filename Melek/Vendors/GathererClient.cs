@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Melek.Models;
-using Melek.Models.Cards;
 
 namespace Melek.Vendors
 {
@@ -8,7 +7,7 @@ namespace Melek.Vendors
     {
         public override string GetLink(Card card, Set set)
         {
-            CardPrinting printing = card.Printings.Where(p => p.Set.Code == set.Code).FirstOrDefault();
+            PrintingBase printing = card.Printings.Where(p => p.Set.Code == set.Code).FirstOrDefault();
             if (printing != null) {
                 return "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=" + printing.MultiverseID;
             }

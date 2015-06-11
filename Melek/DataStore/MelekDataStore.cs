@@ -12,7 +12,6 @@ using Bazam.Modules;
 using Bazam.Modules.Enumerations;
 using Bazam.Slugging;
 using Melek.Models;
-using Melek.Models.Cards;
 using Melek.Models.Helpers;
 using Melek.Utilities;
 
@@ -22,7 +21,6 @@ namespace Melek.DataStore
     {
         #region Events
         public event EventHandler DataLoaded;
-        public event PackagesUpdatedEventHandler PackagesUpdated;
         #endregion
 
         #region Fields
@@ -164,19 +162,19 @@ namespace Melek.DataStore
                         Power = XMLPal.GetInt(cardElement.Attribute("power")),
                         Printings = (
                             from printing in cardElement.Element("appearances").Elements("appearance")
-                            select new CardPrinting() {
+                            select new Printing() {
                                 Artist = XMLPal.GetString(printing.Attribute("artist")),
                                 FlavorText = XMLPal.GetString(printing.Attribute("flavor")),
                                 MultiverseID = XMLPal.GetString(printing.Attribute("multiverseID")),
                                 Rarity = StringToCardRarityConverter.GetRarity(XMLPal.GetString(printing.Attribute("rarity"))),
                                 Set = setDictionary[XMLPal.GetString(printing.Attribute("setCode"))],
-                                TransformsToMultiverseID = XMLPal.GetString(printing.Attribute("transformsInto"))
+                                TransformsToMultiverseID = XMLPal.GetString(printing.Attribute("transformsInto")),
+                                Watermark = XMLPal.GetString(cardElement.Attribute("watermark"))
                             }
                         ).Distinct(new CardPrintingEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
                         Text = XMLPal.GetString(cardElement.Attribute("text")),
                         Toughness = XMLPal.GetInt(cardElement.Attribute("toughness")),
-                        Tribe = XMLPal.GetString(cardElement.Attribute("tribe")),
-                        Watermark = XMLPal.GetString(cardElement.Attribute("watermark"))
+                        Tribes = XMLPal.GetString(cardElement.Attribute("tribe")),
                     };
 
                     if (cardElement.Element("legalFormats") != null) {
@@ -200,8 +198,8 @@ namespace Melek.DataStore
                         cards.Add(card);
                     }
                     else {
-                        foreach (CardPrinting printing in card.Printings) {
-                            CardPrinting existingPrinting = existingCard.Printings.Where(a => a.Set.Code == printing.Set.Code).FirstOrDefault();
+                        foreach (Printing printing in card.Printings) {
+                            Printing existingPrinting = existingCard.Printings.Where(a => a.Set.Code == printing.Set.Code).FirstOrDefault();
                             if (existingPrinting == null) {
                                 existingCard.Printings.Add(printing);
                             }
@@ -211,6 +209,7 @@ namespace Melek.DataStore
                                 existingPrinting.MultiverseID = printing.MultiverseID;
                                 existingPrinting.Rarity = printing.Rarity;
                                 existingPrinting.Set = printing.Set;
+                                existingPrinting.Watermark = printing.Watermark;
                             }
 
                             existingCard.CardTypes = card.CardTypes;
@@ -218,8 +217,7 @@ namespace Melek.DataStore
                             existingCard.Power = card.Power;
                             existingCard.Text = card.Text;
                             existingCard.Toughness = card.Toughness;
-                            existingCard.Tribe = card.Tribe;
-                            existingCard.Watermark = card.Watermark;
+                            existingCard.Tribes = card.Tribes;
                         }
                     }
                 }
@@ -307,7 +305,7 @@ namespace Melek.DataStore
             return image;
         }
 
-        private async Task<Uri> ResolveCardImage(CardPrinting printing, Uri webUri)
+        private async Task<Uri> ResolveCardImage(Printing printing, Uri webUri)
         {
             Uri retVal = await Task.Run<Uri>(() => {
                 Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseID) + ".jpg"));
@@ -362,12 +360,12 @@ namespace Melek.DataStore
             return _Cards.Where(c => c.Printings.Where(a => a.MultiverseID == multiverseID).FirstOrDefault() != null).FirstOrDefault();
         }
 
-        public Card GetCardByPrinting(CardPrinting printing)
+        public Card GetCardByPrinting(Printing printing)
         {
             return _Cards.Where(c => c.Printings.Contains(printing)).FirstOrDefault();
         }
 
-        public async Task<Uri> GetCardImageUri(CardPrinting printing)
+        public async Task<Uri> GetCardImageUri(Printing printing)
         {
             if (Regex.IsMatch(printing.MultiverseID, "^[0-9]+$")) {
                 // these are typical non-promo cards
@@ -393,7 +391,7 @@ namespace Melek.DataStore
             return null;
         }
 
-        public async Task<BitmapImage> GetCardImage(CardPrinting printing)
+        public async Task<BitmapImage> GetCardImage(Printing printing)
         {
             return await ImageFromUri(await GetCardImageUri(printing));
         }
@@ -472,9 +470,9 @@ namespace Melek.DataStore
                             }                            
 
                             if (criteriaOperator == "!")
-                                criteria.Add((Card card) => { return card.IsColors(colors) && (!requireMulticolored || card.IsMulticolored); });
-                            else if (criteriaOperator == ":") 
-                                criteria.Add((Card card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored)); });
+                                criteria.Add((Card card) => { return card.IsColors(colors) && (!requireMulticolored || card.Cost.IsMultiColored()); });
+                            else if (criteriaOperator == ":")
+                                criteria.Add((Card card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.Cost.IsMultiColored())); });
                             break;
                         case "mid":
                             criteria.Add((Card card) => { return card.Printings.Any(p => p.MultiverseID.Equals(criteriaValue, StringComparison.InvariantCultureIgnoreCase)); });
