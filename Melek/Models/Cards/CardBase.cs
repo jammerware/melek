@@ -4,7 +4,7 @@ using Bazam.Slugging;
 
 namespace Melek.Models
 {
-    internal abstract class CardBase<T> : ISluggable where T : PrintingBase
+    public abstract class CardBase<T> : ISluggable where T : PrintingBase
     {
         // stock properties
         public IReadOnlyList<Format> LegalFormats { get; set; }

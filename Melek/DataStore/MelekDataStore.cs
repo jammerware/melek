@@ -168,13 +168,12 @@ namespace Melek.DataStore
                                 MultiverseID = XMLPal.GetString(printing.Attribute("multiverseID")),
                                 Rarity = StringToCardRarityConverter.GetRarity(XMLPal.GetString(printing.Attribute("rarity"))),
                                 Set = setDictionary[XMLPal.GetString(printing.Attribute("setCode"))],
-                                TransformsToMultiverseID = XMLPal.GetString(printing.Attribute("transformsInto")),
                                 Watermark = XMLPal.GetString(cardElement.Attribute("watermark"))
                             }
                         ).Distinct(new CardPrintingEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
                         Text = XMLPal.GetString(cardElement.Attribute("text")),
                         Toughness = XMLPal.GetInt(cardElement.Attribute("toughness")),
-                        Tribes = XMLPal.GetString(cardElement.Attribute("tribe")),
+                        Tribes = new string[] { XMLPal.GetString(cardElement.Attribute("tribe")) },
                     };
 
                     if (cardElement.Element("legalFormats") != null) {
@@ -201,7 +200,8 @@ namespace Melek.DataStore
                         foreach (Printing printing in card.Printings) {
                             Printing existingPrinting = existingCard.Printings.Where(a => a.Set.Code == printing.Set.Code).FirstOrDefault();
                             if (existingPrinting == null) {
-                                existingCard.Printings.Add(printing);
+                                //TODO: fix
+                                //existingCard.Printings.Add(printing);
                             }
                             else {
                                 existingPrinting.Artist = printing.Artist;

@@ -310,7 +310,8 @@ namespace Nivix.ViewModels
                         MultiverseID = XMLPal.GetString(cardData.Element("id")),
                         Rarity = StringToCardRarityConverter.GetRarity(rarityData),
                         Set = sets[setCode],
-                        TransformsToMultiverseID = XMLPal.GetString(cardData.Element("back_id"))
+                        //TODO: fix
+                        //TransformsToMultiverseID = XMLPal.GetString(cardData.Element("back_id"))
                     };
 
                     // first we need to know if this card has already been loaded (because it's in another set), in which case we need to 
@@ -319,15 +320,17 @@ namespace Nivix.ViewModels
                     if (cards.Keys.Contains(sluggedName)) {
                         if (!name.Contains("//")) {
                             // normal cards
-                            cards[sluggedName].Printings.Add(printing);
+                            // TODO: FIX
+                            //cards[sluggedName].Printings.Add(printing);
                         }
                         else {
                             // split cards
                             string turnsSluggedName = sluggedName;
                             string burnsSluggedName = Slugger.Slugify(GetSplitCardName(name, false));
 
-                            cards[turnsSluggedName].Printings.Add(printing);
-                            cards[burnsSluggedName].Printings.Add(printing);
+                            //TODO: FIX
+                            //cards[turnsSluggedName].Printings.Add(printing);
+                            //cards[burnsSluggedName].Printings.Add(printing);
                         }
                     }
                     else {
@@ -406,8 +409,9 @@ namespace Nivix.ViewModels
                                 new XAttribute("rarity", printing.Rarity.ToString()),
                                 new XAttribute("setCode", printing.Set.Code),
                                 (!string.IsNullOrEmpty(printing.FlavorText) ? new XAttribute("flavor", printing.FlavorText) : null),
-                                new XAttribute("artist", printing.Artist),
-                                (!string.IsNullOrEmpty(printing.TransformsToMultiverseID) ? new XAttribute("transformsInto", printing.TransformsToMultiverseID) : null)
+                                new XAttribute("artist", printing.Artist)
+                                //TODO:FIX
+                                //(!string.IsNullOrEmpty(printing.TransformsToMultiverseID) ? new XAttribute("transformsInto", printing.TransformsToMultiverseID) : null)
                             )
                         );
                     }
@@ -441,8 +445,9 @@ namespace Nivix.ViewModels
                         new XAttribute("name", card.Name),
                         (card.Cost != null && card.Cost.ToString() != string.Empty ? new XAttribute("cost", card.Cost.ToString()) : null),
                         (!string.IsNullOrEmpty(card.Text) ? new XAttribute("text", card.Text) : null),
-                        (!string.IsNullOrEmpty(card.Tribe) ? new XAttribute("tribe", card.Tribe) : null),
-                        (!string.IsNullOrEmpty(card.Watermark) ? new XAttribute("watermark", card.Watermark) : null),
+                        //TODO: FIX
+                        //(!string.IsNullOrEmpty(card.Tribe) ? new XAttribute("tribe", card.Tribe) : null),
+                        //(!string.IsNullOrEmpty(card.Watermark) ? new XAttribute("watermark", card.Watermark) : null),
                         new XElement("types", cardTypes),
                         new XElement("appearances", cardPrintings),
                         (legalFormats.Count > 0 ? new XElement("legalFormats", legalFormats) : null),
@@ -587,13 +592,15 @@ namespace Nivix.ViewModels
                 Name = name,
                 Power = (Int32.TryParse(power, out dummyForOutParams) ? (int?)Int32.Parse(power) : null),
                 Printings = new List<Printing>() { 
-                    printing
+                    //TODO: FIX
+                    //printing
                 },
                 Rulings = rulings.ToArray(),
                 Text = text,
                 Toughness = (Int32.TryParse(toughness, out dummyForOutParams) ? (int?)Int32.Parse(toughness) : null),
-                Tribe = GetCardTribe(tribeData),
-                Watermark = watermark
+                //TODO: FIX
+                //Tribe = GetCardTribe(tribeData),
+                //Watermark = watermark
             };
         }
 

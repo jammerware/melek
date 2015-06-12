@@ -2,7 +2,7 @@
 
 namespace Melek.Models
 {
-    public class TransformCard : CardBase<TransformPrinting>
+    public class TransformCard : CardBase<TransformPrinting>, ICard<TransformPrinting>
     {
         // general
         public CardCostCollection Cost { get; set; }

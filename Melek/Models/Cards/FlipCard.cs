@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace Melek.Models
 {
     public class FlipCard : CardBase<FlipPrinting>, ICard<FlipPrinting>
