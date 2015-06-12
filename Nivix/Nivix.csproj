@@ -35,8 +35,8 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.6.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bazam.2.6.3.0\lib\net45\Bazam.dll</HintPath>
+    <Reference Include="Bazam, Version=2.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.2.6.5.0\lib\net45\Bazam.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Bazam.SharpZipLibHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -94,7 +94,7 @@
     <Compile Include="Infrastructure\DataBeast.cs" />
     <Compile Include="Infrastructure\ValueConverters\StringDateConverter.cs" />
     <Compile Include="Infrastructure\ValueConverters\ArrayStringConverter.cs" />
-    <Compile Include="Models\ICardFactory.cs" />
+    <Compile Include="Models\CardFactory.cs" />
     <Compile Include="Models\CardNickname.cs" />
     <Compile Include="Models\Manifest.cs" />
     <Compile Include="Models\SetData.cs" />

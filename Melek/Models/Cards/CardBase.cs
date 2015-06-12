@@ -4,7 +4,7 @@ using Bazam.Slugging;
 
 namespace Melek.Models
 {
-    public abstract class CardBase<T> : ISluggable where T : PrintingBase
+    public abstract class CardBase<T> : ISluggable where T : IPrinting
     {
         // stock properties
         public IReadOnlyList<Format> LegalFormats { get; set; }
@@ -13,7 +13,7 @@ namespace Melek.Models
         public IReadOnlyList<Ruling> Rulings { get; set; }
 
         // abstract properties
-        public abstract IReadOnlyList<T> Printings { get; set; }
+        public abstract IList<T> Printings { get; set; }
 
         protected CardBase()
         {
@@ -43,9 +43,9 @@ namespace Melek.Models
         /// Gets the last non-promo printing of this card (or the last printing if there aren't any non-promo ones).
         /// </summary>
         /// <returns></returns>
-        public PrintingBase GetLastPrinting()
+        public IPrinting GetLastPrinting()
         {
-            PrintingBase lastPrinting = Printings.OrderByDescending(p => p.Set.Date).FirstOrDefault(p => !p.Set.IsPromo);
+            IPrinting lastPrinting = Printings.OrderByDescending(p => p.Set.Date).FirstOrDefault(p => !p.Set.IsPromo);
             if (lastPrinting == null) lastPrinting = Printings.FirstOrDefault();
 
             return lastPrinting;

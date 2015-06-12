@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.6.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bazam.2.6.3.0\lib\net45\Bazam.dll</HintPath>
+    <Reference Include="Bazam, Version=2.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.2.6.5.0\lib\net45\Bazam.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -59,6 +59,7 @@
     <Compile Include="Models\Cards\FlipCard.cs" />
     <Compile Include="Models\Cards\FlipPrinting.cs" />
     <Compile Include="Models\Cards\ICard.cs" />
+    <Compile Include="Models\Cards\IPrinting.cs" />
     <Compile Include="Models\Cards\PrintingBase.cs" />
     <Compile Include="Models\Cards\SplitCard.cs" />
     <Compile Include="Models\Cards\SplitPrinting.cs" />

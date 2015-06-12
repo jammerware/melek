@@ -12,7 +12,7 @@ namespace Melek.Models
         }
 
         #region enforced by CardBase<T>
-        public override IReadOnlyList<FlipPrinting> Printings { get; set; }
+        public override IList<FlipPrinting> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

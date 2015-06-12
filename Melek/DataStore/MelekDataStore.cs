@@ -24,7 +24,7 @@ namespace Melek.DataStore
         #endregion
 
         #region Fields
-        private Card[] _Cards;
+        private ICard<IPrinting>[] _Cards;
         private bool _DevMode = false;
         private bool _IsLoaded = false;
         private LoggingNinja _LoggingNinja;
@@ -36,18 +36,17 @@ namespace Melek.DataStore
 
         #region Constructors
         // general use constructors
-        public MelekDataStore(string storageDirectory, bool storeCardImages, LoggingNinja loggingNinja) : this(storageDirectory, storeCardImages, loggingNinja, false, string.Empty) { }
-        public MelekDataStore(string storageDirectory, bool storeCardImages, LoggingNinja loggingNinja, bool lazyLoad) : this(storageDirectory, storeCardImages, loggingNinja, lazyLoad, string.Empty) { }
+        public MelekDataStore(string storageDirectory, bool storeCardImages) : this(storageDirectory, storeCardImages, false, string.Empty) { }
+        public MelekDataStore(string storageDirectory, bool storeCardImages, bool lazyLoad) : this(storageDirectory, storeCardImages, lazyLoad, string.Empty) { }
 
         // for original dev only
-        public MelekDataStore(string storageDirectory, bool storeCardImages, LoggingNinja loggingNinja, bool lazyLoad, string devAuthkey)
+        public MelekDataStore(string storageDirectory, bool storeCardImages, bool lazyLoad, string devAuthkey)
         {
             // flip on dev mode if appropriate
             if (!string.IsNullOrEmpty(devAuthkey) && Cryptonite.Encrypt(devAuthkey, Constants.DEV_AUTH_KEY_PRIVATE_KEY) == Cryptonite.Encrypt(Constants.DEV_AUTH_KEY_PUBLIC_KEY, Constants.DEV_AUTH_KEY_PRIVATE_KEY)) {
                 _DevMode = true;
             }
 
-            _LoggingNinja = loggingNinja;
             _SaveCardImages = storeCardImages;
             _StorageDirectory = storageDirectory;
 
@@ -101,154 +100,7 @@ namespace Melek.DataStore
         #region data management utility methods
         private void DoLoad()
         {
-            XDocument packagesManifest = XDocument.Load(Path.Combine(PackagesDirectory, "packages.xml"));
-            _Packages = new List<Package>();
-            _Packages.AddRange(GetPackagesFromManifest(packagesManifest));
-
-            List<Card> cards = new List<Card>();
-            List<Set> sets = new List<Set>();
-
-            foreach (Package package in _Packages) {
-                XDocument setDoc = null;
-                using (var reader = XmlReader.Create(Path.Combine(PackagesDirectory, package.ID, "sets.xml"))) {
-                    setDoc = XDocument.Load(reader);
-                }
-
-                // iterate through each set, adding it if it hasn't appeared in another package or updating it if it has
-                foreach (XElement setElement in setDoc.Element("sets").Elements("set")) {
-                    Set set = new Set() {
-                        Code = XMLPal.GetString(setElement.Attribute("code")),
-                        CFName = XMLPal.GetString(setElement.Attribute("cfName")),
-                        Date = XMLPal.GetDate(setElement.Attribute("date")),
-                        IsPromo = (setElement.Attribute("isPromo") != null ? XMLPal.GetBool(setElement.Attribute("isPromo")) : false),
-                        Name = XMLPal.GetString(setElement.Attribute("name")),
-                        TCGPlayerName = XMLPal.GetString(setElement.Attribute("tcgPlayerName"))
-                    };
-
-                    Set existingSet = sets.Where(s => s.Code == set.Code).FirstOrDefault();
-
-                    if (existingSet == null) {
-                        sets.Add(set);
-                    }
-                    else {
-                        existingSet.CFName = set.CFName;
-                        existingSet.Date = set.Date;
-                        existingSet.Name = set.Name;
-                        existingSet.TCGPlayerName = set.TCGPlayerName;
-                    }
-                }
-
-                Dictionary<string, Set> setDictionary = new Dictionary<string, Set>();
-                foreach (Set set in sets) {
-                    setDictionary.Add(set.Code, set);
-                }
-
-                string cardsDocPath = Path.Combine(PackagesDirectory, package.ID, "cards.xml");
-                XDocument cardsDoc = XDocument.Load(cardsDocPath);
-
-                foreach (XElement cardElement in cardsDoc.Element("cards").Elements("card")) {
-                    Card card = new Card() {
-                        Name = XMLPal.GetString(cardElement.Attribute("name")),
-                        Nicknames = (
-                            cardElement.Element("nicknames") == null ? new List<string>() :
-                            from nickname in cardElement.Element("nicknames").Elements("nickname")
-                            select nickname.Value
-                        ).ToArray(),
-                        CardTypes = (
-                            from cardType in cardElement.Elements("types").Elements("type")
-                            select EnuMaster.Parse<CardType>(XMLPal.GetString(cardType.Attribute("name")))
-                        ).ToArray(),
-                        Cost = new CardCostCollection(XMLPal.GetString(cardElement.Attribute("cost"))),
-                        Power = XMLPal.GetInt(cardElement.Attribute("power")),
-                        Printings = (
-                            from printing in cardElement.Element("appearances").Elements("appearance")
-                            select new Printing() {
-                                Artist = XMLPal.GetString(printing.Attribute("artist")),
-                                FlavorText = XMLPal.GetString(printing.Attribute("flavor")),
-                                MultiverseID = XMLPal.GetString(printing.Attribute("multiverseID")),
-                                Rarity = StringToCardRarityConverter.GetRarity(XMLPal.GetString(printing.Attribute("rarity"))),
-                                Set = setDictionary[XMLPal.GetString(printing.Attribute("setCode"))],
-                                Watermark = XMLPal.GetString(cardElement.Attribute("watermark"))
-                            }
-                        ).Distinct(new CardPrintingEqualityComparer()).OrderByDescending(a => a.Set.Date).ToList(),
-                        Text = XMLPal.GetString(cardElement.Attribute("text")),
-                        Toughness = XMLPal.GetInt(cardElement.Attribute("toughness")),
-                        Tribes = new string[] { XMLPal.GetString(cardElement.Attribute("tribe")) },
-                    };
-
-                    if (cardElement.Element("legalFormats") != null) {
-                        List<Format> legalFormats = new List<Format>();
-                        foreach (XElement formatElement in cardElement.Element("legalFormats").Elements("format")) {
-                            legalFormats.Add(EnuMaster.Parse<Format>(formatElement.Attribute("name").Value));
-                        }
-                        card.LegalFormats = legalFormats.ToArray();
-                    }
-
-                    if (cardElement.Element("rulings") != null) {
-                        List<Ruling> rulings = new List<Ruling>();
-                        foreach (XElement rulingElement in cardElement.Element("rulings").Elements("ruling")) {
-                            rulings.Add(new Ruling() { Date = XMLPal.GetDate(rulingElement.Attribute("date")), Text = XMLPal.GetString(rulingElement.Attribute("text")) });
-                        }
-                        card.Rulings = rulings.ToArray();
-                    }
-
-                    Card existingCard = cards.Where(c => c.Name == card.Name).FirstOrDefault();
-                    if (existingCard == null) {
-                        cards.Add(card);
-                    }
-                    else {
-                        foreach (Printing printing in card.Printings) {
-                            Printing existingPrinting = existingCard.Printings.Where(a => a.Set.Code == printing.Set.Code).FirstOrDefault();
-                            if (existingPrinting == null) {
-                                //TODO: fix
-                                //existingCard.Printings.Add(printing);
-                            }
-                            else {
-                                existingPrinting.Artist = printing.Artist;
-                                existingPrinting.FlavorText = printing.FlavorText;
-                                existingPrinting.MultiverseID = printing.MultiverseID;
-                                existingPrinting.Rarity = printing.Rarity;
-                                existingPrinting.Set = printing.Set;
-                                existingPrinting.Watermark = printing.Watermark;
-                            }
-
-                            existingCard.CardTypes = card.CardTypes;
-                            existingCard.Cost = card.Cost;
-                            existingCard.Power = card.Power;
-                            existingCard.Text = card.Text;
-                            existingCard.Toughness = card.Toughness;
-                            existingCard.Tribes = card.Tribes;
-                        }
-                    }
-                }
-            }
-
-            _Cards = cards.ToArray();
-            _Sets = sets.ToArray();
-
-            if (_Packages.Count() > 0) {
-                _IsLoaded = true;
-                _LoggingNinja.LogMessage("Data loaded.");
-                if (DataLoaded != null) {
-                    DataLoaded(this, EventArgs.Empty);
-                }
-            }
-            else {
-                _LoggingNinja.LogMessage("Data loaded, but no packages were present.");
-            }
-        }
-
-        private Package[] GetPackagesFromManifest(XDocument manifest)
-        {
-            return (
-                from package in manifest.Element("packages").Elements("package")
-                select new Package() {
-                    CardsReleased = (package.Attribute("cardsReleased") == null ? null : new Nullable<DateTime>(XMLPal.GetDate(package.Attribute("cardsReleased")))),
-                    DataUpdated = XMLPal.GetDate(package.Attribute("dataUpdated")),
-                    ID = XMLPal.GetString(package.Attribute("id")),
-                    Name = XMLPal.GetString(package.Attribute("name")),
-                }
-            ).ToArray();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -260,23 +112,6 @@ namespace Melek.DataStore
         public async Task ForceLoad()
         {
             await Task.Run(() => { DoLoad(); });
-        }
-
-        private void SavePackagesManifest()
-        {
-            IEnumerable<XElement> packageElements = (
-                from p in _Packages
-                select new XElement(
-                    "package",
-                    new XAttribute("id", p.ID),
-                    new XAttribute("name", p.Name),
-                    (p.CardsReleased != null ? new XAttribute("cardsReleased", p.CardsReleased.Value) : null),
-                    new XAttribute("dataUpdated", p.DataUpdated)
-                )
-            );
-
-            XDocument doc = new XDocument(new XElement("packages", packageElements));
-            doc.Save(Path.Combine(PackagesDirectory, "packages.xml"));
         }
         #endregion
 
@@ -305,10 +140,10 @@ namespace Melek.DataStore
             return image;
         }
 
-        private async Task<Uri> ResolveCardImage(Printing printing, Uri webUri)
+        private async Task<Uri> ResolveCardImage(IPrinting printing, Uri webUri)
         {
             Uri retVal = await Task.Run<Uri>(() => {
-                Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseID) + ".jpg"));
+                Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseId) + ".jpg"));
 
                 if (_SaveCardImages) {
                     if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
@@ -355,25 +190,25 @@ namespace Melek.DataStore
             }
         }
 
-        public Card GetCardByMultiverseID(string multiverseID)
+        public ICard<IPrinting> GetCardByMultiverseId(string multiverseID)
         {
-            return _Cards.Where(c => c.Printings.Where(a => a.MultiverseID == multiverseID).FirstOrDefault() != null).FirstOrDefault();
+            return _Cards.Where(c => c.Printings.Where(p => p.MultiverseId == multiverseID).FirstOrDefault() != null).FirstOrDefault();
         }
 
-        public Card GetCardByPrinting(Printing printing)
+        public ICard<IPrinting> GetCardByPrinting(IPrinting printing)
         {
             return _Cards.Where(c => c.Printings.Contains(printing)).FirstOrDefault();
         }
 
-        public async Task<Uri> GetCardImageUri(Printing printing)
+        public async Task<Uri> GetCardImageUri(IPrinting printing)
         {
-            if (Regex.IsMatch(printing.MultiverseID, "^[0-9]+$")) {
+            if (Regex.IsMatch(printing.MultiverseId, "^[0-9]+$")) {
                 // these are typical non-promo cards
-                return await ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseID)));
+                return await ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseId)));
             }
             else {
                 // promo cards we have to get from magiccards.info
-                Match match = Regex.Match(printing.MultiverseID, @"([a-zA-Z0-9]+)_([a-zA-Z0-9]+)");
+                Match match = Regex.Match(printing.MultiverseId, @"([a-zA-Z0-9]+)_([a-zA-Z0-9]+)");
                 if (match != null && match.Groups.Count == 3) {
                     return await ResolveCardImage(
                         printing,
@@ -418,7 +253,7 @@ namespace Melek.DataStore
             return (estimate ? "about " : string.Empty) + Math.Round(cardsDirectorySize / 1024 / 1024, 1).ToString() + " MB";
         }
 
-        public Card[] GetCards()
+        public ICard[] GetCards()
         {
             return _Cards;
         }
@@ -426,7 +261,7 @@ namespace Melek.DataStore
         public string GetRandomCardName()
         {
             if (_IsLoaded) {
-                return _Cards[new Random().Next(_Cards.Count() - 1)].Name;
+                return _Cards[new Random().Next(_Cards.Length - 1)].Name;
             }
             return "Melek, Izzet Paragon"; // LOL
         }
@@ -441,7 +276,7 @@ namespace Melek.DataStore
             return _Sets;
         }
 
-        public Card[] Search(string searchTerm)
+        public ICard[] Search(string searchTerm)
         {
             MatchCollection matches = Regex.Matches(searchTerm.Trim(), "([a-zA-Z0-9]{0,3})([:!])(\\S+)");
             
@@ -470,12 +305,12 @@ namespace Melek.DataStore
                             }                            
 
                             if (criteriaOperator == "!")
-                                criteria.Add((Card card) => { return card.IsColors(colors) && (!requireMulticolored || card.Cost.IsMultiColored()); });
+                                criteria.Add((ICard<IPrinting> card) => { return card.IsColors(colors) && (!requireMulticolored || card.Cost.IsMultiColored()); });
                             else if (criteriaOperator == ":")
-                                criteria.Add((Card card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.Cost.IsMultiColored())); });
+                                criteria.Add((ICard<IPrinting> card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.Cost.IsMultiColored())); });
                             break;
                         case "mid":
-                            criteria.Add((Card card) => { return card.Printings.Any(p => p.MultiverseID.Equals(criteriaValue, StringComparison.InvariantCultureIgnoreCase)); });
+                            criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.MultiverseId.Equals(criteriaValue, StringComparison.InvariantCultureIgnoreCase)); });
                             break;
                         case "r":
                             CardRarity? rarity = null;
@@ -499,7 +334,7 @@ namespace Melek.DataStore
                             }
 
                             if (rarity != null) {
-                                criteria.Add((Card card) => { return card.Printings.Any(p => p.Rarity == rarity.Value); });
+                                criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.Rarity == rarity.Value); });
                             }
 
                             break;
@@ -512,10 +347,10 @@ namespace Melek.DataStore
             }
         }
 
-        private Card[] Search(string nameTerm, List<CardSearchDelegate> filters)
+        private ICard[] Search(string nameTerm, List<CardSearchDelegate> filters)
         {
             if (_IsLoaded && (!string.IsNullOrEmpty(nameTerm) || (filters != null && filters.Count > 0))) {
-                IEnumerable<Card> cards = _Cards;
+                IEnumerable<ICard> cards = _Cards;
                 string nameTermPattern = string.Empty;
 
                 if (!string.IsNullOrEmpty(nameTerm)) {
@@ -529,7 +364,7 @@ namespace Melek.DataStore
                     }
 
                     if (filters == null) filters = new List<CardSearchDelegate>();
-                    filters.Add((Card card) => { 
+                    filters.Add((ICard card) => { 
                         return 
                             Regex.IsMatch(card.Name, nameTermPattern, RegexOptions.IgnoreCase) ||
                             card.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)); 

@@ -9,7 +9,7 @@ namespace Melek.Vendors
         {
             PrintingBase printing = card.Printings.Where(p => p.Set.Code == set.Code).FirstOrDefault();
             if (printing != null) {
-                return "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=" + printing.MultiverseID;
+                return "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=" + printing.MultiverseId;
             }
             return string.Empty;
         }

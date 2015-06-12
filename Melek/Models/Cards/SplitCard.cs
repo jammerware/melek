@@ -18,7 +18,7 @@ namespace Melek.Models.Cards
         public string RightText { get; set; }
 
         #region enforced by CardBase<T>
-        public override IReadOnlyList<SplitPrinting> Printings { get; set; }
+        public override IList<SplitPrinting> Printings { get; set; }
 
         public override bool IsColor(MagicColor color)
         {

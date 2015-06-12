@@ -16,11 +16,11 @@ namespace Melek.Models
         /// Gets the last non-promo printing of this card (or the last printing if there aren't any non-promo ones).
         /// </summary>
         /// <returns></returns>
-        PrintingBase GetLastPrinting();
+        IPrinting GetLastPrinting();
     }
 
-    public interface ICard<T> where T : PrintingBase
+    public interface ICard<T> : ICard where T : IPrinting
     {
-        IReadOnlyList<T> Printings { get; set; }
+        IList<T> Printings { get; set; }
     }
 }

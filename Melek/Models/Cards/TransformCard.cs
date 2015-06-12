@@ -22,7 +22,7 @@ namespace Melek.Models
         public IReadOnlyList<string> TransformedTribes { get; set; }
 
         #region enforced by CardBase<T>
-        public override IReadOnlyList<TransformPrinting> Printings { get; set; }
+        public override IList<TransformPrinting> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

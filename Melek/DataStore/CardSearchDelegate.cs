@@ -2,5 +2,5 @@
 
 namespace Melek.DataStore
 {
-    public delegate bool CardSearchDelegate(Card card);
+    public delegate bool CardSearchDelegate(ICard<IPrinting> card);
 }
