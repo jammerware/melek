@@ -15,7 +15,6 @@ using Bazam.WPF.ViewModels;
 using FirstFloor.ModernUI.Presentation;
 using Melek;
 using Melek.Models;
-using Melek.Models.Cards;
 using Melek.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

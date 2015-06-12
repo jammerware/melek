@@ -2,7 +2,6 @@
 {
     public abstract class PrintingBase
     {
-        public string FlavorText { get; set; }
         public string MultiverseID { get; set; }
         public CardRarity Rarity { get; set; }
         public Set Set { get; set; }
