@@ -112,58 +112,6 @@ namespace Nivix.ViewModels
         #endregion
 
         #region Internal utility methods
-        private void DeployToEnvironment(XDocument sets, XDocument cards, Manifest manifest, string environment)
-        {
-            string outputPath = Path.Combine(OutputPath, environment);
-            if (!Directory.Exists(outputPath)) {
-                Directory.CreateDirectory(outputPath);
-            }
-
-            string packagesDirectory = Path.Combine(outputPath, "packages");
-            if (!Directory.Exists(packagesDirectory)) {
-                Directory.CreateDirectory(packagesDirectory);
-            }
-            outputPath = packagesDirectory;
-
-            string packageDirectory = Path.Combine(outputPath, PackageID);
-            if (!Directory.Exists(packageDirectory)) {
-                Directory.CreateDirectory(packageDirectory);
-            }
-            outputPath = packageDirectory;
-
-            string setsFileName = Path.Combine(outputPath, "sets.xml");
-            string cardsFileName = Path.Combine(outputPath, "cards.xml");
-
-            sets.Save(setsFileName);
-            cards.Save(cardsFileName);
-
-            // zip up and delete the component files
-            BazamZip zip = new BazamZip() {
-                ZipFileName = Path.Combine(packagesDirectory, PackageID.ToLower() + ".gbd"),
-                Password = Constants.ZIP_PASSWORD
-            };
-            zip.Files = new string[] { setsFileName, cardsFileName };
-            zip.FilesRelativeRootForZip = packagesDirectory;
-            zip.PreserveFilePaths = true;
-            SharpZipLibHelper.Zip(zip, true);
-
-            // deploy the manifest
-            XDocument manifestDoc = manifest.ToXML();
-            manifestDoc.Save(Path.Combine(packagesDirectory, "packages.xml"));
-
-            // clean up
-            Directory.Delete(packageDirectory);
-        }
-
-        private Manifest GetManifest()
-        {
-            Manifest manifest = new Manifest();
-
-            if (!string.IsNullOrEmpty(ManifestPath) && File.Exists(ManifestPath)) {
-                return Manifest.FromXML(XDocument.Load(ManifestPath));
-            }
-            return manifest;
-        }
 
         private void StartTheProcess()
         {
@@ -187,9 +135,6 @@ namespace Nivix.ViewModels
                 foreach (SetData set in setDataDeserialized) {
                     setData.Add(set.Code, set);
                 }
-
-                List<XElement> setElements = new List<XElement>();
-                List<XElement> cardElements = new List<XElement>();
 
                 IEnumerable<Set> rawSets = (
                     from set in doc.Root.Element("sets").Elements("set")
@@ -216,17 +161,6 @@ namespace Nivix.ViewModels
 
                     if(!sets.ContainsKey(set.Code)) {
                         sets.Add(set.Code, set);
-                        setElements.Add(
-                            new XElement(
-                                "set",
-                                new XAttribute("name", setData.Keys.Contains(set.Code) ? setData[set.Code].Name : set.Name),
-                                new XAttribute("code", set.Code),
-                                (string.IsNullOrEmpty(set.CFName) ? null : new XAttribute("cfName", set.CFName)),
-                                new XAttribute("isPromo", set.IsPromo),
-                                (string.IsNullOrEmpty(set.TCGPlayerName) ? null : new XAttribute("tcgPlayerName", set.TCGPlayerName)),
-                                (set.Date == null ? null : new XAttribute("date", set.Date))
-                            )
-                        );
                     }
                 }
 
@@ -246,8 +180,6 @@ namespace Nivix.ViewModels
                 }
 
                 // TODO: generate sql and update db omg
-
-                Console.WriteLine(cardElements.Count.ToString() + " cards in " + setElements.Count().ToString() + " sets generated.");
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);

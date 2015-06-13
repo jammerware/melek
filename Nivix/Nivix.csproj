@@ -96,7 +96,6 @@
     <Compile Include="Infrastructure\ValueConverters\ArrayStringConverter.cs" />
     <Compile Include="Models\CardFactory.cs" />
     <Compile Include="Models\CardNickname.cs" />
-    <Compile Include="Models\Manifest.cs" />
     <Compile Include="Models\SetData.cs" />
     <Compile Include="ViewModels\CardsViewModel.cs" />
     <Compile Include="ViewModels\PackageBuilderViewModel.cs" />

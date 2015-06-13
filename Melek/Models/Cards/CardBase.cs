@@ -4,7 +4,7 @@ using Bazam.Slugging;
 
 namespace Melek.Models
 {
-    public abstract class CardBase<T> : ISluggable where T : IPrinting
+    public abstract class CardBase<T> : ICard, ISluggable where T : IPrinting
     {
         // stock properties
         public IReadOnlyList<Format> LegalFormats { get; set; }
@@ -13,6 +13,7 @@ namespace Melek.Models
         public IReadOnlyList<Ruling> Rulings { get; set; }
 
         // abstract properties
+        protected abstract IEnumerable<CardCostCollection> AllCosts { get; }
         public abstract IList<T> Printings { get; set; }
 
         protected CardBase()
@@ -20,6 +21,11 @@ namespace Melek.Models
             LegalFormats = new List<Format>();
             Printings = new List<T>();
             Rulings = new List<Ruling>();
+        }
+
+        public int GetConvertedManaCost()
+        {
+            return AllCosts.Sum(c => c.GetConvertedManaCost());
         }
 
         public abstract bool IsColor(MagicColor color);
@@ -37,6 +43,16 @@ namespace Melek.Models
             }
 
             return true;
+        }
+
+        public bool IsMulticolored()
+        {
+            List<MagicColor> colors = new List<MagicColor>();
+            foreach (CardCostCollection cost in AllCosts) {
+                colors.AddRange(cost.GetColors());
+            }
+
+            return colors.Where(c => c == MagicColor.COLORLESS).Count() > 1;
         }
 
         /// <summary>

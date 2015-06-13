@@ -32,7 +32,7 @@ namespace Melek.Models
             return GetColors().Contains(color);
         }
 
-        public bool IsMultiColored()
+        public bool IsMulticolored()
         {
             return GetColors().Where(c => c != MagicColor.COLORLESS).Count() > 1;
         }
@@ -50,6 +50,16 @@ namespace Melek.Models
             }
 
             return colors;
+        }
+
+        public int GetConvertedManaCost()
+        {
+            int total = 0;
+            foreach (CardCost cost in this) {
+                total += cost.Quantity;
+            }
+
+            return total;
         }
 
         public override string ToString()
