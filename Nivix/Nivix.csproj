@@ -35,9 +35,9 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.6.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bazam.2.6.5.0\lib\net45\Bazam.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Bazam, Version=2.6.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Bazam.2.6.6.0\lib\net45\Bazam.dll</HintPath>
     </Reference>
     <Reference Include="Bazam.SharpZipLibHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bazam.SharpZipLibHelpers.1.0.0.0\lib\net45\Bazam.SharpZipLibHelpers.dll</HintPath>

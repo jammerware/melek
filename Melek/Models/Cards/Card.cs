@@ -2,7 +2,7 @@
 
 namespace Melek.Models
 {
-    public class Card : CardBase<Printing>, ICard<Printing>
+    public class Card : CardBase<Printing>
     {
         public IReadOnlyList<CardType> CardTypes { get; set; }
         public CardCostCollection Cost { get; set; }

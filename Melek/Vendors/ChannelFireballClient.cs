@@ -5,14 +5,14 @@ using Melek.Models;
 
 namespace Melek.Vendors
 {
-    public class ChannelFireballClient : VendorClient
+    public class ChannelFireballClient : IVendorClient
     {
         private string GetSearchLink(Card card, Set set)
         {
             return "http://store.channelfireball.com/products/search?query=" + HttpUtility.UrlEncode(card.Name + " " + set.CFName);
         }
 
-        public override string GetLink(Card card, Set set)
+        public string GetLink(Card card, Set set)
         {
             string searchLink = GetSearchLink(card, set);
 
@@ -28,12 +28,12 @@ namespace Melek.Vendors
             return searchLink;
         }
 
-        public override string GetName()
+        public string GetName()
         {
             return "ChannelFireball.com";
         }
 
-        public override string GetPrice(Card card, Set set)
+        public string GetPrice(Card card, Set set)
         {
             string url = GetSearchLink(card, set);
             string html = string.Empty;

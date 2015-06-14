@@ -25,9 +25,6 @@ namespace Nivix.ViewModels
 {
     public class PackageBuilderViewModel : ViewModelBase
     {
-        #region Constants
-        private const int SOFT_HYPHEN_CODE = 8722;
-        #endregion
 
         #region Fields
         [RelatedProperty("CardReleaseDate")]
@@ -136,15 +133,21 @@ namespace Nivix.ViewModels
                     setData.Add(set.Code, set);
                 }
 
-                IEnumerable<Set> rawSets = (
+                foreach (XElement setElement in doc.Root.Element("sets").Elements("set")) {
+                    Set set = new Set() {
+                        IsPromo = (XmlPal.GetBool(setElement.Element("is_promo")) ?? false)
+                    };
+                }
+
+                Set[] rawSets = (
                     from set in doc.Root.Element("sets").Elements("set")
                     select new Set() {
-                        Code = XMLPal.GetString(set.Element("code")),
-                        Date = GetSetDate(XMLPal.GetString(set.Element("date"))),
-                        IsPromo = (XMLPal.GetBool(set.Element("is_promo")) ?? false),
-                        Name = XMLPal.GetString(set.Element("name"))
+                        Code = XmlPal.GetString(set.Element("code")),
+                        Date = GetSetDate(XmlPal.GetString(set.Element("date"))),
+                        IsPromo = (XmlPal.GetBool(set.Element("is_promo")) ?? false),
+                        Name = XmlPal.GetString(set.Element("name"))
                     }
-                );
+                ).ToArray();
 
                 foreach (Set set in rawSets) {
                     string replacementCode = GetRealSetCodeFromFakeSetCode(setDataDeserialized, set.Code);
@@ -164,12 +167,7 @@ namespace Nivix.ViewModels
                     }
                 }
 
-                Dictionary<string, Card> cards = new Dictionary<string, Card>();
-
                 // pass to load card data
-                // flip cards (like Erayo, Soratami Ascendant) have ——— in their text
-                // split cards (like Beck // Call) have // in their text
-                // transforming cards (like Huntmaster of the Fells) have a back_id property in the source db
                 CardFactory cardFactory = new CardFactory() {
                     CardNicknames = cardNicknames,
                     Sets = sets,
@@ -180,6 +178,7 @@ namespace Nivix.ViewModels
                 }
 
                 // TODO: generate sql and update db omg
+                string lol = "breakpoint omg";
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
@@ -189,48 +188,6 @@ namespace Nivix.ViewModels
         #endregion
 
         #region Parsing helpers
-        private string GetCardTribe(string input)
-        {
-            if (input.IndexOf('—') >= 0) {
-                input = input.Substring(input.IndexOf('—') + 1);
-                return input.Trim();
-            }
-            return string.Empty;
-        }
-
-        private List<CardType> GetCardTypes(string input)
-        {
-            List<CardType> retVal = new List<CardType>();
-            input = input.ToUpper();
-
-            if (input.IndexOf('—') >= 0) {
-                input = input.Substring(0, input.IndexOf('—'));
-            }
-            string[] splitInput = input.Split(new Char[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (input.Contains("ENCHANT ")) {
-                retVal.Add(CardType.ENCHANTMENT);
-            }
-            else if (input.Contains("SCHEME")) {
-                retVal.Add(CardType.SCHEME);
-            }
-            else {
-                foreach (string inputPiece in splitInput) {
-                    if (inputPiece == "EATURECRAY") {
-                        retVal.Add(CardType.CREATURE);
-                    }
-                    else if (inputPiece == "INTERRUPT") {
-                        retVal.Add(CardType.INSTANT);
-                    }
-                    else {
-                        retVal.Add(EnuMaster.Parse<CardType>(inputPiece.ToUpper().Trim()));
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
         private DateTime? GetSetDate(string input)
         {
             DateTime? retVal = null;
@@ -250,41 +207,6 @@ namespace Nivix.ViewModels
             }
 
             return retVal;
-        }
-
-        private Card GetCard(PrintingBase printing, string cardTypesData, string cost, string name, string power, string text, string toughness, string tribeData, string watermark, Dictionary<string, Set> setDictionary, List<Format> legalFormats, List<Ruling> rulings)
-        {
-            int dummyForOutParams = 0;
-
-            // With the gatherer update in 2014, Wizards stopped using hard hyphens (the subtraction sign on every keyboard) and instead
-            // replaced them with ASCII character 8722, which http://www.ascii.cl/htmlcodes.htm describes as a "soft hyphen." BECAUSE
-            // THAT FUCKING MAKES SENSE. How do they even enter the data in the DB with a character that isn't on a keyboard?
-            // ... GOD. Just replace them with the normal hyphen sign, which was good enough for our parents.
-            text = text.Replace((char)SOFT_HYPHEN_CODE, '-');
-
-            // if the card isn't a legendary creature, it's not legal as a general in commander
-            List<CardType> cardTypes = GetCardTypes(cardTypesData);
-            if(legalFormats.Contains(Format.CommanderGeneral) && !(cardTypes.Contains(CardType.LEGENDARY) && cardTypes.Contains(CardType.CREATURE))) {
-                legalFormats.Remove(Format.CommanderGeneral);
-            }
-
-            return new Card() {
-                CardTypes = cardTypes.ToArray(),
-                Cost = (!string.IsNullOrEmpty(cost) ? new CardCostCollection(cost) : null),
-                LegalFormats = legalFormats.ToArray(),
-                Name = name,
-                Power = (Int32.TryParse(power, out dummyForOutParams) ? (int?)Int32.Parse(power) : null),
-                Printings = new List<Printing>() { 
-                    //TODO: FIX
-                    //printing
-                },
-                Rulings = rulings.ToArray(),
-                Text = text,
-                Toughness = (Int32.TryParse(toughness, out dummyForOutParams) ? (int?)Int32.Parse(toughness) : null),
-                //TODO: FIX
-                //Tribe = GetCardTribe(tribeData),
-                //Watermark = watermark
-            };
         }
 
         private string GetRealSetCodeFromFakeSetCode(IList<SetData> setData, string fakeCode)

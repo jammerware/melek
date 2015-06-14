@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 namespace Melek.Models.Cards
 {
-    public class SplitCard : CardBase<SplitPrinting>, ICard<SplitPrinting>
+    public class SplitCard : CardBase<SplitPrinting>
     {
         // general
         public bool HasFuse { get; set; }

@@ -5,20 +5,20 @@ using Melek.Models;
 
 namespace Melek.Vendors
 {
-    public class AmazonClient : VendorClient
+    public class AmazonClient : IVendorClient
     {
-        public override string GetLink(Card card, Set set)
+        public string GetLink(Card card, Set set)
         {
             string cardName = card.Name.Replace("/", string.Empty).ToLower();
             return "http://www.amazon.com/s/field-keywords=mtg+" + HttpUtility.UrlEncode(set.Name).ToLower() + "+" + HttpUtility.UrlEncode(cardName);
         }
 
-        public override string GetName()
+        public string GetName()
         {
             return "Amazon.com";
         }
 
-        public override string GetPrice(Card card, Set set)
+        public string GetPrice(Card card, Set set)
         {
             string url = GetLink(card, set);
             string html = new WebClient().DownloadString(url);

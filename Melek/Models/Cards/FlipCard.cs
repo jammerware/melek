@@ -2,7 +2,7 @@
 
 namespace Melek.Models
 {
-    public class FlipCard : CardBase<FlipPrinting>, ICard<FlipPrinting>
+    public class FlipCard : CardBase<FlipPrinting>
     {
         public CardCostCollection Cost { get; set; }
 
