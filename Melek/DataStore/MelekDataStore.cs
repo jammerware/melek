@@ -305,7 +305,7 @@ namespace Melek.DataStore
                             }                            
 
                             if (criteriaOperator == "!")
-                                criteria.Add((ICard<IPrinting> card) => { return card.IsColors(colors) && (!requireMulticolored || card.Cost.IsMultiColored()); });
+                                criteria.Add((ICard<IPrinting> card) => { return card.IsColors(colors) && (!requireMulticolored || card.IsMulticolored()); });
                             else if (criteriaOperator == ":")
                                 criteria.Add((ICard<IPrinting> card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.Cost.IsMultiColored())); });
                             break;

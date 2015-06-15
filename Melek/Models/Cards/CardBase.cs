@@ -13,6 +13,7 @@ namespace Melek.Models
         public IReadOnlyList<Ruling> Rulings { get; set; }
 
         // abstract properties
+        protected abstract IEnumerable<CardCostCollection> AllCosts { get; set; }
         public abstract IList<T> Printings { get; set; }
 
         protected CardBase()

@@ -32,7 +32,7 @@ namespace Melek.Models
             return GetColors().Contains(color);
         }
 
-        public bool IsMultiColored()
+        public bool IsMulticolored()
         {
             return GetColors().Where(c => c != MagicColor.COLORLESS).Count() > 1;
         }

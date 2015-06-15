@@ -6,8 +6,30 @@ namespace Melek.Models
     {
         public CardCostCollection Cost { get; set; }
 
+        // names, types, & tribes
+        public string FlippedName { get; set; }
+        public IReadOnlyList<CardType> NormalCardTypes { get; set; }
+        public IReadOnlyList<string> NormalTribes { get; set; }
+        public IReadOnlyList<CardType> FlippedCardTypes { get; set; }
+        public IReadOnlyList<string> FlippedTribes { get; set; }
+
+        // p/t
+        public int? NormalPower { get; set; }
+        public int? NormalToughness { get; set; }
+        public int? FlippedPower { get; set; }
+        public int? FlippedToughness { get; set; }
+
+        // text
+        public string NormalText { get; set; }
+        public string FlippedText { get; set; }
+
         public FlipCard() : base()
         {
+            NormalCardTypes = new List<CardType>();
+            NormalTribes = new List<string>();
+            FlippedCardTypes = new List<CardType>();
+            FlippedTribes = new List<string>();
+
             Printings = new List<FlipPrinting>();
         }
 

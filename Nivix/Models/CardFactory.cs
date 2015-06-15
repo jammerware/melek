@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Bazam.Modules;
@@ -24,12 +25,11 @@ namespace Nivix.Models
             Cards = new Dictionary<string, ICard>();
         }
 
-        public ICard AddCardData(XElement cardData)
+        public void AddCardData(XElement cardData)
         {
             // declare some generally useful things
-            ICard retVal = null;
-            string name = XMLPal.GetString(cardData.Element("name")).Trim();
-            string text = XMLPal.GetString(cardData.Element("ability")).Trim();
+            string name = XmlPal.GetString(cardData.Element("name")).Trim();
+            string text = XmlPal.GetString(cardData.Element("ability")).Trim();
 
             // flip cards (like Erayo, Soratami Ascendant) have ——— in their text
             // split cards (like Beck // Call) have // in their name
@@ -39,7 +39,6 @@ namespace Nivix.Models
                 // TRANSFORMERS - MORE THAN MEETS THE EYE
                 TransformCard card = new TransformCard();
                 SetICardProperties(card, cardData);
-                retVal = card;
             }
             else if (name.Contains(" // ")) {
                 // split card
@@ -47,6 +46,61 @@ namespace Nivix.Models
             }
             else if (text.Contains("———")) {
                 // flip card
+                FlipCard card = Cards.ContainsKey(name) ? Cards[name] as FlipCard : null;
+                if (card == null) {
+                    card = new FlipCard();
+                    SetICardProperties(card, cardData);
+
+                    string costData = XmlPal.GetString(cardData.Element("manacost"));
+                    string typeData = XmlPal.GetString(cardData.Element("type"));
+
+                    // cost
+                    card.Cost = string.IsNullOrEmpty(costData) ? null : new CardCostCollection(costData);
+
+                    // normal (unflipped) 
+                    // resolve text
+                    string cardText = XmlPal.GetString(cardData.Element("ability"));
+
+                    card.NormalCardTypes = GetTypesFromTypeData(typeData);
+                    card.NormalPower = XmlPal.GetInt(cardData.Element("power"));
+                    card.NormalText = cardText.Substring(0, cardText.IndexOf("———")).Trim();
+                    card.NormalToughness = XmlPal.GetInt(cardData.Element("toughness"));
+                    card.NormalTribes = GetTribesFromTypeData(typeData);
+
+                    // flipped is trickier
+                    string rawFlippedText = cardText.Substring(cardText.IndexOf("———") + 3).Trim();
+                    string[] lines = rawFlippedText.Split(new char[] { '\\', 'n' }, StringSplitOptions.RemoveEmptyEntries);
+                    string flippedTypeData = lines[1];
+                    Match ptMatch = Regex.Match(lines[lines.Length - 1], @"(?<power>[\d+])/(?<toughness>[\d+])");
+                    StringBuilder textBuilder = new StringBuilder();
+
+
+                    card.FlippedName = lines[0];
+                    card.FlippedCardTypes = GetTypesFromTypeData(flippedTypeData);
+                    card.FlippedTribes = GetTribesFromTypeData(flippedTypeData);
+
+                    if (ptMatch.Success) {
+                        card.FlippedPower = int.Parse(ptMatch.Groups["power"].Value);
+                        card.FlippedToughness = int.Parse(ptMatch.Groups["toughness"].Value);
+
+                        for (int i = 2; i < lines.Length - 1; i++) {
+                            textBuilder.AppendLine(lines[i]);
+                        }
+                    }
+                    else {
+                        for (int i = 2; i < lines.Length; i++) {
+                            textBuilder.AppendLine(lines[i]);
+                        }
+                    }
+
+                    card.FlippedText = textBuilder.ToString();
+                }
+
+                FlipPrinting printing = new FlipPrinting();
+                SetIPrintingProperties(printing, cardData);
+                printing.Artist = XmlPal.GetString(cardData.Element("artist"));
+
+                card.Printings.Add(printing);
             }
             else {
                 // reg'lar card, y'all
@@ -55,14 +109,14 @@ namespace Nivix.Models
                     card = new Card();
                     SetICardProperties(card, cardData);
 
-                    string costData = XMLPal.GetString(cardData.Element("manacost"));
-                    string typeData = XMLPal.GetString(cardData.Element("type"));
+                    string costData = XmlPal.GetString(cardData.Element("manacost"));
+                    string typeData = XmlPal.GetString(cardData.Element("type"));
 
                     card.CardTypes = GetTypesFromTypeData(typeData);
                     card.Cost = string.IsNullOrEmpty(costData) ? null : new CardCostCollection(costData);
-                    card.Power = XMLPal.GetInt(cardData.Element("power"));
-                    card.Text = XMLPal.GetString(cardData.Element("ability"));
-                    card.Toughness = XMLPal.GetInt(cardData.Element("toughness"));
+                    card.Power = XmlPal.GetInt(cardData.Element("power"));
+                    card.Text = XmlPal.GetString(cardData.Element("ability"));
+                    card.Toughness = XmlPal.GetInt(cardData.Element("toughness"));
                     card.Tribes = GetTribesFromTypeData(typeData);
 
                     Cards.Add(name, card);
@@ -72,33 +126,31 @@ namespace Nivix.Models
                 Printing printing = new Printing();
                 SetIPrintingProperties(printing, cardData);
 
-                printing.Artist = XMLPal.GetString(cardData.Element("artist"));
-                printing.FlavorText = XMLPal.GetString(cardData.Element("flavor"));
+                printing.Artist = XmlPal.GetString(cardData.Element("artist"));
+                printing.FlavorText = XmlPal.GetString(cardData.Element("flavor"));
 
                 card.Printings.Add(printing);
             }
-
-            return retVal;
         }
 
         private void SetICardProperties(ICard card, XElement cardData)
         {
             // legal formats
             List<Format> legalFormats = new List<Format>();
-            if (XMLPal.GetString(cardData.Element("legality_Standard")) == "v") {
+            if (XmlPal.GetString(cardData.Element("legality_Standard")) == "v") {
                 legalFormats.Add(Format.Standard);
             }
-            if (XMLPal.GetString(cardData.Element("legality_Modern")) == "v") {
+            if (XmlPal.GetString(cardData.Element("legality_Modern")) == "v") {
                 legalFormats.Add(Format.Modern);
             }
-            if (XMLPal.GetString(cardData.Element("legality_Legacy")) == "v") {
+            if (XmlPal.GetString(cardData.Element("legality_Legacy")) == "v") {
                 legalFormats.Add(Format.Legacy);
             }
-            if (XMLPal.GetString(cardData.Element("legality_Vintage")) == "v") {
+            if (XmlPal.GetString(cardData.Element("legality_Vintage")) == "v") {
                 legalFormats.Add(Format.Vintage);
             }
 
-            string commanderLegalityValue = XMLPal.GetString(cardData.Element("legality_Commander"));
+            string commanderLegalityValue = XmlPal.GetString(cardData.Element("legality_Commander"));
             if (commanderLegalityValue == "g" || commanderLegalityValue == "v") {
                 legalFormats.Add(Format.Commander);
                 if (commanderLegalityValue == "v") {
@@ -107,7 +159,7 @@ namespace Nivix.Models
             }
 
             // rulings
-            string rulingsData = XMLPal.GetString(cardData.Element("ruling"));
+            string rulingsData = XmlPal.GetString(cardData.Element("ruling"));
             List<Ruling> rulings = new List<Ruling>();
             if (!string.IsNullOrEmpty(rulingsData)) {
                 foreach (string rulingData in rulingsData.Split(new string[] { "\\n" }, StringSplitOptions.RemoveEmptyEntries)) {
@@ -129,7 +181,7 @@ namespace Nivix.Models
             }
 
             card.LegalFormats = legalFormats;
-            card.Name = XMLPal.GetString(cardData.Element("name")).Trim();
+            card.Name = XmlPal.GetString(cardData.Element("name")).Trim();
             card.Rulings = rulings;
 
             if (CardNicknames.Keys.Contains(card.Name)) {
@@ -139,17 +191,17 @@ namespace Nivix.Models
 
         private void SetIPrintingProperties(IPrinting printing, XElement cardData)
         {
-            string rarityData = XMLPal.GetString(cardData.Element("rarity"));
+            string rarityData = XmlPal.GetString(cardData.Element("rarity"));
             if (string.IsNullOrEmpty(rarityData)) { rarityData = "C"; }
 
             string setData = cardData.Element("set").Value;
             SetData match = SetMetaData.Values.Where(s => s.GathererCode == setData).FirstOrDefault();
             if (match != null) { setData = match.Code; }
 
-            printing.MultiverseId = XMLPal.GetString(cardData.Element("id"));
+            printing.MultiverseId = XmlPal.GetString(cardData.Element("id"));
             printing.Rarity = StringToCardRarityConverter.GetRarity(rarityData);
             printing.Set = Sets[setData];
-            printing.Watermark = XMLPal.GetString(cardData.Element("watermark"));
+            printing.Watermark = XmlPal.GetString(cardData.Element("watermark"));
         }
 
         private IReadOnlyList<string> GetTribesFromTypeData(string typeData)
