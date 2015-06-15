@@ -52,6 +52,16 @@ namespace Melek.Models
             return colors;
         }
 
+        public int GetConvertedManaCost()
+        {
+            int total = 0;
+            foreach (CardCost cost in this) {
+                total += cost.Quantity;
+            }
+
+            return total;
+        }
+
         public override string ToString()
         {
             StringBuilder retVal = new StringBuilder();

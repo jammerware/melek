@@ -13,6 +13,7 @@ namespace Nivix.Models
 {
     public class CardFactory
     {
+        private const int SOFT_HYPHEN_CODE = 8722;
         private List<TransformCard> _UnresolvedTransformers = new List<TransformCard>();
 
         public IDictionary<string, ICard> Cards { get; private set; }
@@ -31,11 +32,18 @@ namespace Nivix.Models
             string name = XmlPal.GetString(cardData.Element("name")).Trim();
             string text = XmlPal.GetString(cardData.Element("ability")).Trim();
 
+            Console.WriteLine(name);
+
+            // With the gatherer update in 2014, Wizards stopped using hard hyphens (the subtraction sign on every keyboard) and instead
+            // replaced them with ASCII character 8722, which http://www.ascii.cl/htmlcodes.htm describes as a "soft hyphen." BECAUSE
+            // THAT FUCKING MAKES SENSE. How do they even enter the data in the DB with a character that isn't on a keyboard?
+            // ... GOD. Just replace them with the normal hyphen sign, which was good enough for our parents.
+            text = text.Replace((char)SOFT_HYPHEN_CODE, '-');
+
             // flip cards (like Erayo, Soratami Ascendant) have ——— in their text
             // split cards (like Beck // Call) have // in their name
             // transforming cards (like Huntmaster of the Fells) have a back_id property in the source db
-
-            if(cardData.Element("back_id") != null) {
+            if(cardData.Element("back_id") != null && !string.IsNullOrEmpty(XmlPal.GetString(cardData.Element("back_id")))) {
                 // TRANSFORMERS - MORE THAN MEETS THE EYE
                 TransformCard card = new TransformCard();
                 SetICardProperties(card, cardData);
@@ -90,7 +98,7 @@ namespace Nivix.Models
                     else {
                         for (int i = 2; i < lines.Length; i++) {
                             textBuilder.AppendLine(lines[i]);
-                        }
+            }
                     }
 
                     card.FlippedText = textBuilder.ToString();
@@ -112,11 +120,29 @@ namespace Nivix.Models
                     string costData = XmlPal.GetString(cardData.Element("manacost"));
                     string typeData = XmlPal.GetString(cardData.Element("type"));
 
+                    if (cardData.Element("power") != null) {
+                        // p/t can be weird things like *
+                        int? power = null;
+                        int? toughness = null;
+                        int powerParse = 0;
+                        int toughnessParse = 0;
+                        string sPower = XmlPal.GetString(cardData.Element("power"));
+                        string sToughness = XmlPal.GetString(cardData.Element("toughness"));
+
+                        if (int.TryParse(sPower, out powerParse)) {
+                            power = powerParse;
+                        }
+                        if (int.TryParse(sToughness, out toughnessParse)) {
+                            toughness = toughnessParse;
+                        }
+
+                        card.Power = power;
+                        card.Toughness = toughness;
+                    }
+
                     card.CardTypes = GetTypesFromTypeData(typeData);
                     card.Cost = string.IsNullOrEmpty(costData) ? null : new CardCostCollection(costData);
-                    card.Power = XmlPal.GetInt(cardData.Element("power"));
                     card.Text = XmlPal.GetString(cardData.Element("ability"));
-                    card.Toughness = XmlPal.GetInt(cardData.Element("toughness"));
                     card.Tribes = GetTribesFromTypeData(typeData);
 
                     Cards.Add(name, card);
@@ -130,7 +156,13 @@ namespace Nivix.Models
                 printing.FlavorText = XmlPal.GetString(cardData.Element("flavor"));
 
                 card.Printings.Add(printing);
+                retVal = card;
             }
+            // need to work this out somewhere along the way
+            //List<CardType> cardTypes = GetCardTypes(cardTypesData);
+            //if (legalFormats.Contains(Format.CommanderGeneral) && !(cardTypes.Contains(CardType.LEGENDARY) && cardTypes.Contains(CardType.CREATURE))) {
+            //    legalFormats.Remove(Format.CommanderGeneral);
+            //}
         }
 
         private void SetICardProperties(ICard card, XElement cardData)

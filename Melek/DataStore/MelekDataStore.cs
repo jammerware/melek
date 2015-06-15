@@ -307,7 +307,7 @@ namespace Melek.DataStore
                             if (criteriaOperator == "!")
                                 criteria.Add((ICard<IPrinting> card) => { return card.IsColors(colors) && (!requireMulticolored || card.IsMulticolored()); });
                             else if (criteriaOperator == ":")
-                                criteria.Add((ICard<IPrinting> card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.Cost.IsMultiColored())); });
+                                criteria.Add((ICard<IPrinting> card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored())); });
                             break;
                         case "mid":
                             criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.MultiverseId.Equals(criteriaValue, StringComparison.InvariantCultureIgnoreCase)); });
@@ -364,7 +364,7 @@ namespace Melek.DataStore
                     }
 
                     if (filters == null) filters = new List<CardSearchDelegate>();
-                    filters.Add((ICard card) => { 
+                    filters.Add((ICard<IPrinting> card) => { 
                         return 
                             Regex.IsMatch(card.Name, nameTermPattern, RegexOptions.IgnoreCase) ||
                             card.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)); 
@@ -372,7 +372,7 @@ namespace Melek.DataStore
                 }
 
                 foreach (CardSearchDelegate filter in filters) {
-                    cards = cards.Where(c => filter(c));
+                    cards = cards.Where(c => filter(c as ICard<IPrinting>));
                 }
 
                 return cards

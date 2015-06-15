@@ -3,9 +3,9 @@ using Melek.Models;
 
 namespace Melek.Vendors
 {
-    public class GathererClient : InfoClient
+    public class GathererClient : IInfoClient
     {
-        public override string GetLink(Card card, Set set)
+        public string GetLink(Card card, Set set)
         {
             PrintingBase printing = card.Printings.Where(p => p.Set.Code == set.Code).FirstOrDefault();
             if (printing != null) {
@@ -14,7 +14,7 @@ namespace Melek.Vendors
             return string.Empty;
         }
 
-        public override string GetName()
+        public string GetName()
         {
             return "Gatherer";
         }

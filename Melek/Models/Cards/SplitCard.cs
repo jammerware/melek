@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 namespace Melek.Models.Cards
 {
-    public class SplitCard : CardBase<SplitPrinting>, ICard<SplitPrinting>
+    public class SplitCard : CardBase<SplitPrinting>
     {
         // general
         public bool HasFuse { get; set; }
         // we gon' try this - currently all split cards have the same types on each half
-        // if not we'll change it later
+        // if that stops being true we'll change it later
         public CardType Type { get; set; }
 
         // left
@@ -18,6 +18,11 @@ namespace Melek.Models.Cards
         public string RightText { get; set; }
 
         #region enforced by CardBase<T>
+        protected override IEnumerable<CardCostCollection> AllCosts
+        {
+            get { return new CardCostCollection[] { LeftCost, RightCost }; }
+        }
+
         public override IList<SplitPrinting> Printings { get; set; }
 
         public override bool IsColor(MagicColor color)

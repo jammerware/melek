@@ -4,9 +4,9 @@ using Melek.Models;
 
 namespace Melek.Vendors
 {
-    public class MtgoTradersClient : VendorClient
+    public class MtgoTradersClient : IVendorClient
     {
-        public override string GetLink(Card card, Set set)
+        public string GetLink(Card card, Set set)
         {
             string sterilizedCardName = Regex.Replace(card.Name, "[',]", string.Empty);
             sterilizedCardName = sterilizedCardName.Replace(' ', '_');
@@ -19,12 +19,12 @@ namespace Melek.Vendors
             return string.Format("http://www.mtgotraders.com/store/{0}_{1}.html", set.Code, sterilizedCardName);
         }
 
-        public override string GetName()
+        public string GetName()
         {
             return "MtgoTraders.com";
         }
 
-        public override string GetPrice(Card card, Set set)
+        public string GetPrice(Card card, Set set)
         {
             WebClient client = new WebClient();
             using (WebClient webClient = new WebClient()) {

@@ -2,7 +2,7 @@
 
 namespace Melek.Models
 {
-    public class Card : CardBase<Printing>, ICard<Printing>
+    public class Card : CardBase<Printing>
     {
         public IReadOnlyList<CardType> CardTypes { get; set; }
         public CardCostCollection Cost { get; set; }
@@ -17,6 +17,11 @@ namespace Melek.Models
         }
 
         #region enforced by CardBase<T>
+        protected override IEnumerable<CardCostCollection> AllCosts
+        {
+            get { return new CardCostCollection[] { Cost }; }
+        }
+
         public override IList<Printing> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {

@@ -6,7 +6,7 @@ using Melek.Models;
 
 namespace Melek.Vendors
 {
-    public class TcgPlayerClient : VendorClient
+    public class TcgPlayerClient : IVendorClient
     {
         private string GetAPIData(Card card, Set set)
         {
@@ -18,7 +18,7 @@ namespace Melek.Vendors
             }
         }
 
-        public override string GetLink(Card card, Set set)
+        public string GetLink(Card card, Set set)
         {
             string apiData = GetAPIData(card, set);
             MatchCollection matches = Regex.Matches(apiData, "<link>([\\s\\S]+?)</link>");
@@ -28,12 +28,12 @@ namespace Melek.Vendors
             return string.Format("http://store.tcgplayer.com/magic/{0}/{1}", Slugger.Slugify(string.IsNullOrEmpty(set.TCGPlayerName) ? set.Name : set.TCGPlayerName), Slugger.Slugify(card.Name));
         }
 
-        public override string GetName()
+        public string GetName()
         {
             return "TCGPlayer.com";
         }
 
-        public override string GetPrice(Card card, Set set)
+        public string GetPrice(Card card, Set set)
         {
             string apiData = GetAPIData(card, set);
             MatchCollection matches = Regex.Matches(apiData, "<price>([0-9]*?\\.[0-9]{2})</price>");

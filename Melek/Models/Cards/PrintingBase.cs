@@ -1,6 +1,6 @@
 ﻿namespace Melek.Models
 {
-    public abstract class PrintingBase
+    public abstract class PrintingBase : IPrinting
     {
         public string MultiverseId { get; set; }
         public CardRarity Rarity { get; set; }

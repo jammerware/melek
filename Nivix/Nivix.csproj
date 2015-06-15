@@ -36,8 +36,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bazam, Version=2.6.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Bazam.2.6.6.0\lib\net45\Bazam.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Bazam.SharpZipLibHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bazam.SharpZipLibHelpers.1.0.0.0\lib\net45\Bazam.SharpZipLibHelpers.dll</HintPath>
@@ -96,7 +96,6 @@
     <Compile Include="Infrastructure\ValueConverters\ArrayStringConverter.cs" />
     <Compile Include="Models\CardFactory.cs" />
     <Compile Include="Models\CardNickname.cs" />
-    <Compile Include="Models\Manifest.cs" />
     <Compile Include="Models\SetData.cs" />
     <Compile Include="ViewModels\CardsViewModel.cs" />
     <Compile Include="ViewModels\PackageBuilderViewModel.cs" />

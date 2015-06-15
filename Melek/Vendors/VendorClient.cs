@@ -2,8 +2,8 @@
 
 namespace Melek.Vendors
 {
-    public abstract class VendorClient : InfoClient
+    public interface IVendorClient : IInfoClient
     {
-        public abstract string GetPrice(Card card, Set set);
+        string GetPrice(Card card, Set set);
     }
 }
