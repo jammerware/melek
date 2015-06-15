@@ -52,7 +52,7 @@ namespace Nivix.Models
                 // split card
 
             }
-            else if (text.Contains("———")) {
+            else if (text.Contains("———") && name != "Curse of the Fire Penguin") {
                 // flip card
                 FlipCard card = Cards.ContainsKey(name) ? Cards[name] as FlipCard : null;
                 if (card == null) {
@@ -76,8 +76,8 @@ namespace Nivix.Models
                     card.NormalTribes = GetTribesFromTypeData(typeData);
 
                     // flipped is trickier
-                    string rawFlippedText = cardText.Substring(cardText.IndexOf("———") + 3).Trim();
-                    string[] lines = rawFlippedText.Split(new char[] { '\\', 'n' }, StringSplitOptions.RemoveEmptyEntries);
+                    string rawFlippedText = cardText.Substring(cardText.IndexOf("———") + 3).Trim('\\', 'n');
+                    string[] lines = rawFlippedText.Split(new string[] { "\\n" }, StringSplitOptions.RemoveEmptyEntries);
                     string flippedTypeData = lines[1];
                     Match ptMatch = Regex.Match(lines[lines.Length - 1], @"(?<power>[\d+])/(?<toughness>[\d+])");
                     StringBuilder textBuilder = new StringBuilder();
@@ -98,7 +98,7 @@ namespace Nivix.Models
                     else {
                         for (int i = 2; i < lines.Length; i++) {
                             textBuilder.AppendLine(lines[i]);
-            }
+                        }
                     }
 
                     card.FlippedText = textBuilder.ToString();
@@ -156,7 +156,6 @@ namespace Nivix.Models
                 printing.FlavorText = XmlPal.GetString(cardData.Element("flavor"));
 
                 card.Printings.Add(printing);
-                retVal = card;
             }
             // need to work this out somewhere along the way
             //List<CardType> cardTypes = GetCardTypes(cardTypesData);
