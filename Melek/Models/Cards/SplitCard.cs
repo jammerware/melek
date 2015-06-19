@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace Melek.Models.Cards
+namespace Melek.Models
 {
     public class SplitCard : CardBase<SplitPrinting>
     {

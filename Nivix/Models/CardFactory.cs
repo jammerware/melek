@@ -50,8 +50,50 @@ namespace Nivix.Models
             }
             else if (name.Contains(" // ")) {
                 // split card
+                // unlike other types, most fields in a split card have two values divided by " // ".
+                string divider = " // ";
+                SplitCard card = Cards.ContainsKey(name) ? Cards[name] as SplitCard : null;
 
+                if (card == null) {
+                    card = new SplitCard();
+                    SetICardProperties(card, cardData);
+
+                    string costData = XmlPal.GetString(cardData.Element("manacost"));
+                    string typeData = XmlPal.GetString(cardData.Element("type"));
+                    string textData = XmlPal.GetString(cardData.Element("ability"));
+
+                    // right now we're assuming the type of each half is the same (because they all are as of now).
+                    typeData = typeData.Substring(0, typeData.IndexOf(divider));
+                    string leftCostData = costData.Substring(0, costData.IndexOf(divider)).Trim();
+                    string rightCostData = costData.Substring(costData.IndexOf(divider) + divider.Length).Trim();
+
+                    card.HasFuse = Regex.IsMatch(textData, @"\bFuse\b");
+                    card.LeftCost = new CardCostCollection(leftCostData);
+                    card.RightCost = new CardCostCollection(rightCostData);
+                    card.LeftText = textData.Substring(0, textData.IndexOf(divider));
+                    card.RightText = textData.Substring(textData.IndexOf(divider) + divider.Length);
+                    card.Type = GetTypesFromTypeData(typeData).First();
+
+                    Cards.Add(name, card);
+                }
+
+                SplitPrinting printing = new SplitPrinting();
+                SetIPrintingProperties(printing, cardData);
+
+                string artistData = XmlPal.GetString(cardData.Element("artist"));
+                // some promotional printings seem to have regular artist data - no one knows why
+                if (artistData.IndexOf(divider) >= 0) {
+                    printing.LeftArtist = artistData.Substring(0, artistData.IndexOf(divider)).Trim();
+                    printing.RightArtist = artistData.Substring(artistData.IndexOf(divider) + divider.Length).Trim();
+                }
+                else {
+                    printing.LeftArtist = artistData;
+                    printing.RightArtist = artistData;
+                }
+
+                card.Printings.Add(printing);
             }
+            // curse of the fire penguin is the only flip card that doesn't have a name for each side. WOT. come back to this.
             else if (text.Contains("———") && name != "Curse of the Fire Penguin") {
                 // flip card
                 FlipCard card = Cards.ContainsKey(name) ? Cards[name] as FlipCard : null;
@@ -102,6 +144,7 @@ namespace Nivix.Models
                     }
 
                     card.FlippedText = textBuilder.ToString();
+                    Cards.Add(name, card);
                 }
 
                 FlipPrinting printing = new FlipPrinting();
@@ -224,6 +267,9 @@ namespace Nivix.Models
         {
             string rarityData = XmlPal.GetString(cardData.Element("rarity"));
             if (string.IsNullOrEmpty(rarityData)) { rarityData = "C"; }
+            // this is a bit of a cheat - the split cards currently come out with rarity like "U // U" and stuff,
+            // but since it's impossible for one half of a card to be more rare than the other...
+            rarityData = rarityData.Substring(0, 1);
 
             string setData = cardData.Element("set").Value;
             SetData match = SetMetaData.Values.Where(s => s.GathererCode == setData).FirstOrDefault();

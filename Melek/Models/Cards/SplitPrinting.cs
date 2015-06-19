@@ -1,4 +1,4 @@
-﻿namespace Melek.Models.Cards
+﻿namespace Melek.Models
 {
     public class SplitPrinting : PrintingBase, IPrinting
     {
