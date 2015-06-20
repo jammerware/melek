@@ -29,10 +29,12 @@ namespace Nivix.Models
         public void AddCardData(XElement cardData)
         {
             // declare some generally useful things
-            string name = XmlPal.GetString(cardData.Element("name")).Trim();
-            string text = XmlPal.GetString(cardData.Element("ability")).Trim();
+            string name = XmlPal.GetString(cardData.Element("name"));
+            string text = XmlPal.GetString(cardData.Element("ability"));
 
+#if DEBUG
             Console.WriteLine(name);
+#endif
 
             // With the gatherer update in 2014, Wizards stopped using hard hyphens (the subtraction sign on every keyboard) and instead
             // replaced them with ASCII character 8722, which http://www.ascii.cl/htmlcodes.htm describes as a "soft hyphen." BECAUSE
@@ -43,10 +45,52 @@ namespace Nivix.Models
             // flip cards (like Erayo, Soratami Ascendant) have ——— in their text
             // split cards (like Beck // Call) have // in their name
             // transforming cards (like Huntmaster of the Fells) have a back_id property in the source db
+            // yes, this is gross
             if(cardData.Element("back_id") != null && !string.IsNullOrEmpty(XmlPal.GetString(cardData.Element("back_id")))) {
                 // TRANSFORMERS - MORE THAN MEETS THE EYE
-                TransformCard card = new TransformCard();
-                SetICardProperties(card, cardData);
+                TransformCard card = Cards.ContainsKey(name) ? Cards[name] as TransformCard : null;
+
+                if (card == null) {
+                    // this can either be a totally new transformer, or it can be the other half of one we've already 
+                    // started but haven't finished
+                    string transformsInto = XmlPal.GetString(cardData.Element("back_id"));
+                    TransformCard existingTransformer = _UnresolvedTransformers.Where(t => t.Printings.Any(p => p.MultiverseId == transformsInto)).FirstOrDefault();
+
+                    if (existingTransformer != null) {
+                        // we've started in this card, we just need to know whether we found the front or back last time
+                        bool frontDone = (existingTransformer.Cost != null);
+
+                        if (!frontDone) {
+                            SetTransformerProperties(existingTransformer, cardData);
+                        }
+                        else {
+                            SetTransformerProperties(existingTransformer, cardData, false);
+                        }
+
+                        _UnresolvedTransformers.Remove(existingTransformer);
+                        Cards.Add(name, existingTransformer);
+                    }
+                    else {
+                        // this is a totally new transformer
+                        card = new TransformCard();
+                        SetICardProperties(card, cardData);
+
+                        string costData = XmlPal.GetString(cardData.Element("manacost"));
+                        
+                        // you can't cast a transforming card transformed, so the transformed side has no cost.
+                        if (!string.IsNullOrEmpty(costData)) {
+                            // this is the "normal" side
+                            SetTransformerProperties(card, cardData);
+                        }
+                        else {
+                            // this is the transformed side
+                            SetTransformerProperties(card, cardData, false);
+                        }
+                    }
+                }
+
+                // this is a new printing for an existing transformer
+                // transforming cards have different multiverse ids on each side. wot
             }
             else if (name.Contains(" // ")) {
                 // split card
@@ -72,6 +116,7 @@ namespace Nivix.Models
                     card.RightCost = new CardCostCollection(rightCostData);
                     card.LeftText = textData.Substring(0, textData.IndexOf(divider));
                     card.RightText = textData.Substring(textData.IndexOf(divider) + divider.Length);
+                    card.Name = XmlPal.GetString(cardData.Element("name"));
                     card.Type = GetTypesFromTypeData(typeData).First();
 
                     Cards.Add(name, card);
@@ -111,6 +156,7 @@ namespace Nivix.Models
                     // resolve text
                     string cardText = XmlPal.GetString(cardData.Element("ability"));
 
+                    card.Name = XmlPal.GetString(cardData.Element("name"));
                     card.NormalCardTypes = GetTypesFromTypeData(typeData);
                     card.NormalPower = XmlPal.GetInt(cardData.Element("power"));
                     card.NormalText = cardText.Substring(0, cardText.IndexOf("———")).Trim();
@@ -123,7 +169,6 @@ namespace Nivix.Models
                     string flippedTypeData = lines[1];
                     Match ptMatch = Regex.Match(lines[lines.Length - 1], @"(?<power>[\d+])/(?<toughness>[\d+])");
                     StringBuilder textBuilder = new StringBuilder();
-
 
                     card.FlippedName = lines[0];
                     card.FlippedCardTypes = GetTypesFromTypeData(flippedTypeData);
@@ -185,6 +230,7 @@ namespace Nivix.Models
 
                     card.CardTypes = GetTypesFromTypeData(typeData);
                     card.Cost = string.IsNullOrEmpty(costData) ? null : new CardCostCollection(costData);
+                    card.Name = XmlPal.GetString(cardData.Element("name"));
                     card.Text = XmlPal.GetString(cardData.Element("ability"));
                     card.Tribes = GetTribesFromTypeData(typeData);
 
@@ -255,7 +301,6 @@ namespace Nivix.Models
             }
 
             card.LegalFormats = legalFormats;
-            card.Name = XmlPal.GetString(cardData.Element("name")).Trim();
             card.Rulings = rulings;
 
             if (CardNicknames.Keys.Contains(card.Name)) {
@@ -325,6 +370,49 @@ namespace Nivix.Models
             }
 
             return retVal;
+        }
+
+        private void SetTransformerProperties(TransformCard card, XElement cardData, bool setFront = true)
+        {
+            string name = XmlPal.GetString(cardData.Element("name"));
+            string costData = XmlPal.GetString(cardData.Element("manacost"));
+            string typeData = XmlPal.GetString(cardData.Element("type"));
+
+            // p/t can be weird things like *
+            int? power = null;
+            int? toughness = null;
+
+            if (cardData.Element("power") != null) {
+                int powerParse = 0;
+                int toughnessParse = 0;
+                string sPower = XmlPal.GetString(cardData.Element("power"));
+                string sToughness = XmlPal.GetString(cardData.Element("toughness"));
+
+                if (int.TryParse(sPower, out powerParse)) {
+                    power = powerParse;
+                }
+                if (int.TryParse(sToughness, out toughnessParse)) {
+                    toughness = toughnessParse;
+                }
+            }
+
+            if (setFront) {
+                card.Cost = string.IsNullOrEmpty(costData) ? null : new CardCostCollection(costData);
+                card.NormalCardTypes = GetTypesFromTypeData(typeData);
+                card.NormalPower = power;
+                card.NormalToughness = toughness;
+                card.NormalText = XmlPal.GetString(cardData.Element("ability"));
+                card.NormalTribes = GetTribesFromTypeData(typeData);
+                card.Name = name;
+            }
+            else {
+                card.TransformedCardTypes = GetTypesFromTypeData(typeData);
+                card.TransformedName = name;
+                card.TransformedPower = power;
+                card.TransformedToughness = toughness;
+                card.TransformedText = XmlPal.GetString(cardData.Element("ability"));
+                card.TransformedTribes = GetTribesFromTypeData(typeData);
+            }
         }
     }
 }

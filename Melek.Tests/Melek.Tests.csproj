@@ -35,9 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.6.6.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Bazam, Version=2.6.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Bazam.2.6.6.0\lib\net45\Bazam.dll</HintPath>
+      <HintPath>..\packages\Bazam.2.6.8.0\lib\net45\Bazam.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Project\Libs\ICSharpCode.SharpZipLib.dll</HintPath>

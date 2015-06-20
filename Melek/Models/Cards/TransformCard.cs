@@ -15,7 +15,8 @@ namespace Melek.Models
         public IReadOnlyList<string> NormalTribes { get; set; }
 
         // back
-        public CardType[] TransformedCardTypes { get; set; }
+        public IReadOnlyList<CardType> TransformedCardTypes { get; set; }
+        public string TransformedName { get; set; }
         public int? TransformedPower { get; set; }
         public string TransformedText { get; set; }
         public int? TransformedToughness { get; set; }
