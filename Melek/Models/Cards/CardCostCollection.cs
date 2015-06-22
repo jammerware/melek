@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Bazam.Modules.Enumerations;
+using Bazam.Modules;
 
 namespace Melek.Models
 {

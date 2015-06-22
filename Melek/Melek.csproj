@@ -81,7 +81,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Set.cs" />
     <Compile Include="Utilities\CardRarityStringConverter.cs" />
-    <Compile Include="Utilities\LoggingNinja.cs" />
     <Compile Include="Vendors\AmazonClient.cs" />
     <Compile Include="Vendors\ChannelFireballClient.cs" />
     <Compile Include="Vendors\GathererClient.cs" />

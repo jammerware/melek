@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 using Bazam.Modules;
-using Bazam.Modules.Enumerations;
 using Bazam.SharpZipLibHelpers;
 using Bazam.Slugging;
 using Bazam.WPF.ViewModels;

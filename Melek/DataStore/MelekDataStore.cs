@@ -9,7 +9,6 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Linq;
 using Bazam.Modules;
-using Bazam.Modules.Enumerations;
 using Bazam.Slugging;
 using Melek.Models;
 using Melek.Models.Helpers;
@@ -27,7 +26,6 @@ namespace Melek.DataStore
         private ICard<IPrinting>[] _Cards;
         private bool _DevMode = false;
         private bool _IsLoaded = false;
-        private LoggingNinja _LoggingNinja;
         private List<Package> _Packages;
         private Set[] _Sets;
         private bool _SaveCardImages;
@@ -128,11 +126,8 @@ namespace Melek.DataStore
                     img.Freeze();
                     return img;
                 }
-                catch (NotSupportedException ex) {
-                    _LoggingNinja.LogError(ex);
-                }
-                catch (IOException ex) {
-                    _LoggingNinja.LogError(ex);
+                catch (Exception ex) {
+                    // we'll come back to this, but I think MtGBar will break if i don't catch this
                 }
                 return null;
             });
@@ -174,8 +169,8 @@ namespace Melek.DataStore
                 try {
                     File.Delete(fileName);
                 }
-                catch (Exception ex) {
-                    _LoggingNinja.LogError(ex);
+                catch (Exception) {
+                    // double hmm
                 }
             }
         }
@@ -185,8 +180,8 @@ namespace Melek.DataStore
             try {
                 Directory.Delete(PackagesDirectory, true);
             }
-            catch (Exception ex) {
-                _LoggingNinja.LogError(ex);
+            catch (Exception) {
+                // hm
             }
         }
 

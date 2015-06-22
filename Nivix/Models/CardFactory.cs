@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Bazam.Modules;
-using Bazam.Modules.Enumerations;
 using Melek.Models;
 using Melek.Utilities;
 
@@ -49,6 +48,8 @@ namespace Nivix.Models
             if(cardData.Element("back_id") != null && !string.IsNullOrEmpty(XmlPal.GetString(cardData.Element("back_id")))) {
                 // TRANSFORMERS - MORE THAN MEETS THE EYE
                 TransformCard card = Cards.ContainsKey(name) ? Cards[name] as TransformCard : null;
+                // some logic branches need this and i forget which, also i'm tired
+                string costData = XmlPal.GetString(cardData.Element("manacost"));
 
                 if (card == null) {
                     // this can either be a totally new transformer, or it can be the other half of one we've already 
@@ -69,13 +70,12 @@ namespace Nivix.Models
 
                         _UnresolvedTransformers.Remove(existingTransformer);
                         Cards.Add(name, existingTransformer);
+                        card = existingTransformer;
                     }
                     else {
                         // this is a totally new transformer
                         card = new TransformCard();
-                        SetICardProperties(card, cardData);
-
-                        string costData = XmlPal.GetString(cardData.Element("manacost"));
+                        SetICardProperties(card, cardData, name);
                         
                         // you can't cast a transforming card transformed, so the transformed side has no cost.
                         if (!string.IsNullOrEmpty(costData)) {
@@ -86,11 +86,32 @@ namespace Nivix.Models
                             // this is the transformed side
                             SetTransformerProperties(card, cardData, false);
                         }
+
+                        _UnresolvedTransformers.Add(card);
                     }
                 }
 
-                // this is a new printing for an existing transformer
-                // transforming cards have different multiverse ids on each side. wot
+                // this is a printing for an existing transformer
+                TransformPrinting printing = null;
+                // EXCEPT we have to make sure we haven't already created it 
+                string setCode = GetSetFromGathererCode(XmlPal.GetString(cardData.Element("set"))).Code;
+                printing = card.Printings.Where(p => p.Set.Code == setCode).FirstOrDefault();
+
+                if (printing == null) {
+                    printing = new TransformPrinting();
+                    SetIPrintingProperties(printing, cardData);
+                    card.Printings.Add(printing);
+                }
+
+                if (!string.IsNullOrEmpty(costData)) {
+                    printing.NormalArtist = XmlPal.GetString(cardData.Element("artist"));
+                    printing.NormalFlavorText = XmlPal.GetString(cardData.Element("flavor"));
+                }
+                else {
+                    printing.TransformedArtist = XmlPal.GetString(cardData.Element("artist"));
+                    printing.TransformedFlavorText = XmlPal.GetString(cardData.Element("flavor"));
+                    printing.TransformedMultiverseId = XmlPal.GetString(cardData.Element("id"));
+                }
             }
             else if (name.Contains(" // ")) {
                 // split card
@@ -100,7 +121,7 @@ namespace Nivix.Models
 
                 if (card == null) {
                     card = new SplitCard();
-                    SetICardProperties(card, cardData);
+                    SetICardProperties(card, cardData, name);
 
                     string costData = XmlPal.GetString(cardData.Element("manacost"));
                     string typeData = XmlPal.GetString(cardData.Element("type"));
@@ -144,7 +165,7 @@ namespace Nivix.Models
                 FlipCard card = Cards.ContainsKey(name) ? Cards[name] as FlipCard : null;
                 if (card == null) {
                     card = new FlipCard();
-                    SetICardProperties(card, cardData);
+                    SetICardProperties(card, cardData, name);
 
                     string costData = XmlPal.GetString(cardData.Element("manacost"));
                     string typeData = XmlPal.GetString(cardData.Element("type"));
@@ -203,7 +224,7 @@ namespace Nivix.Models
                 Card card = Cards.ContainsKey(name) ? Cards[name] as Card : null;
                 if (card == null) {
                     card = new Card();
-                    SetICardProperties(card, cardData);
+                    SetICardProperties(card, cardData, name);
 
                     string costData = XmlPal.GetString(cardData.Element("manacost"));
                     string typeData = XmlPal.GetString(cardData.Element("type"));
@@ -253,7 +274,62 @@ namespace Nivix.Models
             //}
         }
 
-        private void SetICardProperties(ICard card, XElement cardData)
+        private Set GetSetFromGathererCode(string gathererCode)
+        {
+            string setData = gathererCode;
+            SetData match = SetMetaData.Values.Where(s => s.GathererCode == setData).FirstOrDefault();
+            if (match != null) { setData = match.Code; }
+
+            return Sets[setData];
+        }
+
+        private IReadOnlyList<string> GetTribesFromTypeData(string typeData)
+        {
+            List<string> retVal = new List<string>();
+            typeData = typeData.ToUpper();
+
+            if (typeData.IndexOf('—') >= 0) {
+                typeData = typeData.Substring(typeData.IndexOf('—') + 1).Trim();
+                retVal.AddRange(Regex.Split(typeData, @"\s+"));
+            }
+
+            return retVal;
+        }
+
+        private IReadOnlyList<CardType> GetTypesFromTypeData(string typeData)
+        {
+            List<CardType> retVal = new List<CardType>();
+            typeData = typeData.ToUpper();
+
+            if (typeData.IndexOf('—') >= 0) {
+                typeData = typeData.Substring(0, typeData.IndexOf('—'));
+            }
+            string[] splitInput = typeData.Split(new Char[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (typeData.Contains("ENCHANT ")) {
+                retVal.Add(CardType.ENCHANTMENT);
+            }
+            else if (typeData.Contains("SCHEME")) {
+                retVal.Add(CardType.SCHEME);
+            }
+            else {
+                foreach (string inputPiece in splitInput) {
+                    if (inputPiece == "EATURECRAY") {
+                        retVal.Add(CardType.CREATURE);
+                    }
+                    else if (inputPiece == "INTERRUPT") {
+                        retVal.Add(CardType.INSTANT);
+                    }
+                    else {
+                        retVal.Add(EnuMaster.Parse<CardType>(inputPiece.ToUpper().Trim()));
+                    }
+                }
+            }
+
+            return retVal;
+        }
+
+        private void SetICardProperties(ICard card, XElement cardData, string name)
         {
             // legal formats
             List<Format> legalFormats = new List<Format>();
@@ -303,8 +379,8 @@ namespace Nivix.Models
             card.LegalFormats = legalFormats;
             card.Rulings = rulings;
 
-            if (CardNicknames.Keys.Contains(card.Name)) {
-                card.Nicknames = CardNicknames[card.Name].ToList();
+            if (CardNicknames.Keys.Contains(name)) {
+                card.Nicknames = CardNicknames[name].ToList();
             }
         }
 
@@ -316,60 +392,10 @@ namespace Nivix.Models
             // but since it's impossible for one half of a card to be more rare than the other...
             rarityData = rarityData.Substring(0, 1);
 
-            string setData = cardData.Element("set").Value;
-            SetData match = SetMetaData.Values.Where(s => s.GathererCode == setData).FirstOrDefault();
-            if (match != null) { setData = match.Code; }
-
             printing.MultiverseId = XmlPal.GetString(cardData.Element("id"));
             printing.Rarity = StringToCardRarityConverter.GetRarity(rarityData);
-            printing.Set = Sets[setData];
+            printing.Set = GetSetFromGathererCode(XmlPal.GetString(cardData.Element("set")));
             printing.Watermark = XmlPal.GetString(cardData.Element("watermark"));
-        }
-
-        private IReadOnlyList<string> GetTribesFromTypeData(string typeData)
-        {
-            List<string> retVal = new List<string>();
-            typeData = typeData.ToUpper();
-
-            if (typeData.IndexOf('—') >= 0) {
-                typeData = typeData.Substring(typeData.IndexOf('—') + 1).Trim();
-                retVal.AddRange(Regex.Split(typeData, @"\s+"));
-            }
-
-            return retVal;
-        }
-
-        private IReadOnlyList<CardType> GetTypesFromTypeData(string typeData)
-        {
-            List<CardType> retVal = new List<CardType>();
-            typeData = typeData.ToUpper();
-
-            if (typeData.IndexOf('—') >= 0) {
-                typeData = typeData.Substring(0, typeData.IndexOf('—'));
-            }
-            string[] splitInput = typeData.Split(new Char[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (typeData.Contains("ENCHANT ")) {
-                retVal.Add(CardType.ENCHANTMENT);
-            }
-            else if (typeData.Contains("SCHEME")) {
-                retVal.Add(CardType.SCHEME);
-            }
-            else {
-                foreach (string inputPiece in splitInput) {
-                    if (inputPiece == "EATURECRAY") {
-                        retVal.Add(CardType.CREATURE);
-                    }
-                    else if (inputPiece == "INTERRUPT") {
-                        retVal.Add(CardType.INSTANT);
-                    }
-                    else {
-                        retVal.Add(EnuMaster.Parse<CardType>(inputPiece.ToUpper().Trim()));
-                    }
-                }
-            }
-
-            return retVal;
         }
 
         private void SetTransformerProperties(TransformCard card, XElement cardData, bool setFront = true)

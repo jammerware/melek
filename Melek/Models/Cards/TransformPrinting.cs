@@ -7,5 +7,6 @@
 
         public string TransformedArtist { get; set; }
         public string TransformedFlavorText { get; set; }
+        public string TransformedMultiverseId { get; set; }
     }
 }

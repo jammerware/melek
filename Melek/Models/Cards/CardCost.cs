@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Bazam.Modules;
-using Bazam.Modules.Enumerations;
 
 namespace Melek.Models
 {
