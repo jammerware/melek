@@ -13,6 +13,7 @@ using Bazam.Slugging;
 using Bazam.WPF.ViewModels;
 using FirstFloor.ModernUI.Presentation;
 using Melek;
+using Melek.Db;
 using Melek.Models;
 using Melek.Utilities;
 using Newtonsoft.Json;
@@ -177,7 +178,11 @@ namespace Nivix.ViewModels
                 }
 
                 // TODO: generate sql and update db omg
-                string lol = "breakpoint omg";
+                MelekDbContext database = new MelekDbContext();
+                foreach (ICard card in cardFactory.Cards.Values) {
+                    database.Cards.Add(card);
+                }
+                database.SaveChanges();
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);

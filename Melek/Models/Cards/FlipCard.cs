@@ -8,10 +8,10 @@ namespace Melek.Models
 
         // names, types, & tribes
         public string FlippedName { get; set; }
-        public IReadOnlyList<CardType> NormalCardTypes { get; set; }
-        public IReadOnlyList<string> NormalTribes { get; set; }
-        public IReadOnlyList<CardType> FlippedCardTypes { get; set; }
-        public IReadOnlyList<string> FlippedTribes { get; set; }
+        public ICollection<CardType> NormalCardTypes { get; set; }
+        public ICollection<string> NormalTribes { get; set; }
+        public ICollection<CardType> FlippedCardTypes { get; set; }
+        public ICollection<string> FlippedTribes { get; set; }
 
         // p/t
         public int? NormalPower { get; set; }
@@ -34,12 +34,12 @@ namespace Melek.Models
         }
 
         #region enforced by CardBase<T>
-        protected override IEnumerable<CardCostCollection> AllCosts
+        protected override ICollection<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
 
-        public override IList<FlipPrinting> Printings { get; set; }
+        public override ICollection<FlipPrinting> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

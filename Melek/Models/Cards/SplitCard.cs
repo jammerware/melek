@@ -17,13 +17,13 @@ namespace Melek.Models
         public CardCostCollection RightCost { get; set; }
         public string RightText { get; set; }
 
-        #region enforced by CardBase<T>
-        protected override IEnumerable<CardCostCollection> AllCosts
+        #region enforced by ICollection<T>
+        protected override ICollection<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { LeftCost, RightCost }; }
         }
 
-        public override IList<SplitPrinting> Printings { get; set; }
+        public override ICollection<SplitPrinting> Printings { get; set; }
 
         public override bool IsColor(MagicColor color)
         {

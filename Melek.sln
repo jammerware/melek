@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Api", "Melek.Api\Mele
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Tests", "Melek.Tests\Melek.Tests.csproj", "{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Db", "Melek.Db\Melek.Db.csproj", "{C75D67BF-4D0D-451B-AD49-45FFD890E866}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75D67BF-4D0D-451B-AD49-45FFD890E866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75D67BF-4D0D-451B-AD49-45FFD890E866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75D67BF-4D0D-451B-AD49-45FFD890E866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75D67BF-4D0D-451B-AD49-45FFD890E866}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

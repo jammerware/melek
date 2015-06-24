@@ -4,12 +4,12 @@ namespace Melek.Models
 {
     public class Card : CardBase<Printing>
     {
-        public IReadOnlyList<CardType> CardTypes { get; set; }
+        public ICollection<CardType> CardTypes { get; set; }
         public CardCostCollection Cost { get; set; }
         public int? Power { get; set; }
         public string Text { get; set; }
         public int? Toughness { get; set; }
-        public IReadOnlyList<string> Tribes { get; set; }
+        public ICollection<string> Tribes { get; set; }
 
         public Card() : base() 
         {
@@ -17,12 +17,12 @@ namespace Melek.Models
         }
 
         #region enforced by CardBase<T>
-        protected override IEnumerable<CardCostCollection> AllCosts
+        protected override ICollection<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
 
-        public override IList<Printing> Printings { get; set; }
+        public override ICollection<Printing> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

@@ -4,10 +4,10 @@ namespace Melek.Models
 {
     public interface ICard
     {
-        IReadOnlyList<Format> LegalFormats { get; set; }
+        ICollection<Format> LegalFormats { get; set; }
         string Name { get; set; }
-        IReadOnlyList<string> Nicknames { get; set; }
-        IReadOnlyList<Ruling> Rulings { get; set; }
+        ICollection<string> Nicknames { get; set; }
+        ICollection<Ruling> Rulings { get; set; }
 
         int GetConvertedManaCost();
         bool IsColor(MagicColor color);
@@ -23,6 +23,6 @@ namespace Melek.Models
 
     public interface ICard<T> : ICard where T : IPrinting
     {
-        IList<T> Printings { get; set; }
+        ICollection<T> Printings { get; set; }
     }
 }

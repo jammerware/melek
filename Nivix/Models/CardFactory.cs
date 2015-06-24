@@ -283,7 +283,7 @@ namespace Nivix.Models
             return Sets[setData];
         }
 
-        private IReadOnlyList<string> GetTribesFromTypeData(string typeData)
+        private ICollection<string> GetTribesFromTypeData(string typeData)
         {
             List<string> retVal = new List<string>();
             typeData = typeData.ToUpper();
@@ -296,7 +296,7 @@ namespace Nivix.Models
             return retVal;
         }
 
-        private IReadOnlyList<CardType> GetTypesFromTypeData(string typeData)
+        private ICollection<CardType> GetTypesFromTypeData(string typeData)
         {
             List<CardType> retVal = new List<CardType>();
             typeData = typeData.ToUpper();
