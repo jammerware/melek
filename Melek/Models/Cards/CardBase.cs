@@ -31,7 +31,7 @@ namespace Melek.Models
         public abstract bool IsColor(MagicColor color);
         public bool IsColors(IEnumerable<MagicColor> colors)
         {
-            if (colors.Contains(MagicColor.COLORLESS) && colors.Any(c => c != MagicColor.COLORLESS)) {
+            if (colors.Contains(MagicColor.Colorless) && colors.Any(c => c != MagicColor.Colorless)) {
                 // this is logically impossible, sorry friend
                 return false;
             }
@@ -52,7 +52,7 @@ namespace Melek.Models
                 colors.AddRange(cost.GetColors());
             }
 
-            return colors.Where(c => c == MagicColor.COLORLESS).Count() > 1;
+            return colors.Where(c => c == MagicColor.Colorless).Count() > 1;
         }
 
         /// <summary>

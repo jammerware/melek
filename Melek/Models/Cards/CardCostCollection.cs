@@ -25,8 +25,8 @@ namespace Melek.Models
 
         public bool IsColor(MagicColor color)
         {
-            if(color == MagicColor.COLORLESS) {
-                return !GetColors().Any(c => c != MagicColor.COLORLESS);
+            if(color == MagicColor.Colorless) {
+                return !GetColors().Any(c => c != MagicColor.Colorless);
             }
 
             return GetColors().Contains(color);
@@ -34,7 +34,7 @@ namespace Melek.Models
 
         public bool IsMulticolored()
         {
-            return GetColors().Where(c => c != MagicColor.COLORLESS).Count() > 1;
+            return GetColors().Where(c => c != MagicColor.Colorless).Count() > 1;
         }
 
         public IEnumerable<MagicColor> GetColors()

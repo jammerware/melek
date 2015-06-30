@@ -2,23 +2,22 @@
 {
     public enum CardType
     {
-        ARTIFACT,
-        BASIC,
-        CONSPIRACY,
-        CREATURE,
-        ENCHANTMENT,
-        INSTANT,
-        LAND,
-        LEGENDARY,
-        PHENOMENON,
-        PLANE,
-        PLANESWALKER,
-        SCHEME,
-        SNOW,
-        SORCERY,
-        SUMMON,
-        TRIBAL,
-        VANGUARD,
-        WORLD
+        Artifact,
+        Basic,
+        Conspiracy,
+        Creature,
+        Enchantment,
+        Instant,
+        Land,
+        Legendary,
+        Phenomenon,
+        Plane,
+        Planeswalker,
+        Scheme,
+        Snow,
+        Sorcery,
+        Tribal,
+        Vanguard,
+        World
     }
 }

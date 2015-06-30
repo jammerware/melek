@@ -3,7 +3,7 @@
     public enum MagicColor
     {
         B,
-        COLORLESS,
+        Colorless,
         G,
         R,
         U,

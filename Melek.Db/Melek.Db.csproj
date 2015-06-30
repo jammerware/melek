@@ -53,8 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\DtoFactory.cs" />
+    <Compile Include="Factories\ModelFactory.cs" />
+    <Compile Include="Dtos\CardDto.cs" />
     <Compile Include="MelekDbContext.cs" />
     <Compile Include="MelekDbInitializer.cs" />
+    <Compile Include="Dtos\PrintingDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

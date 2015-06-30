@@ -4,12 +4,12 @@ namespace Melek.Models
 {
     public class Card : CardBase<Printing>
     {
-        public ICollection<CardType> CardTypes { get; set; }
         public CardCostCollection Cost { get; set; }
         public int? Power { get; set; }
         public string Text { get; set; }
         public int? Toughness { get; set; }
         public ICollection<string> Tribes { get; set; }
+        public ICollection<CardType> Types { get; set; }
 
         public Card() : base() 
         {

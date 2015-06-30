@@ -14,6 +14,7 @@ using Bazam.WPF.ViewModels;
 using FirstFloor.ModernUI.Presentation;
 using Melek;
 using Melek.Db;
+using Melek.Db.Factories;
 using Melek.Models;
 using Melek.Utilities;
 using Newtonsoft.Json;
@@ -27,21 +28,13 @@ namespace Nivix.ViewModels
     {
 
         #region Fields
-        [RelatedProperty("CardReleaseDate")]
         private DateTime? _CardReleaseDate;
-        [RelatedProperty("DeployToDev")]
         private bool _DeployToDev = true;
-        [RelatedProperty("DeployToProd")]
         private bool _DeployToProd = true;
-        [RelatedProperty("ManifestPath")]
         private string _ManifestPath;
-        [RelatedProperty("OutputPath")]
         private string _OutputPath;
-        [RelatedProperty("PackageID")]
         private string _PackageID;
-        [RelatedProperty("PackageName")]
         private string _PackageName;
-        [RelatedProperty("SourceDatabasePath")]
         private string _SourceDatabasePath;
         #endregion
 
@@ -178,14 +171,15 @@ namespace Nivix.ViewModels
                 }
 
                 // TODO: generate sql and update db omg
+                DtoFactory dtoFactory = new DtoFactory();
                 MelekDbContext database = new MelekDbContext();
+
                 foreach (ICard card in cardFactory.Cards.Values) {
-                    database.Cards.Add(card);
+                    database.Cards.Add(dtoFactory.GetCardDto(card));
                 }
                 database.SaveChanges();
             }
             catch (Exception ex) {
-                Console.WriteLine(ex.Message);
                 MessageBox.Show(ex.Message, ex.GetType().Name);
             }
         }

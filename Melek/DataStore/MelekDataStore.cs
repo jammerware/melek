@@ -126,7 +126,7 @@ namespace Melek.DataStore
                     img.Freeze();
                     return img;
                 }
-                catch (Exception ex) {
+                catch (Exception) {
                     // we'll come back to this, but I think MtGBar will break if i don't catch this
                 }
                 return null;

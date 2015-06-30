@@ -178,7 +178,7 @@ namespace Nivix.Models
                     string cardText = XmlPal.GetString(cardData.Element("ability"));
 
                     card.Name = XmlPal.GetString(cardData.Element("name"));
-                    card.NormalCardTypes = GetTypesFromTypeData(typeData);
+                    card.NormalTypes = GetTypesFromTypeData(typeData);
                     card.NormalPower = XmlPal.GetInt(cardData.Element("power"));
                     card.NormalText = cardText.Substring(0, cardText.IndexOf("———")).Trim();
                     card.NormalToughness = XmlPal.GetInt(cardData.Element("toughness"));
@@ -192,7 +192,7 @@ namespace Nivix.Models
                     StringBuilder textBuilder = new StringBuilder();
 
                     card.FlippedName = lines[0];
-                    card.FlippedCardTypes = GetTypesFromTypeData(flippedTypeData);
+                    card.FlippedTypes = GetTypesFromTypeData(flippedTypeData);
                     card.FlippedTribes = GetTribesFromTypeData(flippedTypeData);
 
                     if (ptMatch.Success) {
@@ -249,7 +249,7 @@ namespace Nivix.Models
                         card.Toughness = toughness;
                     }
 
-                    card.CardTypes = GetTypesFromTypeData(typeData);
+                    card.Types = GetTypesFromTypeData(typeData);
                     card.Cost = string.IsNullOrEmpty(costData) ? null : new CardCostCollection(costData);
                     card.Name = XmlPal.GetString(cardData.Element("name"));
                     card.Text = XmlPal.GetString(cardData.Element("ability"));
@@ -307,21 +307,21 @@ namespace Nivix.Models
             string[] splitInput = typeData.Split(new Char[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (typeData.Contains("ENCHANT ")) {
-                retVal.Add(CardType.ENCHANTMENT);
+                retVal.Add(CardType.Enchantment);
             }
             else if (typeData.Contains("SCHEME")) {
-                retVal.Add(CardType.SCHEME);
+                retVal.Add(CardType.Scheme);
             }
             else {
                 foreach (string inputPiece in splitInput) {
-                    if (inputPiece == "EATURECRAY") {
-                        retVal.Add(CardType.CREATURE);
+                    if (inputPiece == "Summon" || inputPiece == "EATURECRAY") {
+                        retVal.Add(CardType.Creature);
                     }
                     else if (inputPiece == "INTERRUPT") {
-                        retVal.Add(CardType.INSTANT);
+                        retVal.Add(CardType.Instant);
                     }
                     else {
-                        retVal.Add(EnuMaster.Parse<CardType>(inputPiece.ToUpper().Trim()));
+                        retVal.Add(EnuMaster.Parse<CardType>(inputPiece.ToUpper().Trim(), true));
                     }
                 }
             }
@@ -424,7 +424,7 @@ namespace Nivix.Models
 
             if (setFront) {
                 card.Cost = string.IsNullOrEmpty(costData) ? null : new CardCostCollection(costData);
-                card.NormalCardTypes = GetTypesFromTypeData(typeData);
+                card.NormalTypes = GetTypesFromTypeData(typeData);
                 card.NormalPower = power;
                 card.NormalToughness = toughness;
                 card.NormalText = XmlPal.GetString(cardData.Element("ability"));
@@ -432,7 +432,7 @@ namespace Nivix.Models
                 card.Name = name;
             }
             else {
-                card.TransformedCardTypes = GetTypesFromTypeData(typeData);
+                card.TransformedTypes = GetTypesFromTypeData(typeData);
                 card.TransformedName = name;
                 card.TransformedPower = power;
                 card.TransformedToughness = toughness;

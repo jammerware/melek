@@ -8,10 +8,10 @@ namespace Melek.Models
 
         // names, types, & tribes
         public string FlippedName { get; set; }
-        public ICollection<CardType> NormalCardTypes { get; set; }
         public ICollection<string> NormalTribes { get; set; }
-        public ICollection<CardType> FlippedCardTypes { get; set; }
+        public ICollection<CardType> NormalTypes { get; set; }
         public ICollection<string> FlippedTribes { get; set; }
+        public ICollection<CardType> FlippedTypes { get; set; }
 
         // p/t
         public int? NormalPower { get; set; }
@@ -25,9 +25,9 @@ namespace Melek.Models
 
         public FlipCard() : base()
         {
-            NormalCardTypes = new List<CardType>();
+            NormalTypes = new List<CardType>();
             NormalTribes = new List<string>();
-            FlippedCardTypes = new List<CardType>();
+            FlippedTypes = new List<CardType>();
             FlippedTribes = new List<string>();
 
             Printings = new List<FlipPrinting>();

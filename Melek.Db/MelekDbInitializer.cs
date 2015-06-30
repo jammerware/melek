@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 
 namespace Melek.Db
 {
@@ -6,7 +7,7 @@ namespace Melek.Db
     {
         protected override void Seed(MelekDbContext context)
         {
-            // seed all the things, pls
+            context.Version.Add(new Version("1.0.0.0"));
         }
     }
 }
