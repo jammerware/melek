@@ -14,6 +14,7 @@ using Bazam.WPF.ViewModels;
 using FirstFloor.ModernUI.Presentation;
 using Melek;
 using Melek.Db;
+using Melek.Db.Dtos;
 using Melek.Db.Factories;
 using Melek.Models;
 using Melek.Utilities;
@@ -170,13 +171,20 @@ namespace Nivix.ViewModels
                     cardFactory.AddCardData(cardData);
                 }
 
-                // TODO: generate sql and update db omg
+                // update the DB oh gurl
                 DtoFactory dtoFactory = new DtoFactory();
                 MelekDbContext database = new MelekDbContext();
 
+                // sets
+                IEnumerable<SetDto> setDtos = sets.Values.Select(s => dtoFactory.GetSetDto(s));
+                database.Sets.AddRange(setDtos);
+
+                // cardz
                 foreach (ICard card in cardFactory.Cards.Values) {
                     database.Cards.Add(dtoFactory.GetCardDto(card));
                 }
+
+                // savez
                 database.SaveChanges();
             }
             catch (Exception ex) {

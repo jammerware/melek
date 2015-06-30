@@ -314,7 +314,7 @@ namespace Nivix.Models
             }
             else {
                 foreach (string inputPiece in splitInput) {
-                    if (inputPiece == "Summon" || inputPiece == "EATURECRAY") {
+                    if (inputPiece == "SUMMON" || inputPiece == "EATURECRAY") {
                         retVal.Add(CardType.Creature);
                     }
                     else if (inputPiece == "INTERRUPT") {

@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using Melek.Db.Dtos;
+using Melek.Models;
 
 namespace Melek.Db
 {
@@ -13,7 +14,8 @@ namespace Melek.Db
         }
 
         public DbSet<CardDto> Cards { get; set; }
-        public DbSet<Version> Version { get; set; }
+        public DbSet<SetDto> Sets { get; set; }
+        public DbSet<ApiVersionDto> Version { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

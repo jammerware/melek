@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Melek.Db.Dtos;
 using Melek.Models;
 
@@ -6,18 +8,17 @@ namespace Melek.Db.Factories
 {
     public class DtoFactory
     {
+        // TODO: is this a bad way to make sure the cards get tied to the right setdtos?
+        private List<SetDto> _SetDtos = new List<SetDto>();
+
         #region Card
         public CardDto GetCardDto(Card card)
         {
             // from CardBase
             CardDto dto = FromCardBase<Printing>(card);
-            dto.LegalFormats = card.LegalFormats;
-            dto.Name = card.Name;
-            dto.Nicknames = card.Nicknames;
-            dto.Rulings = card.Rulings;
 
             // from Card
-            dto.Cost = card.Cost.ToString();
+            dto.Cost = (card.Cost != null ? card.Cost.ToString() : null);
             dto.Power = card.Power;
             dto.Text = card.Text;
             dto.Toughness = card.Toughness;
@@ -179,6 +180,26 @@ namespace Melek.Db.Factories
 
             throw new InvalidOperationException("Attempted to convert an ICard of type " + card.GetType().FullName + " to a CardDto.");
         }
+
+        public SetDto GetSetDto(Set set)
+        {
+            SetDto retVal = _SetDtos.Where(s => s.Code == set.Code).FirstOrDefault();
+
+            if (retVal == null) {
+                retVal = new SetDto() {
+                    CFName = set.CFName,
+                    Code = set.Code,
+                    Date = set.Date,
+                    IsPromo = set.IsPromo,
+                    Name = set.Name,
+                    TCGPlayerName = set.TCGPlayerName
+                };
+
+                _SetDtos.Add(retVal);
+            }
+
+            return retVal;
+        }
         #endregion
 
         #region Internal utility
@@ -189,7 +210,7 @@ namespace Melek.Db.Factories
             dto.LegalFormats = cardBase.LegalFormats;
             dto.Name = cardBase.Name;
             dto.Nicknames = cardBase.Nicknames;
-            dto.Rulings = cardBase.Rulings;
+            dto.Rulings = cardBase.Rulings.Select(r => new RulingDto() { Date = r.Date, Text = r.Text }).ToList();
 
             return dto;
         }
@@ -200,7 +221,7 @@ namespace Melek.Db.Factories
 
             dto.MultiverseId = printingBase.MultiverseId;
             dto.Rarity = printingBase.Rarity;
-            dto.Set = printingBase.Set;
+            dto.Set = GetSetDto(printingBase.Set);
             dto.Watermark = printingBase.Watermark;
 
             return dto;

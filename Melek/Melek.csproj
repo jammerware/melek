@@ -76,6 +76,7 @@
     <Compile Include="Models\Format.cs" />
     <Compile Include="Models\Helpers\CardPrintingEqualityComparer.cs" />
     <Compile Include="DataStore\MelekDataStore.cs" />
+    <Compile Include="Models\ApiVersion.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Cards\Ruling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

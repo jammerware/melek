@@ -6,7 +6,7 @@ namespace Melek.Db.Dtos
     public class CardDto
     {
         // database biz
-        public int CardId { get; set; }
+        public int Id { get; set; }
 
         // general properties
         public string Cost { get; set; }
@@ -14,7 +14,7 @@ namespace Melek.Db.Dtos
         public string Name { get; set; }
         public ICollection<string> Nicknames { get; set; }
         public int? Power { get; set; }
-        public ICollection<Ruling> Rulings { get; set; }
+        public ICollection<RulingDto> Rulings { get; set; }
         public string Text { get; set; }
         public int? Toughness { get; set; }
         public ICollection<string> Tribes { get; set; }
