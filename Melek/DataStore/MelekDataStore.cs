@@ -6,13 +6,10 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using System.Xml;
 using System.Xml.Linq;
 using Bazam.Modules;
 using Bazam.Slugging;
 using Melek.Models;
-using Melek.Models.Helpers;
-using Melek.Utilities;
 
 namespace Melek.DataStore
 {

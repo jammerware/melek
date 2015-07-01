@@ -1,0 +1,161 @@
+﻿<UserControl 
+    x:Class="Nivix.Views.SetsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+    xmlns:bazamConvert="clr-namespace:Bazam.Wpf.ValueConverters;assembly=Bazam.Wpf"
+    xmlns:vm="clr-namespace:Nivix.ViewModels">
+    <UserControl.DataContext>
+        <vm:SetsViewModel />
+    </UserControl.DataContext>
+    <Grid Style="{StaticResource ContentRoot}" Margin="0">
+        <Grid.Resources>
+            <bazamConvert:ObjectVisibilityConverter x:Key="ObjectVisibilityConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="225" />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <ListBox 
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.RowSpan="7"
+            HorizontalAlignment="Stretch"
+            ItemsSource="{Binding Sets}"
+            Margin="0,0,20,4"
+            SelectedItem="{Binding SelectedSet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock MaxWidth="184" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock 
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="{StaticResource VerticalControlMargin}"
+            Style="{StaticResource Heading2}" 
+            Text="{Binding SelectedSetName}"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}"/>
+        
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Foreground="{StaticResource SubtleBrush}"
+            Margin="{StaticResource VerticalControlMargin}"
+            Text="set code"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="2"
+            Foreground="{StaticResource SubtleBrush}"
+            Margin="{StaticResource VerticalControlMargin}"
+            Text="gatherer code"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+        
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="{StaticResource HorizontalAndVerticalControlMargin}"
+            Text="{Binding SelectedSetCode, Delay=250, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="{StaticResource VerticalControlMargin}"
+            Text="{Binding SelectedSetGathererCode, Delay=250, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+        
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Foreground="{StaticResource SubtleBrush}"
+            Margin="{StaticResource VerticalControlMargin}"
+            Text="channelfireball name"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="2"
+            Foreground="{StaticResource SubtleBrush}"
+            Margin="{StaticResource VerticalControlMargin}"
+            Text="tcgplayer name"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="{StaticResource HorizontalAndVerticalControlMargin}"
+            Text="{Binding SelectedSetCfName, Delay=250, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="2"
+            Margin="{StaticResource VerticalControlMargin}"
+            Text="{Binding SelectedSetTcgPlayerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="1"
+            Foreground="{StaticResource SubtleBrush}"
+            Margin="{StaticResource VerticalControlMargin}"
+            Text="mtgimage code"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+
+        <TextBox
+            Grid.Row="6"
+            Grid.Column="1"
+            Margin="{StaticResource HorizontalAndVerticalControlMargin}"
+            Text="{Binding SelectedSetMtgImageCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            VerticalAlignment="Top"
+            Visibility="{Binding SelectedSet, Converter={StaticResource ObjectVisibilityConverter}}" />
+        
+        <Grid
+            Grid.Row="7"
+            Grid.Column="0"
+            Margin="0,0,20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                x:Name="btnAdd"
+                Grid.Column="0"
+                Command="{Binding AddCommand}"
+                Content="add"
+                Margin="{StaticResource HorizontalControlMargin}" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding DeleteCommand}"
+                Content="delete" />
+        </Grid>
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="3"
+            Command="{Binding SaveCommand}"
+            Content="save"
+            HorizontalAlignment="Right"
+            IsEnabled="{Binding DataIsDirty}" />
+    </Grid>
+</UserControl>

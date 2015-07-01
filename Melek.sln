@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek", "Melek\Melek.csproj", "{49B35443-ED18-4644-B09B-DBEBD2476AE8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nivix", "Nivix\Nivix.csproj", "{09D3F6A9-7728-4DD2-B9F6-713724E515F3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Api", "Melek.Api\Melek.Api.csproj", "{186E4632-69D4-443A-BDB0-779C96A6C5AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Tests", "Melek.Tests\Melek.Tests.csproj", "{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Db", "Melek.Db\Melek.Db.csproj", "{C75D67BF-4D0D-451B-AD49-45FFD890E866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Nivix", "Melek.Nivix\Melek.Nivix.csproj", "{1EB0C33D-264C-4680-A46E-996444E14E41}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Melek.Api", "Melek.Api\Melek.Api.xproj", "{79A1421D-5830-442F-85FE-5F65A420F5F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +23,6 @@ Global
 		{49B35443-ED18-4644-B09B-DBEBD2476AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49B35443-ED18-4644-B09B-DBEBD2476AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49B35443-ED18-4644-B09B-DBEBD2476AE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{186E4632-69D4-443A-BDB0-779C96A6C5AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{186E4632-69D4-443A-BDB0-779C96A6C5AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{186E4632-69D4-443A-BDB0-779C96A6C5AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{186E4632-69D4-443A-BDB0-779C96A6C5AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +31,14 @@ Global
 		{C75D67BF-4D0D-451B-AD49-45FFD890E866}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C75D67BF-4D0D-451B-AD49-45FFD890E866}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C75D67BF-4D0D-451B-AD49-45FFD890E866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EB0C33D-264C-4680-A46E-996444E14E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EB0C33D-264C-4680-A46E-996444E14E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EB0C33D-264C-4680-A46E-996444E14E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EB0C33D-264C-4680-A46E-996444E14E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79A1421D-5830-442F-85FE-5F65A420F5F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79A1421D-5830-442F-85FE-5F65A420F5F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79A1421D-5830-442F-85FE-5F65A420F5F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79A1421D-5830-442F-85FE-5F65A420F5F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
