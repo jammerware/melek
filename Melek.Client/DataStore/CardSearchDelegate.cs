@@ -1,0 +1,6 @@
+﻿using Melek.Client.Models;
+
+namespace Melek.Client.DataStore
+{
+    public delegate bool CardSearchDelegate(ICard<IPrinting> card);
+}
