@@ -1,9 +1,9 @@
 {
   "version": "1.0.0-*",
-  "description": "",
-  "authors": [ "" ],
-  "tags": [ "" ],
-  "projectUrl": "",
+  "description": "A library that enables great apps for Magic: the Gathering based on the Melek API.",
+  "authors": [ "Jammerware LLC" ],
+  "tags": [ "magic: the gathering" ],
+  "projectUrl": "https://github.com/jammerware/melek",
   "licenseUrl": "",
 
   "dependencies": {
