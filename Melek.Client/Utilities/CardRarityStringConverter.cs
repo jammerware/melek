@@ -1,5 +1,5 @@
 ﻿using Bazam.Modules;
-using Melek.Models;
+using Melek.Client.Models;
 
 namespace Melek.Client.Utilities
 {

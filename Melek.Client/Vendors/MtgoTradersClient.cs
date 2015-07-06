@@ -1,12 +1,14 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
-using Melek.Models;
+using Melek.Client.Models;
+using Bazam.Http;
+using System.Threading.Tasks;
 
 namespace Melek.Client.Vendors
 {
     public class MtgoTradersClient : IVendorClient
     {
-        public string GetLink(Card card, Set set)
+        public Task<string> GetLink(Card card, Set set)
         {
             string sterilizedCardName = Regex.Replace(card.Name, "[',]", string.Empty);
             sterilizedCardName = sterilizedCardName.Replace(' ', '_');
@@ -16,7 +18,9 @@ namespace Melek.Client.Vendors
                 setCode = "PRM";
             }
 
-            return string.Format("http://www.mtgotraders.com/store/{0}_{1}.html", set.Code, sterilizedCardName);
+            return Task.Run(() => {
+                return string.Format("http://www.mtgotraders.com/store/{0}_{1}.html", set.Code, sterilizedCardName);
+            });
         }
 
         public string GetName()
@@ -24,17 +28,13 @@ namespace Melek.Client.Vendors
             return "MtgoTraders.com";
         }
 
-        public string GetPrice(Card card, Set set)
+        public async Task<string> GetPrice(Card card, Set set)
         {
-            WebClient client = new WebClient();
-            using (WebClient webClient = new WebClient()) {
-                string pageHtml = webClient.DownloadString(GetLink(card, set));
-                Match match = Regex.Match(pageHtml, "<span class=\"price\">(\\S+)</span>");
+            string pageHtml = await new NoobWebClient().DownloadString(await GetLink(card, set));
+            Match match = Regex.Match(pageHtml, "<span class=\"price\">(\\S+)</span>");
 
-                if (match != null) return match.Groups[1].Value;
-            }
-
-            return string.Empty;
+            if (match != null) return match.Groups[1].Value;
+            return null;
         }
     }
 }

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Xml.Linq;
+using Bazam.Http;
 using Bazam.Modules;
 using Bazam.Slugging;
-using Melek.Models;
+using Melek.Client.Models;
 
 namespace Melek.Client.DataStore
 {
@@ -21,9 +20,7 @@ namespace Melek.Client.DataStore
 
         #region Fields
         private ICard<IPrinting>[] _Cards;
-        private bool _DevMode = false;
         private bool _IsLoaded = false;
-        private List<Package> _Packages;
         private Set[] _Sets;
         private bool _SaveCardImages;
         private string _StorageDirectory;
@@ -31,17 +28,12 @@ namespace Melek.Client.DataStore
 
         #region Constructors
         // general use constructors
-        public MelekDataStore(string storageDirectory, bool storeCardImages) : this(storageDirectory, storeCardImages, false, string.Empty) { }
-        public MelekDataStore(string storageDirectory, bool storeCardImages, bool lazyLoad) : this(storageDirectory, storeCardImages, lazyLoad, string.Empty) { }
+        public MelekDataStore(string storageDirectory, bool storeCardImages) : this(storageDirectory, storeCardImages, false) { }
+        //public MelekDataStore(string storageDirectory, bool storeCardImages, bool lazyLoad) : this(storageDirectory, storeCardImages, lazyLoad, string.Empty) { }
 
         // for original dev only
-        public MelekDataStore(string storageDirectory, bool storeCardImages, bool lazyLoad, string devAuthkey)
+        public MelekDataStore(string storageDirectory, bool storeCardImages, bool lazyLoad)
         {
-            // flip on dev mode if appropriate
-            if (!string.IsNullOrEmpty(devAuthkey) && Cryptonite.Encrypt(devAuthkey, Constants.DEV_AUTH_KEY_PRIVATE_KEY) == Cryptonite.Encrypt(Constants.DEV_AUTH_KEY_PUBLIC_KEY, Constants.DEV_AUTH_KEY_PRIVATE_KEY)) {
-                _DevMode = true;
-            }
-
             _SaveCardImages = storeCardImages;
             _StorageDirectory = storageDirectory;
 
@@ -52,19 +44,7 @@ namespace Melek.Client.DataStore
             if (!Directory.Exists(CardImagesDirectory) && storeCardImages) {
                 Directory.CreateDirectory(CardImagesDirectory);
             }
-
-            if (!Directory.Exists(PackagesDirectory)) {
-                Directory.CreateDirectory(PackagesDirectory);
-            }
-
-            string packagesManifestFileName = Path.Combine(PackagesDirectory, "packages.xml");
-            if (!File.Exists(packagesManifestFileName)) {
-                XDocument doc = new XDocument(new XElement("packages"));
-                doc.Save(packagesManifestFileName);
-            }
-
-            _Packages = new List<Package>();
-
+            
             if (!lazyLoad) {
                 Action lolz = async () => {
                     await ForceLoad();
@@ -80,12 +60,7 @@ namespace Melek.Client.DataStore
         {
             get { return Path.Combine(_StorageDirectory, "cards"); }
         }
-
-        public string PackagesDirectory
-        {
-            get { return Path.Combine(_StorageDirectory, "packages"); }
-        }
-
+        
         public string StorageDirectory
         {
             get { return _StorageDirectory; }
@@ -111,40 +86,15 @@ namespace Melek.Client.DataStore
         #endregion
 
         #region Image management utility methods
-        private async Task<BitmapImage> ImageFromUri(Uri uri)
-        {
-            BitmapImage image = await Task.Run<BitmapImage>(() => {
-                try {
-                    BitmapImage img = new BitmapImage();
-                    img.BeginInit();
-                    img.CacheOption = BitmapCacheOption.OnLoad;
-                    img.UriSource = uri;
-                    img.EndInit();
-                    img.Freeze();
-                    return img;
-                }
-                catch (Exception) {
-                    // we'll come back to this, but I think MtGBar will break if i don't catch this
-                }
-                return null;
-            });
-
-            return image;
-        }
-
         private async Task<Uri> ResolveCardImage(IPrinting printing, Uri webUri)
         {
-            Uri retVal = await Task.Run<Uri>(() => {
+            Uri retVal = await Task.Run<Uri>(async () => {
                 Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseId) + ".jpg"));
 
                 if (_SaveCardImages) {
                     if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
-                        try {
-                            new WebClient().DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
-                        }
-                        catch (WebException) {
-                            // too slow motha fucka
-                        }
+                        NoobWebClient client = new NoobWebClient();
+                        await client.DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
                     }
                     return localUri;
                 }
@@ -171,17 +121,7 @@ namespace Melek.Client.DataStore
                 }
             }
         }
-
-        public void ClearDataCache()
-        {
-            try {
-                Directory.Delete(PackagesDirectory, true);
-            }
-            catch (Exception) {
-                // hm
-            }
-        }
-
+        
         public ICard<IPrinting> GetCardByMultiverseId(string multiverseID)
         {
             return _Cards.Where(c => c.Printings.Where(p => p.MultiverseId == multiverseID).FirstOrDefault() != null).FirstOrDefault();
@@ -218,11 +158,6 @@ namespace Melek.Client.DataStore
             return null;
         }
 
-        public async Task<BitmapImage> GetCardImage(Printing printing)
-        {
-            return await ImageFromUri(await GetCardImageUri(printing));
-        }
-
         public string GetCardImageCacheSize(bool estimate = false)
         {
             double cardsDirectorySize = 0;
@@ -257,12 +192,7 @@ namespace Melek.Client.DataStore
             }
             return "Melek, Izzet Paragon"; // LOL
         }
-
-        public Package[] GetPackages()
-        {
-            return _Packages.ToArray();
-        }
-
+        
         public Set[] GetSets()
         {
             return _Sets;
@@ -302,7 +232,7 @@ namespace Melek.Client.DataStore
                                 criteria.Add((ICard<IPrinting> card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored())); });
                             break;
                         case "mid":
-                            criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.MultiverseId.Equals(criteriaValue, StringComparison.InvariantCultureIgnoreCase)); });
+                            criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.MultiverseId.Equals(criteriaValue, StringComparison.CurrentCultureIgnoreCase)); });
                             break;
                         case "r":
                             CardRarity? rarity = null;
@@ -368,7 +298,7 @@ namespace Melek.Client.DataStore
                 }
 
                 return cards
-                    .OrderBy(c => string.IsNullOrEmpty(nameTerm) || c.Name.StartsWith(nameTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
+                    .OrderBy(c => string.IsNullOrEmpty(nameTerm) || c.Name.StartsWith(nameTerm, StringComparison.CurrentCultureIgnoreCase) ? 0 : 1)
                     .ThenBy(c => string.IsNullOrEmpty(nameTerm) || Regex.IsMatch(c.Name, nameTermPattern, RegexOptions.IgnoreCase) ? 0 : 1)
                     .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)) ? 0 : 1)
                     .ThenBy(c => c.Name)
