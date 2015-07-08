@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 using Bazam.Modules;
-using Bazam.SharpZipLibHelpers;
-using Bazam.Slugging;
 using Bazam.Wpf.ViewModels;
 using FirstFloor.ModernUI.Presentation;
-using Melek;
+using Melek.Client.Models;
 using Melek.Db;
 using Melek.Db.Dtos;
 using Melek.Db.Factories;
-using Melek.Models;
-using Melek.Utilities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Nivix.Infrastructure;
 using Nivix.Models;
 
@@ -27,7 +20,6 @@ namespace Nivix.ViewModels
 {
     public class PackageBuilderViewModel : ViewModelBase<PackageBuilderViewModel>
     {
-
         #region Fields
         private string _CurrentVersion;
         private bool _DeployToDev = true;
@@ -199,7 +191,8 @@ namespace Nivix.ViewModels
                 });
 
                 // savez
-                database.SaveChanges();
+                CancellationToken cancelToken = new CancellationToken();
+                database.SaveChangesAsync(cancelToken);
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message, ex.GetType().Name);
