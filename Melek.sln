@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek", "Melek\Melek.csproj", "{49B35443-ED18-4644-B09B-DBEBD2476AE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nivix", "Nivix\Nivix.csproj", "{09D3F6A9-7728-4DD2-B9F6-713724E515F3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Api", "Melek.Api\Melek.Api.csproj", "{186E4632-69D4-443A-BDB0-779C96A6C5AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melek.Tests", "Melek.Tests\Melek.Tests.csproj", "{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}"
 EndProject
@@ -25,10 +23,6 @@ Global
 		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09D3F6A9-7728-4DD2-B9F6-713724E515F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{186E4632-69D4-443A-BDB0-779C96A6C5AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{186E4632-69D4-443A-BDB0-779C96A6C5AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{186E4632-69D4-443A-BDB0-779C96A6C5AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{186E4632-69D4-443A-BDB0-779C96A6C5AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE9E7DB9-8DB2-4729-85EB-FBD25345B820}.Release|Any CPU.ActiveCfg = Release|Any CPU

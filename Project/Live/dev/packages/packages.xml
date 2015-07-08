@@ -2,4 +2,6 @@
 <packages>
   <package id="core" name="Core (through Dragons of Tarkir)" cardsReleased="2015-03-27T00:00:00" dataUpdated="2015-03-20T15:04:48.0922205-05:00" />
   <package id="tpr" name="Tempest Remastered" cardsReleased="2015-05-05T00:00:00" dataUpdated="2015-04-13T15:36:46.8601975-05:00" />
+  <package id="mm2" name="Modern Masters 2015" cardsReleased="2015-05-22T00:00:00" dataUpdated="2015-05-22T08:28:26.5715706-05:00" />
+  <package id="ori" name="Magic: Origins" cardsReleased="2015-07-17T00:00:00" dataUpdated="2015-07-08T08:44:37.7614099-05:00" />
 </packages>
