@@ -1722,8 +1722,8 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Bazam >= 3.0.0-*",
       "Microsoft.Net.Http >= 2.2.22",
+      "Bazam >= 3.0.0-*",
       "Bazam.Http >= 1.1.0-*"
     ],
     "DNX,Version=v4.5.1": [],

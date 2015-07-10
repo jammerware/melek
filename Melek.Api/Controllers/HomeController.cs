@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Melek.Api.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: /<controller>/
-        public IActionResult Index()
+        public ActionResult Index()
         {
+            ViewBag.Title = "Home Page";
+
             return View();
         }
     }

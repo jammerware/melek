@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
-
+﻿using System.Web.Mvc;
 
 namespace Melek.Api.Controllers
 {
-    [Route("api/[controller]")]
     public class CardsController : Controller
     {
-        // GET: /<controller>/
-        [HttpGet]
-        public IActionResult Index()
+        // GET: Cards
+        public ActionResult Index()
         {
-            return null;
+            return View();
+        }
+
+        public ActionResult Card(string slug)
+        {
+            
+            return View();
         }
     }
 }
