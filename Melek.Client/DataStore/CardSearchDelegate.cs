@@ -1,4 +1,4 @@
-﻿using Melek.Client.Models;
+﻿using Melek.Domain;
 
 namespace Melek.Client.DataStore
 {

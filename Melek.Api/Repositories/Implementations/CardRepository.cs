@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Melek.Client.Models;
-using Melek.Db;
+using Melek.Domain;
 
 namespace Melek.Api.Repositories
 {
     public class CardRepository : ICardRepository
     {
-        public Card GetCardFromSlug(string slug)
+        public ICard GetCardFromSlug(string slug)
         {
-            MelekDbContext ctx = new MelekDbContext();
-            return ctx.Cards.Where(c => c.)
+            //MelekDbContext ctx = new MelekDbContext();
+            //return ctx.Cards.Where(c => Slugger.Slugify(c.Name).Equals(slug, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Bazam.Http;
 using Bazam.Modules;
 using Bazam.Slugging;
-using Melek.Client.Models;
+using Melek.Domain;
 
 namespace Melek.Client.DataStore
 {

@@ -2,13 +2,13 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bazam.Http;
-using Melek.Client.Models;
+using Melek.Domain;
 
 namespace Melek.Client.Vendors
 {
     public class AmazonClient : IVendorClient
     {
-        public Task<string> GetLink(Card card, Set set)
+        public Task<string> GetLink(ICard<IPrinting> card, Set set)
         {
             string cardName = card.Name.Replace("/", string.Empty).ToLower();
             return Task.Run(() => { return "http://www.amazon.com/s/field-keywords=mtg+" + WebUtility.UrlEncode(set.Name).ToLower() + "+" + WebUtility.UrlEncode(cardName); });
@@ -19,9 +19,9 @@ namespace Melek.Client.Vendors
             return "Amazon.com";
         }
 
-        public async Task<string> GetPrice(Card card, Set set)
+        public async Task<string> GetPrice(ICard<IPrinting> card, Set set)
         {
-            string url = await GetLink(card, set);
+            string url = await GetLink(card as ICard<IPrinting>, set);
             string html = await new NoobWebClient().DownloadString(url);
 
             Match match = Regex.Match(html, "<div id=\"atfResults\"[\\s\\S]+?(\\$[0-9]+\\.[0-9]{2})");

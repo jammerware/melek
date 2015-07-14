@@ -1,4 +1,4 @@
-﻿namespace Melek.Client.Models
+﻿namespace Melek.Domain
 {
     // P[SOME LETTER] is phyrexian
     // _ is colorless, we'll see how that goes

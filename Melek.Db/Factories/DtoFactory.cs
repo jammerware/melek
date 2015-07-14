@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melek.Db.Dtos;
-using Melek.Client.Models;
+using Melek.Domain;
 
 namespace Melek.Db.Factories
 {

@@ -1,16 +1,16 @@
-﻿namespace Melek.Client.Models
+﻿namespace Melek.Domain
 {
     public enum Format
     {
         Archenemy,
         Block,
-        Commander = 5,
+        Commander,
         CommanderGeneral,
         Conspiracy,
-        Legacy = 3,
-        Modern = 2,
+        Legacy,
+        Modern,
         Planechase,
-        Standard = 1,
-        Vintage = 4
+        Standard,
+        Vintage
     }
 }

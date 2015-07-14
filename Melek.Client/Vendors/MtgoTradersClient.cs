@@ -1,14 +1,13 @@
-﻿using System.Net;
-using System.Text.RegularExpressions;
-using Melek.Client.Models;
-using Bazam.Http;
+﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Bazam.Http;
+using Melek.Domain;
 
 namespace Melek.Client.Vendors
 {
     public class MtgoTradersClient : IVendorClient
     {
-        public Task<string> GetLink(Card card, Set set)
+        public Task<string> GetLink(ICard<IPrinting> card, Set set)
         {
             string sterilizedCardName = Regex.Replace(card.Name, "[',]", string.Empty);
             sterilizedCardName = sterilizedCardName.Replace(' ', '_');
@@ -28,7 +27,7 @@ namespace Melek.Client.Vendors
             return "MtgoTraders.com";
         }
 
-        public async Task<string> GetPrice(Card card, Set set)
+        public async Task<string> GetPrice(ICard<IPrinting> card, Set set)
         {
             string pageHtml = await new NoobWebClient().DownloadString(await GetLink(card, set));
             Match match = Regex.Match(pageHtml, "<span class=\"price\">(\\S+)</span>");

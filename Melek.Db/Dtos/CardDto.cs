@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Melek.Client.Models;
+using Melek.Domain;
 
 namespace Melek.Db.Dtos
 {

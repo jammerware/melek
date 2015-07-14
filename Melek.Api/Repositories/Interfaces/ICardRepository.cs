@@ -1,9 +1,9 @@
-﻿using Melek.Client.Models;
+﻿using Melek.Domain;
 
 namespace Melek.Api.Repositories
 {
     public interface ICardRepository
     {
-        public Card GetCardFromSlug(string slug);
+        ICard GetCardFromSlug(string slug);
     }
 }

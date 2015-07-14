@@ -1,10 +1,10 @@
-﻿using Melek.Client.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Melek.Domain;
 
 namespace Melek.Client.Vendors
 {
     public interface IVendorClient : IInfoClient
     {
-        Task<string> GetPrice(Card card, Set set);
+        Task<string> GetPrice(ICard<IPrinting> card, Set set);
     }
 }

@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Melek.Client.Models;
+using Melek.Domain;
 
 namespace Melek.Client.Vendors
 {
     public class GathererClient : IInfoClient
     {
-        public Task<string> GetLink(Card card, Set set)
+        public Task<string> GetLink(ICard<IPrinting> card, Set set)
         {
             return Task.Run(() => {
-                PrintingBase printing = card.Printings.Where(p => p.Set.Code == set.Code).FirstOrDefault();
+                IPrinting printing = card.Printings.Where(p => p.Set.Code == set.Code).FirstOrDefault();
                 if (printing != null) {
                     return "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=" + printing.MultiverseId;
                 }

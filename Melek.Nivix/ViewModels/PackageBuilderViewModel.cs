@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 using Bazam.Modules;
 using Bazam.Wpf.ViewModels;
 using FirstFloor.ModernUI.Presentation;
-using Melek.Client.Models;
+using Melek.Client.DataStore;
 using Melek.Db;
 using Melek.Db.Dtos;
 using Melek.Db.Factories;
+using Melek.Domain;
+using Newtonsoft.Json;
 using Nivix.Infrastructure;
 using Nivix.Models;
 
@@ -43,9 +47,9 @@ namespace Nivix.ViewModels
             get 
             {
                 if (_CurrentVersion == null) {
-                    using (MelekDbContext context = new MelekDbContext()) {
-                        _CurrentVersion = context.Version.First().Version;
-                    }
+                    //using (MelekDbContext context = new MelekDbContext()) {
+                    //    _CurrentVersion = context.Version.First().Version;
+                    //}
                 }
 
                 return _CurrentVersion;
@@ -102,7 +106,7 @@ namespace Nivix.ViewModels
         #endregion
 
         #region Internal utility methods
-        private void StartTheProcess()
+        private async void StartTheProcess()
         {
             try {
                 // load the database
@@ -169,30 +173,39 @@ namespace Nivix.ViewModels
                     cardFactory.AddCardData(cardData);
                 }
 
-                // update the DB oh gurl
-                DtoFactory dtoFactory = new DtoFactory();
-                MelekDbContext database = new MelekDbContext();
+                TinyDataStore store = new TinyDataStore() {
+                    Cards = cardFactory.Cards.Values.ToList(),
+                    Sets = cardFactory.Sets.Values.ToList()
+                };
 
-                // sets
-                IEnumerable<SetDto> setDtos = sets.Values.Select(s => dtoFactory.GetSetDto(s));
-                database.Sets.AddRange(setDtos);
+                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store); });
 
-                // cardz
-                foreach (ICard card in cardFactory.Cards.Values) {
-                    database.Cards.Add(dtoFactory.GetCardDto(card));
-                }
+                File.WriteAllText("tiny-store.json", data);
+
+                //// update the DB oh gurl
+                //DtoFactory dtoFactory = new DtoFactory();
+                //MelekDbContext database = new MelekDbContext();
+
+                //// sets
+                //IEnumerable<SetDto> setDtos = sets.Values.Select(s => dtoFactory.GetSetDto(s));
+                //database.Sets.AddRange(setDtos);
+
+                //// cardz
+                //foreach (ICard card in cardFactory.Cards.Values) {
+                //    database.Cards.Add(dtoFactory.GetCardDto(card));
+                //}
                 
-                // version
-                database.Version.RemoveRange(database.Version);
-                database.Version.Add(new ApiVersionDto() {
-                    Notes = this.ReleaseNotes,
-                    ReleaseDate = this.ReleaseDate,
-                    Version = this.VersionNo
-                });
+                //// version
+                //database.Version.RemoveRange(database.Version);
+                //database.Version.Add(new ApiVersionDto() {
+                //    Notes = this.ReleaseNotes,
+                //    ReleaseDate = this.ReleaseDate,
+                //    Version = this.VersionNo
+                //});
 
-                // savez
-                CancellationToken cancelToken = new CancellationToken();
-                database.SaveChangesAsync(cancelToken);
+                //// savez
+                //CancellationToken cancelToken = new CancellationToken();
+                //database.SaveChangesAsync(cancelToken);
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message, ex.GetType().Name);

@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Melek.Client.Models;
+using Melek.Domain;
 
 namespace Melek.Client.Vendors
 {
     public interface IInfoClient
     {
-        Task<string> GetLink(Card card, Set set);
+        Task<string> GetLink(ICard<IPrinting> card, Set set);
         string GetName();
     }
 }

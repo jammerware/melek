@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Melek.Client.Models
+namespace Melek.Domain
 {
     public class ApiVersion
     {

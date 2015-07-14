@@ -2,18 +2,18 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bazam.Http;
-using Melek.Client.Models;
+using Melek.Domain;
 
 namespace Melek.Client.Vendors
 {
     public class ChannelFireballClient : IVendorClient
     {
-        private string GetSearchLink(Card card, Set set)
+        private string GetSearchLink(ICard<IPrinting> card, Set set)
         {
             return "http://store.channelfireball.com/products/search?query=" + WebUtility.UrlEncode(card.Name + " " + set.CFName);
         }
 
-        public async Task<string> GetLink(Card card, Set set)
+        public async Task<string> GetLink(ICard<IPrinting> card, Set set)
         {
             string searchLink = GetSearchLink(card, set);
 
@@ -33,7 +33,7 @@ namespace Melek.Client.Vendors
             return "ChannelFireball.com";
         }
 
-        public async Task<string> GetPrice(Card card, Set set)
+        public async Task<string> GetPrice(ICard<IPrinting> card, Set set)
         {
             string url = GetSearchLink(card, set);
             string html = string.Empty;

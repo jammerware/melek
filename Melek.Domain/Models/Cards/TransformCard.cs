@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Melek.Client.Models
+namespace Melek.Domain
 {
     public class TransformCard : CardBase<TransformPrinting>
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using Bazam.Slugging;
 
-namespace Melek.Client.Models
+namespace Melek.Domain
 {
     public abstract class CardBase<T> : ICard<T>, ISluggable where T : IPrinting
     {

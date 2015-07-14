@@ -5,8 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Bazam.Modules;
-using Melek.Client.Models;
 using Melek.Client.Utilities;
+using Melek.Domain;
 
 namespace Nivix.Models
 {

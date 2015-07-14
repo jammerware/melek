@@ -59,8 +59,8 @@
       <HintPath>..\packages\EntityFramework.SqlServer.Design.7.0.0-beta4\lib\net451\EntityFramework.SqlServer.Design.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Melek.Client">
-      <HintPath>..\lib\Melek.Client.dll</HintPath>
+    <Reference Include="Melek.Domain">
+      <HintPath>..\lib\Melek.Domain.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Razor, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Razor.4.0.0-beta5\lib\net45\Microsoft.AspNet.Razor.dll</HintPath>
@@ -182,6 +182,10 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0-rc3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

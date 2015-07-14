@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Bazam.Modules;
 
-namespace Melek.Client.Models
+namespace Melek.Domain
 {
     public class CardCostCollection : List<CardCost>
     {

@@ -1,4 +1,4 @@
-﻿namespace Melek.Client.Models
+﻿namespace Melek.Domain
 {
     public class TransformPrinting : PrintingBase, IPrinting
     {
