@@ -35,6 +35,9 @@ namespace Melek.Db.Dtos
         // printings
         public ICollection<PrintingDto> Printings { get; set; }
 
+        // used by the factory to convert this into a proper card object
+        public CardModelType CardModelType { get; set; }
+
         public CardDto()
         {
             Printings = new List<PrintingDto>();

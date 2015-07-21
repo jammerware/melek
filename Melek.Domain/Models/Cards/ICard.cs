@@ -4,10 +4,10 @@ namespace Melek.Domain
 {
     public interface ICard
     {
-        ICollection<Format> LegalFormats { get; set; }
+        IReadOnlyList<Format> LegalFormats { get; set; }
         string Name { get; set; }
-        ICollection<string> Nicknames { get; set; }
-        ICollection<Ruling> Rulings { get; set; }
+        IReadOnlyList<string> Nicknames { get; set; }
+        IReadOnlyList<Ruling> Rulings { get; set; }
 
         int GetConvertedManaCost();
         bool IsColor(MagicColor color);

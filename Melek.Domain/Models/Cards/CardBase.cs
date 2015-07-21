@@ -7,10 +7,10 @@ namespace Melek.Domain
     public abstract class CardBase<T> : ICard<T>, ISluggable where T : IPrinting
     {
         // stock properties
-        public ICollection<Format> LegalFormats { get; set; }
+        public IReadOnlyList<Format> LegalFormats { get; set; }
         public string Name { get; set; }
-        public ICollection<string> Nicknames { get; set; }
-        public ICollection<Ruling> Rulings { get; set; }
+        public IReadOnlyList<string> Nicknames { get; set; }
+        public IReadOnlyList<Ruling> Rulings { get; set; }
 
         // abstract properties
         protected abstract ICollection<CardCostCollection> AllCosts { get; }

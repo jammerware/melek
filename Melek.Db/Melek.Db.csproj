@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dtos\ApiVersionDto.cs" />
+    <Compile Include="Dtos\CardModelType.cs" />
     <Compile Include="Dtos\RulingDto.cs" />
     <Compile Include="Dtos\SetDto.cs" />
     <Compile Include="Factories\DtoFactory.cs" />

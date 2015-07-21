@@ -19,8 +19,8 @@ namespace Melek.Domain
         public int? TransformedPower { get; set; }
         public string TransformedText { get; set; }
         public int? TransformedToughness { get; set; }
-        public ICollection<string> TransformedTribes { get; set; }
-        public ICollection<CardType> TransformedTypes { get; set; }
+        public IReadOnlyList<string> TransformedTribes { get; set; }
+        public IReadOnlyList<CardType> TransformedTypes { get; set; }
 
         #region enforced by CardBase<T>
         protected override ICollection<CardCostCollection> AllCosts
