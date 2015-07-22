@@ -11,8 +11,8 @@ namespace Melek.Domain
         public int? NormalPower { get; set; }
         public string NormalText { get; set; }
         public int? NormalToughness { get; set; }
-        public ICollection<string> NormalTribes { get; set; }
-        public ICollection<CardType> NormalTypes { get; set; }
+        public IReadOnlyList<string> NormalTribes { get; set; }
+        public IReadOnlyList<CardType> NormalTypes { get; set; }
 
         // back
         public string TransformedName { get; set; }
@@ -23,12 +23,12 @@ namespace Melek.Domain
         public IReadOnlyList<CardType> TransformedTypes { get; set; }
 
         #region enforced by CardBase<T>
-        protected override ICollection<CardCostCollection> AllCosts
+        protected override IReadOnlyList<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
 
-        public override ICollection<TransformPrinting> Printings { get; set; }
+        public override IReadOnlyList<TransformPrinting> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

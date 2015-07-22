@@ -8,10 +8,10 @@ namespace Melek.Domain
 
         // names, types, & tribes
         public string FlippedName { get; set; }
-        public ICollection<string> NormalTribes { get; set; }
-        public ICollection<CardType> NormalTypes { get; set; }
-        public ICollection<string> FlippedTribes { get; set; }
-        public ICollection<CardType> FlippedTypes { get; set; }
+        public IReadOnlyList<string> NormalTribes { get; set; }
+        public IReadOnlyList<CardType> NormalTypes { get; set; }
+        public IReadOnlyList<string> FlippedTribes { get; set; }
+        public IReadOnlyList<CardType> FlippedTypes { get; set; }
 
         // p/t
         public int? NormalPower { get; set; }
@@ -34,12 +34,12 @@ namespace Melek.Domain
         }
 
         #region enforced by CardBase<T>
-        protected override ICollection<CardCostCollection> AllCosts
+        protected override IReadOnlyList<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
 
-        public override ICollection<FlipPrinting> Printings { get; set; }
+        public override IReadOnlyList<FlipPrinting> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

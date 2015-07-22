@@ -12,11 +12,13 @@ using Bazam.Modules;
 using Bazam.Wpf.ViewModels;
 using FirstFloor.ModernUI.Presentation;
 using Melek.Client.DataStore;
+using Melek.Client.Utilities;
 using Melek.Db;
 using Melek.Db.Dtos;
 using Melek.Db.Factories;
 using Melek.Domain;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Nivix.Infrastructure;
 using Nivix.Models;
 
@@ -98,6 +100,21 @@ namespace Nivix.ViewModels
             set { ChangeProperty(vm => vm.SourceDatabasePath, value); }
         }
 
+        public ICommand ThingsCommand
+        {
+            get
+            {
+                return new RelayCommand((doItToIt) => {
+                    string jsonData = File.ReadAllText("tiny-store.json");
+                    long start = DateTime.Now.Ticks;
+                    IReadOnlyList<ICard> cards = JsonConvert.DeserializeObject<IReadOnlyList<ICard>>(jsonData, new CardJsonConverter(), new StringEnumConverter());
+                    long end = DateTime.Now.Ticks;
+
+                    Console.WriteLine("It took " + TimeSpan.FromTicks(end - start).ToString());
+                });
+            }
+        }
+
         public string VersionNo
         {
             get { return _VersionNo; }
@@ -177,8 +194,8 @@ namespace Nivix.ViewModels
                     Cards = cardFactory.Cards.Values.ToList(),
                     Sets = cardFactory.Sets.Values.ToList()
                 };
-
-                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store); });
+                
+                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store, new StringEnumConverter()); });
 
                 File.WriteAllText("tiny-store.json", data);
 

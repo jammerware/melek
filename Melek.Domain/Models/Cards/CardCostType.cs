@@ -1,7 +1,11 @@
-﻿namespace Melek.Domain
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Melek.Domain
 {
     // P[SOME LETTER] is phyrexian
     // _ is colorless, we'll see how that goes
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum CardCostType
     {
         _,

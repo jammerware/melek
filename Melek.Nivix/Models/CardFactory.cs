@@ -210,7 +210,7 @@ namespace Nivix.Models
                     }
 
                     card.FlippedText = textBuilder.ToString();
-                    Cards.Add(name, card);
+                    Cards.Add(name, card as ICard<IPrinting>);
                 }
 
                 FlipPrinting printing = new FlipPrinting();

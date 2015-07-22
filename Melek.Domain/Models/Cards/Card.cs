@@ -8,8 +8,8 @@ namespace Melek.Domain
         public int? Power { get; set; }
         public string Text { get; set; }
         public int? Toughness { get; set; }
-        public ICollection<string> Tribes { get; set; }
-        public ICollection<CardType> Types { get; set; }
+        public IReadOnlyList<string> Tribes { get; set; }
+        public IReadOnlyList<CardType> Types { get; set; }
 
         public Card() : base() 
         {
@@ -17,12 +17,12 @@ namespace Melek.Domain
         }
 
         #region enforced by CardBase<T>
-        protected override ICollection<CardCostCollection> AllCosts
+        protected override IReadOnlyList<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
 
-        public override ICollection<Printing> Printings { get; set; }
+        public override IReadOnlyList<Printing> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);
