@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Melek.Api.Repositories.Interfaces;
+﻿using Melek.Api.Repositories.Interfaces;
+using Melek.Domain;
+using Microsoft.AspNet.Mvc;
+using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace Melek.Api.Controllers
 {
+    [Route("[controller]/[action]")]
     public class ApiController : Controller
     {
         private IMelekRepository _MelekRepository;
@@ -17,15 +17,24 @@ namespace Melek.Api.Controllers
         }
         
         [HttpGet]
-        public ContentResult AllData()
+        public string AllData()
         {
-            return Content(_MelekRepository.GetAllData(), "application/json");
+            return _MelekRepository.GetAllData();
+        }
+
+        [HttpGet("{name}")]
+        public ActionResult CardByName(string name)
+        {
+            ICard card = _MelekRepository.GetCardByName(name);
+            if (card != null) return Content(JsonConvert.SerializeObject(card), MediaTypeHeaderValue.Parse("application/json"));
+
+            return HttpBadRequest();
         }
 
         [HttpGet]
-        public ContentResult Version()
+        public string Version()
         {
-            return Content(_MelekRepository.GetVersion(), "text/plain");
+            return _MelekRepository.GetVersion();
         }
     }
 }

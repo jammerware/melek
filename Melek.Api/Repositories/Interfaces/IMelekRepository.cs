@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Melek.Domain;
 
 namespace Melek.Api.Repositories.Interfaces
@@ -10,5 +11,6 @@ namespace Melek.Api.Repositories.Interfaces
         ICard GetCardByName(string name);
         string GetVersion();
         IReadOnlyList<Card> Search(string search);
+        Task SetDataSource(string path);
     }
 }
