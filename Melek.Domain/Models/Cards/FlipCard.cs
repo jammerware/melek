@@ -14,10 +14,10 @@ namespace Melek.Domain
         public IReadOnlyList<CardType> FlippedTypes { get; set; }
 
         // p/t
-        public int? NormalPower { get; set; }
-        public int? NormalToughness { get; set; }
         public int? FlippedPower { get; set; }
         public int? FlippedToughness { get; set; }
+        public int? NormalPower { get; set; }
+        public int? NormalToughness { get; set; }
 
         // text
         public string NormalText { get; set; }
