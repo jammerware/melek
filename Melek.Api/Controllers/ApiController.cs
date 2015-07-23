@@ -1,4 +1,5 @@
-﻿using Melek.Api.Repositories.Interfaces;
+﻿using System.Net;
+using Melek.Api.Repositories.Interfaces;
 using Melek.Domain;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -25,7 +26,7 @@ namespace Melek.Api.Controllers
         [HttpGet("{name}")]
         public ActionResult CardByName(string name)
         {
-            ICard card = _MelekRepository.GetCardByName(name);
+            ICard card = _MelekRepository.GetCardByName(WebUtility.UrlDecode(name));
             if (card != null) return Content(JsonConvert.SerializeObject(card), MediaTypeHeaderValue.Parse("application/json"));
 
             return HttpBadRequest();
