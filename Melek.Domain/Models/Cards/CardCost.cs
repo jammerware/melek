@@ -9,6 +9,8 @@ namespace Melek.Domain
         public int Quantity { get; set; }
         public CardCostType Type { get; set; }
 
+        public CardCost() { }
+        
         public CardCost(string cost)
         {
             int quantity = 0;

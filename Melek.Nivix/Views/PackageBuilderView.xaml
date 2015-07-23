@@ -31,7 +31,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -144,13 +143,6 @@
                     Grid.ColumnSpan="2"
                     Command="{Binding GoCommand}"
                     Content="go"
-                    Margin="0,16,0,0"/>
-                <Button
-                    Grid.Row="12"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Command="{Binding ThingsCommand}"
-                    Content="things"
                     Margin="0,16,0,0"/>
             </Grid>
         </ScrollViewer>

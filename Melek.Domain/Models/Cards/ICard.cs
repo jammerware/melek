@@ -23,6 +23,6 @@ namespace Melek.Domain
 
     public interface ICard<T> : ICard where T : IPrinting
     {
-        IReadOnlyList<T> Printings { get; set; }
+        IList<T> Printings { get; set; }
     }
 }

@@ -210,7 +210,7 @@ namespace Nivix.Models
                     }
 
                     card.FlippedText = textBuilder.ToString();
-                    Cards.Add(name, card as ICard<IPrinting>);
+                    Cards.Add(name, card);
                 }
 
                 FlipPrinting printing = new FlipPrinting();
@@ -283,7 +283,7 @@ namespace Nivix.Models
             return Sets[setData];
         }
 
-        private ICollection<string> GetTribesFromTypeData(string typeData)
+        private IReadOnlyList<string> GetTribesFromTypeData(string typeData)
         {
             List<string> retVal = new List<string>();
             typeData = typeData.ToUpper();
@@ -296,7 +296,7 @@ namespace Nivix.Models
             return retVal;
         }
 
-        private ICollection<CardType> GetTypesFromTypeData(string typeData)
+        private IReadOnlyList<CardType> GetTypesFromTypeData(string typeData)
         {
             List<CardType> retVal = new List<CardType>();
             typeData = typeData.ToUpper();

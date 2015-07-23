@@ -39,7 +39,7 @@ namespace Melek.Domain
             get { return new CardCostCollection[] { Cost }; }
         }
 
-        public override IReadOnlyList<FlipPrinting> Printings { get; set; }
+        public override IList<FlipPrinting> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

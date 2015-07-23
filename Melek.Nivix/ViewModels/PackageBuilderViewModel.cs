@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace Nivix.ViewModels
         #region Constructor
         public PackageBuilderViewModel()
         {
-            SourceDatabasePath = @"E:\Dev\Melek\Nivix\Data\core.xml";
+            SourceDatabasePath = Path.Combine(Assembly.GetExecutingAssembly().Location, @"melek-data-store.json");
         }
         #endregion
 
@@ -99,22 +100,7 @@ namespace Nivix.ViewModels
             get { return _SourceDatabasePath; }
             set { ChangeProperty(vm => vm.SourceDatabasePath, value); }
         }
-
-        public ICommand ThingsCommand
-        {
-            get
-            {
-                return new RelayCommand((doItToIt) => {
-                    string jsonData = File.ReadAllText("tiny-store.json");
-                    long start = DateTime.Now.Ticks;
-                    IReadOnlyList<ICard> cards = JsonConvert.DeserializeObject<IReadOnlyList<ICard>>(jsonData, new CardJsonConverter(), new StringEnumConverter());
-                    long end = DateTime.Now.Ticks;
-
-                    Console.WriteLine("It took " + TimeSpan.FromTicks(end - start).ToString());
-                });
-            }
-        }
-
+        
         public string VersionNo
         {
             get { return _VersionNo; }
@@ -144,12 +130,6 @@ namespace Nivix.ViewModels
 
                 foreach (SetData set in setDataDeserialized) {
                     setData.Add(set.Code, set);
-                }
-
-                foreach (XElement setElement in doc.Root.Element("sets").Elements("set")) {
-                    Set set = new Set() {
-                        IsPromo = (XmlPal.GetBool(setElement.Element("is_promo")) ?? false)
-                    };
                 }
 
                 Set[] rawSets = (
@@ -186,18 +166,21 @@ namespace Nivix.ViewModels
                     Sets = sets,
                     SetMetaData = setData
                 };
+
                 foreach (XElement cardData in doc.Root.Element("cards").Elements("card")) {
                     cardFactory.AddCardData(cardData);
                 }
 
-                TinyDataStore store = new TinyDataStore() {
+                MelekDataStore store = new MelekDataStore() {
                     Cards = cardFactory.Cards.Values.ToList(),
-                    Sets = cardFactory.Sets.Values.ToList()
+                    ReleaseNotes = ReleaseNotes,
+                    Sets = cardFactory.Sets.Values.ToList(),
+                    Version = VersionNo
                 };
                 
                 string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store, new StringEnumConverter()); });
 
-                File.WriteAllText("tiny-store.json", data);
+                File.WriteAllText("melek-data-store.json", data);
 
                 //// update the DB oh gurl
                 //DtoFactory dtoFactory = new DtoFactory();

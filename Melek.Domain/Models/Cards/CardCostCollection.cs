@@ -13,6 +13,8 @@ namespace Melek.Domain
             CardCostType.X
         };
 
+        public CardCostCollection() {}
+
         // {3}{B}
         public CardCostCollection(string cost)
         {

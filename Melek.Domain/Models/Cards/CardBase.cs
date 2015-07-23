@@ -16,7 +16,7 @@ namespace Melek.Domain
 
         // abstract properties
         protected abstract IReadOnlyList<CardCostCollection> AllCosts { get; }
-        public abstract IReadOnlyList<T> Printings { get; set; }
+        public abstract IList<T> Printings { get; set; }
 
         protected CardBase()
         {
