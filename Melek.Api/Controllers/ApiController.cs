@@ -26,6 +26,8 @@ namespace Melek.Api.Controllers
         [HttpGet("{name}")]
         public ActionResult CardByName(string name)
         {
+            // this is weird. when i run the application on weblistener or iis, the name comes in url decoded. on kestrel, it doesn't. 
+            // it seems like that would be a part of the mvc middleware, not the web server. i'm confused.
             ICard card = _MelekRepository.GetCardByName(WebUtility.UrlDecode(name));
             if (card != null) return Content(JsonConvert.SerializeObject(card), MediaTypeHeaderValue.Parse("application/json"));
 

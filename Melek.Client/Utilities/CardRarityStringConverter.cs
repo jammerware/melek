@@ -1,27 +1,30 @@
-﻿using Bazam.Modules;
-using Melek.Domain;
+﻿using Melek.Domain;
 
 namespace Melek.Client.Utilities
 {
     public static class StringToCardRarityConverter
     {
-        public static CardRarity GetRarity(string input)
+        public static CardRarity? GetRarity(string input)
         {
-            if (string.IsNullOrEmpty(input)) return CardRarity.Common;
-            if (input.Length == 1) {
+            if (input?.Length >= 1) {
                 switch (input.ToLower()) {
+                    case "c":
+                    case "common":
+                        return CardRarity.Common;
                     case "u":
+                    case "uncommon":
                         return CardRarity.Uncommon;
                     case "r":
+                    case "rare":
                         return CardRarity.Rare;
                     case "m":
+                    case "mythic":
+                    case "mythic rare":
                         return CardRarity.MythicRare;
-                    default:
-                        return CardRarity.Common;
                 }
             }
 
-            return EnuMaster.Parse<CardRarity>(input, true);
+            return null;
         }
     }
 }

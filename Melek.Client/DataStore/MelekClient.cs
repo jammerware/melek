@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Bazam;
+using Bazam.Extensions;
 using Bazam.Http;
 using Bazam.Modules;
 using Bazam.Slugging;
+using Melek.Client.Utilities;
 using Melek.Domain;
 
 namespace Melek.Client.DataStore
@@ -14,23 +17,18 @@ namespace Melek.Client.DataStore
     public class MelekClient
     {
         #region Events
-        public event EventHandler DataLoaded;
+        public event DumbEventHandler DataLoaded;
         #endregion
 
         #region Fields
-        private ICard<IPrinting>[] _Cards;
         private bool _IsLoaded = false;
-        private Set[] _Sets;
+        private MelekDataStore _MelekDataStore;
         private bool _SaveCardImages;
         private string _StorageDirectory;
         #endregion
 
         #region Constructors
-        // general use constructors
-        public MelekClient(string storageDirectory, bool storeCardImages) : this(storageDirectory, storeCardImages, false) { }
-        
-        // for original dev only
-        public MelekClient(string storageDirectory, bool storeCardImages, bool lazyLoad)
+        public MelekClient(string storageDirectory, bool storeCardImages)
         {
             _SaveCardImages = storeCardImages;
             _StorageDirectory = storageDirectory;
@@ -43,13 +41,13 @@ namespace Melek.Client.DataStore
                 Directory.CreateDirectory(CardImagesDirectory);
             }
             
-            if (!lazyLoad) {
-                Action lolz = async () => {
-                    await ForceLoad();
-                };
+        }
+        #endregion
 
-                lolz.BeginInvoke(null, null);
-            }
+        #region internal utility methods
+        private async Task Load()
+        {
+
         }
         #endregion
 
@@ -64,25 +62,7 @@ namespace Melek.Client.DataStore
             get { return _StorageDirectory; }
         }
         #endregion
-
-        #region data management utility methods
-        private void DoLoad()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Forces this MelekDataStore to reload its data from the data available on the file system. Note that unless specifically argued
-        /// in the constructor, the data store will do this asynchronously upon instantiation - the only reason to call this manually is
-        /// if you want to control when the data store initially loads its data, and realistically should only be called externally once per
-        /// instance.
-        /// </summary>
-        public async Task ForceLoad()
-        {
-            await Task.Run(() => { DoLoad(); });
-        }
-        #endregion
-
+        
         #region Image management utility methods
         private async Task<Uri> ResolveCardImage(IPrinting printing, Uri webUri)
         {
@@ -124,12 +104,12 @@ namespace Melek.Client.DataStore
         
         public ICard<IPrinting> GetCardByMultiverseId(string multiverseID)
         {
-            return _Cards.Where(c => c.Printings.Where(p => p.MultiverseId == multiverseID).FirstOrDefault() != null).FirstOrDefault();
+            return _MelekDataStore.Cards.Where(c => c.Printings.Where(p => p.MultiverseId == multiverseID).FirstOrDefault() != null).FirstOrDefault();
         }
 
         public ICard<IPrinting> GetCardByPrinting(IPrinting printing)
         {
-            return _Cards.Where(c => c.Printings.Contains(printing)).FirstOrDefault();
+            return _MelekDataStore.Cards.Where(c => c.Printings.Contains(printing)).FirstOrDefault();
         }
 
         public async Task<Uri> GetCardImageUri(IPrinting printing)
@@ -163,7 +143,7 @@ namespace Melek.Client.DataStore
             double cardsDirectorySize = 0;
 
             if (estimate) {
-                cardsDirectorySize = (Directory.GetFiles(CardImagesDirectory).Count() * 34816); // a card is ABOUT 34kb
+                cardsDirectorySize = (Directory.GetFiles(CardImagesDirectory).Count() * 34816); // a card is ABOUT 34kb on average
                 cardsDirectorySize = Math.Round(cardsDirectorySize);
             }
             else {
@@ -180,25 +160,25 @@ namespace Melek.Client.DataStore
             return (estimate ? "about " : string.Empty) + Math.Round(cardsDirectorySize / 1024 / 1024, 1).ToString() + " MB";
         }
 
-        public ICard[] GetCards()
+        public IReadOnlyList<ICard> GetCards()
         {
-            return _Cards;
+            return _MelekDataStore.Cards.ToArray();
         }
 
         public string GetRandomCardName()
         {
             if (_IsLoaded) {
-                return _Cards[new Random().Next(_Cards.Length - 1)].Name;
+                return _MelekDataStore.Cards.Random().Name;
             }
             return "Melek, Izzet Paragon"; // LOL
         }
         
-        public Set[] GetSets()
+        public IReadOnlyList<Set> GetSets()
         {
-            return _Sets;
+            return _MelekDataStore.Sets.ToArray();
         }
 
-        public ICard[] Search(string searchTerm)
+        public IReadOnlyList<ICard> Search(string searchTerm)
         {
             MatchCollection matches = Regex.Matches(searchTerm.Trim(), "([a-zA-Z0-9]{0,3})([:!])(\\S+)");
             
@@ -235,32 +215,12 @@ namespace Melek.Client.DataStore
                             criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.MultiverseId.Equals(criteriaValue, StringComparison.CurrentCultureIgnoreCase)); });
                             break;
                         case "r":
-                            CardRarity? rarity = null;
-                            switch (criteriaValue) {
-                                case "common":
-                                case "c":
-                                    rarity = CardRarity.Common;
-                                    break;
-                                case "uncommon":
-                                case "u":
-                                    rarity = CardRarity.Uncommon;
-                                    break;
-                                case "rare":
-                                case "r":
-                                    rarity = CardRarity.Rare;
-                                    break;
-                                case "mythic":
-                                case "m":
-                                    rarity = CardRarity.MythicRare;
-                                    break;
-                            }
-
+                            CardRarity? rarity = StringToCardRarityConverter.GetRarity(criteriaValue);
+                            
                             if (rarity != null) {
                                 criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.Rarity == rarity.Value); });
                             }
 
-                            break;
-                        default:
                             break;
                     }
                 }
@@ -269,10 +229,10 @@ namespace Melek.Client.DataStore
             }
         }
 
-        private ICard[] Search(string nameTerm, List<CardSearchDelegate> filters)
+        private IReadOnlyList<ICard> Search(string nameTerm, List<CardSearchDelegate> filters)
         {
             if (_IsLoaded && (!string.IsNullOrEmpty(nameTerm) || (filters != null && filters.Count > 0))) {
-                IEnumerable<ICard> cards = _Cards;
+                IEnumerable<ICard> cards = _MelekDataStore.Cards;
                 string nameTermPattern = string.Empty;
 
                 if (!string.IsNullOrEmpty(nameTerm)) {
@@ -299,13 +259,14 @@ namespace Melek.Client.DataStore
 
                 return cards
                     .OrderBy(c => string.IsNullOrEmpty(nameTerm) || c.Name.StartsWith(nameTerm, StringComparison.CurrentCultureIgnoreCase) ? 0 : 1)
+                    .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => n.StartsWith(nameTerm, StringComparison.CurrentCultureIgnoreCase)))
                     .ThenBy(c => string.IsNullOrEmpty(nameTerm) || Regex.IsMatch(c.Name, nameTermPattern, RegexOptions.IgnoreCase) ? 0 : 1)
                     .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)) ? 0 : 1)
                     .ThenBy(c => c.Name)
                     .ToArray();
             }
 
-            return new Card[] { };
+            return new ICard[] { };
         }
         #endregion
     }

@@ -3,7 +3,7 @@
   "version": -9996,
   "targets": {
     "DNX,Version=v4.5.1": {
-      "Bazam/3.0.0": {
+      "Bazam/3.0.2": {
         "dependencies": {
           "System.Reflection.TypeExtensions": "4.0.0-beta-23019",
           "System.IO.Compression": "4.0.0-beta-23019"
@@ -88,7 +88,7 @@
       "System.Runtime/4.0.0-beta-23019": {}
     },
     "DNXCore,Version=v5.0": {
-      "Bazam/3.0.0": {
+      "Bazam/3.0.2": {
         "dependencies": {
           "System.Reflection.TypeExtensions": "4.0.0-beta-23019",
           "System.IO.Compression": "4.0.0-beta-23019",
@@ -841,11 +841,11 @@
     }
   },
   "libraries": {
-    "Bazam/3.0.0": {
-      "sha512": "L1oRFdUp6q7pFGGm38J8H764/VK1wuIfKSatxFzcO1RH6LIRbZcMRCscI9h6WhiPYNPKGxXbh32XuV8D7VGsug==",
+    "Bazam/3.0.2": {
+      "sha512": "hX3UrUyiiMxxEQ8mlwUINevypzmZaEZ+p4S22G1b4I8bqEz2Rpj3KUN1q+UL2M/ltF9YzCepNUgwxaujx6cSLA==",
       "files": [
-        "Bazam.3.0.0.nupkg",
-        "Bazam.3.0.0.nupkg.sha512",
+        "Bazam.3.0.2.nupkg",
+        "Bazam.3.0.2.nupkg.sha512",
         "Bazam.nuspec",
         "lib/dnx451/Bazam.dll",
         "lib/dnx451/Bazam.xml",
@@ -1760,7 +1760,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Microsoft.Net.Http >= 2.2.22",
-      "Bazam >= 3.0.0-*",
+      "Bazam >= 3.0.2-*",
       "Bazam.Http >= 1.1.0-*",
       "Melek.Domain >= 1.0.0-*",
       "Newtonsoft.Json >= 7.0.1"
