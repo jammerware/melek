@@ -11,6 +11,7 @@ using Bazam.Modules;
 using Bazam.Slugging;
 using Melek.Client.Utilities;
 using Melek.Domain;
+using Newtonsoft.Json;
 
 namespace Melek.Client.DataStore
 {
@@ -25,6 +26,7 @@ namespace Melek.Client.DataStore
         private MelekDataStore _MelekDataStore;
         private bool _SaveCardImages;
         private string _StorageDirectory;
+        private TimeSpan _UpdateCheckInterval;
         #endregion
 
         #region Constructors
@@ -40,18 +42,31 @@ namespace Melek.Client.DataStore
             if (!Directory.Exists(CardImagesDirectory) && storeCardImages) {
                 Directory.CreateDirectory(CardImagesDirectory);
             }
-            
         }
         #endregion
 
         #region internal utility methods
         private async Task Load()
         {
+            string filePath = Path.Combine(StorageDirectory, "melek-data.json");
 
+            if(!File.Exists(filePath)) {
+                
+            }
+
+            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(filePath), MelekDataStore.GetRequiredConverters()); });
+            if(DataLoaded != null) {
+                DataLoaded();
+            }
+        }
+
+        private async Task<string> GetRemoteVersion()
+        {
+            return await new NoobWebClient().DownloadString("http://melekapi.azurewebsites.net/api/GetVersion");
         }
         #endregion
 
-        #region internal utility properties
+        #region public properties
         public string CardImagesDirectory
         {
             get { return Path.Combine(_StorageDirectory, "cards"); }
@@ -102,12 +117,12 @@ namespace Melek.Client.DataStore
             });
         }
         
-        public ICard<IPrinting> GetCardByMultiverseId(string multiverseID)
+        public ICard GetCardByMultiverseId(string multiverseID)
         {
             return _MelekDataStore.Cards.Where(c => c.Printings.Where(p => p.MultiverseId == multiverseID).FirstOrDefault() != null).FirstOrDefault();
         }
 
-        public ICard<IPrinting> GetCardByPrinting(IPrinting printing)
+        public ICard GetCardByPrinting(IPrinting printing)
         {
             return _MelekDataStore.Cards.Where(c => c.Printings.Contains(printing)).FirstOrDefault();
         }
@@ -207,18 +222,18 @@ namespace Melek.Client.DataStore
                             }                            
 
                             if (criteriaOperator == "!")
-                                criteria.Add((ICard<IPrinting> card) => { return card.IsColors(colors) && (!requireMulticolored || card.IsMulticolored()); });
+                                criteria.Add((ICard card) => { return card.IsColors(colors) && (!requireMulticolored || card.IsMulticolored()); });
                             else if (criteriaOperator == ":")
-                                criteria.Add((ICard<IPrinting> card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored())); });
+                                criteria.Add((ICard card) => { return colors.Any(color => card.IsColor(color) || (requireMulticolored && card.IsMulticolored())); });
                             break;
                         case "mid":
-                            criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.MultiverseId.Equals(criteriaValue, StringComparison.CurrentCultureIgnoreCase)); });
+                            criteria.Add((ICard card) => { return card.Printings.Any(p => p.MultiverseId.Equals(criteriaValue, StringComparison.CurrentCultureIgnoreCase)); });
                             break;
                         case "r":
                             CardRarity? rarity = StringToCardRarityConverter.GetRarity(criteriaValue);
                             
                             if (rarity != null) {
-                                criteria.Add((ICard<IPrinting> card) => { return card.Printings.Any(p => p.Rarity == rarity.Value); });
+                                criteria.Add((ICard card) => { return card.Printings.Any(p => p.Rarity == rarity.Value); });
                             }
 
                             break;
@@ -246,7 +261,7 @@ namespace Melek.Client.DataStore
                     }
 
                     if (filters == null) filters = new List<CardSearchDelegate>();
-                    filters.Add((ICard<IPrinting> card) => { 
+                    filters.Add((ICard card) => { 
                         return 
                             Regex.IsMatch(card.Name, nameTermPattern, RegexOptions.IgnoreCase) ||
                             card.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)); 
@@ -254,7 +269,7 @@ namespace Melek.Client.DataStore
                 }
 
                 foreach (CardSearchDelegate filter in filters) {
-                    cards = cards.Where(c => filter(c as ICard<IPrinting>));
+                    cards = cards.Where(c => filter(c as ICard));
                 }
 
                 return cards

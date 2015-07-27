@@ -2,7 +2,7 @@
 
 namespace Melek.Domain
 {
-    public class FlipCard : CardBase<FlipPrinting>
+    public class FlipCard : CardBase
     {
         public CardCostCollection Cost { get; set; }
 
@@ -29,17 +29,14 @@ namespace Melek.Domain
             NormalTribes = new List<string>();
             FlippedTypes = new List<CardType>();
             FlippedTribes = new List<string>();
-
-            Printings = new List<FlipPrinting>();
         }
 
-        #region enforced by CardBase<T>
+        #region enforced by CardBase
         protected override IReadOnlyList<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
-
-        public override IList<FlipPrinting> Printings { get; set; }
+        
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

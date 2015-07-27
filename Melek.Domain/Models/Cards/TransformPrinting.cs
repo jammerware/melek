@@ -1,6 +1,6 @@
 ﻿namespace Melek.Domain
 {
-    public class TransformPrinting : PrintingBase, IPrinting
+    public class TransformPrinting : PrintingBase
     {
         public string NormalArtist { get; set; }
         public string NormalFlavorText { get; set; }

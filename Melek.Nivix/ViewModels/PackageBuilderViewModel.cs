@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -13,13 +12,8 @@ using Bazam.Modules;
 using Bazam.Wpf.ViewModels;
 using FirstFloor.ModernUI.Presentation;
 using Melek.Client.DataStore;
-using Melek.Client.Utilities;
-using Melek.Db;
-using Melek.Db.Dtos;
-using Melek.Db.Factories;
 using Melek.Domain;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Nivix.Infrastructure;
 using Nivix.Models;
 
@@ -178,8 +172,7 @@ namespace Nivix.ViewModels
                     Version = VersionNo
                 };
                 
-                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store, new StringEnumConverter()); });
-
+                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store, MelekDataStore.GetRequiredConverters()); });
                 File.WriteAllText("melek-data-store.json", data);
 
                 //// update the DB oh gurl
@@ -208,7 +201,7 @@ namespace Nivix.ViewModels
                 //database.SaveChangesAsync(cancelToken);
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message, ex.GetType().Name);
+                 MessageBox.Show(ex.Message, ex.GetType().Name);
             }
         }
         #endregion

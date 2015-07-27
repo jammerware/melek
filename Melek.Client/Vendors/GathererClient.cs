@@ -6,7 +6,7 @@ namespace Melek.Client.Vendors
 {
     public class GathererClient : IInfoClient
     {
-        public Task<string> GetLink(ICard<IPrinting> card, Set set)
+        public Task<string> GetLink(ICard card, Set set)
         {
             return Task.Run(() => {
                 IPrinting printing = card.Printings.Where(p => p.Set.Code == set.Code).FirstOrDefault();

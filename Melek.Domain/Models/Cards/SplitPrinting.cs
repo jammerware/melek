@@ -1,6 +1,6 @@
 ﻿namespace Melek.Domain
 {
-    public class SplitPrinting : PrintingBase, IPrinting
+    public class SplitPrinting : PrintingBase
     {
         public string LeftArtist { get; set; }
         public string RightArtist { get; set; }

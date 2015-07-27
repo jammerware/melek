@@ -5,7 +5,7 @@ namespace Melek.Client.Vendors
 {
     public interface IInfoClient
     {
-        Task<string> GetLink(ICard<IPrinting> card, Set set);
+        Task<string> GetLink(ICard card, Set set);
         string GetName();
     }
 }

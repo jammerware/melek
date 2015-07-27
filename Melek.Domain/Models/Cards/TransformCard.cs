@@ -2,7 +2,7 @@
 
 namespace Melek.Domain
 {
-    public class TransformCard : CardBase<TransformPrinting>
+    public class TransformCard : CardBase
     {
         // general
         public CardCostCollection Cost { get; set; }
@@ -27,8 +27,7 @@ namespace Melek.Domain
         {
             get { return new CardCostCollection[] { Cost }; }
         }
-
-        public override IList<TransformPrinting> Printings { get; set; }
+        
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

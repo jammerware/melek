@@ -386,16 +386,18 @@ namespace Nivix.Models
 
         private void SetIPrintingProperties(IPrinting printing, XElement cardData)
         {
+            printing.MultiverseId = XmlPal.GetString(cardData.Element("id"));
+            printing.Set = GetSetFromGathererCode(XmlPal.GetString(cardData.Element("set")));
+            printing.Watermark = XmlPal.GetString(cardData.Element("watermark"));
+
             string rarityData = XmlPal.GetString(cardData.Element("rarity"));
             if (string.IsNullOrEmpty(rarityData)) { rarityData = "C"; }
             // this is a bit of a cheat - the split cards currently come out with rarity like "U // U" and stuff,
             // but since it's impossible for one half of a card to be more rare than the other...
             rarityData = rarityData.Substring(0, 1);
+            CardRarity? rarity = StringToCardRarityConverter.GetRarity(rarityData);
 
-            printing.MultiverseId = XmlPal.GetString(cardData.Element("id"));
-            printing.Rarity = StringToCardRarityConverter.GetRarity(rarityData);
-            printing.Set = GetSetFromGathererCode(XmlPal.GetString(cardData.Element("set")));
-            printing.Watermark = XmlPal.GetString(cardData.Element("watermark"));
+            printing.Rarity = (rarity == null ? CardRarity.Common : rarity.Value);
         }
 
         private void SetTransformerProperties(TransformCard card, XElement cardData, bool setFront = true)

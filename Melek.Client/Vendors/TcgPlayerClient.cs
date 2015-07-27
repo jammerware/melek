@@ -9,15 +9,15 @@ namespace Melek.Client.Vendors
 {
     public class TcgPlayerClient : IVendorClient
     {
-        private async Task<string> GetAPIData(ICard<IPrinting> card, Set set)
+        private async Task<string> GetAPIData(ICard card, Set set)
         {
             //http://partner.tcgplayer.com/x3/pv.asmx/p?pk=MTGBAR&p=Sword+of+War+and+Peace&s=New+Phyrexia&v=3
             // resolve their set name - sometimes it's special
-            string setName = (set.TCGPlayerName == string.Empty ? set.Name : set.TCGPlayerName);
+            string setName = (set.TCGPlayerName == null ? set.Name : set.TCGPlayerName);
             return await new NoobWebClient().DownloadString(string.Format("http://partner.tcgplayer.com/x3/pv.asmx/p?pk=MTGBAR&p={0}&s={1}&v=3", WebUtility.UrlEncode(card.Name), WebUtility.UrlEncode(setName)));
         }
 
-        public async Task<string> GetLink(ICard<IPrinting> card, Set set)
+        public async Task<string> GetLink(ICard card, Set set)
         {
             string apiData = await GetAPIData(card, set);
             MatchCollection matches = Regex.Matches(apiData, "<link>([\\s\\S]+?)</link>");
@@ -32,7 +32,7 @@ namespace Melek.Client.Vendors
             return "TCGPlayer.com";
         }
 
-        public async Task<string> GetPrice(ICard<IPrinting> card, Set set)
+        public async Task<string> GetPrice(ICard card, Set set)
         {
             string apiData = await GetAPIData(card, set);
             MatchCollection matches = Regex.Matches(apiData, "<price>([0-9]*?\\.[0-9]{2})</price>");

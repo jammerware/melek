@@ -6,7 +6,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Melek.Domain
 {
-    public abstract class CardBase<T> : ICard<T>, ISluggable where T : IPrinting
+    public abstract class CardBase : ICard, ISluggable
     {
         // stock properties
         public IReadOnlyList<Format> LegalFormats { get; set; }
@@ -16,12 +16,12 @@ namespace Melek.Domain
 
         // abstract properties
         protected abstract IReadOnlyList<CardCostCollection> AllCosts { get; }
-        public abstract IList<T> Printings { get; set; }
+        public IList<IPrinting> Printings { get; set; }
 
         protected CardBase()
         {
             LegalFormats = new List<Format>();
-            Printings = new List<T>();
+            Printings = new List<IPrinting>();
             Rulings = new List<Ruling>();
         }
 

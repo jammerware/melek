@@ -2,7 +2,7 @@
 
 namespace Melek.Domain
 {
-    public class SplitCard : CardBase<SplitPrinting>
+    public class SplitCard : CardBase
     {
         // general
         public bool HasFuse { get; set; }
@@ -23,9 +23,7 @@ namespace Melek.Domain
         {
             get { return new CardCostCollection[] { LeftCost, RightCost }; }
         }
-
-        public override IList<SplitPrinting> Printings { get; set; }
-
+        
         public override bool IsColor(MagicColor color)
         {
             return LeftCost.IsColor(color) || RightCost.IsColor(color);

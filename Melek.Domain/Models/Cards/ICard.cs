@@ -7,6 +7,7 @@ namespace Melek.Domain
         IReadOnlyList<Format> LegalFormats { get; set; }
         string Name { get; set; }
         IReadOnlyList<string> Nicknames { get; set; }
+        IList<IPrinting> Printings { get; set; }
         IReadOnlyList<Ruling> Rulings { get; set; }
 
         int GetConvertedManaCost();
@@ -19,10 +20,5 @@ namespace Melek.Domain
         /// </summary>
         /// <returns></returns>
         IPrinting GetLastPrinting();
-    }
-
-    public interface ICard<T> : ICard where T : IPrinting
-    {
-        IList<T> Printings { get; set; }
     }
 }

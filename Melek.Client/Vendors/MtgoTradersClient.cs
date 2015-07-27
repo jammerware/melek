@@ -7,7 +7,7 @@ namespace Melek.Client.Vendors
 {
     public class MtgoTradersClient : IVendorClient
     {
-        public Task<string> GetLink(ICard<IPrinting> card, Set set)
+        public Task<string> GetLink(ICard card, Set set)
         {
             string sterilizedCardName = Regex.Replace(card.Name, "[',]", string.Empty);
             sterilizedCardName = sterilizedCardName.Replace(' ', '_');
@@ -27,7 +27,7 @@ namespace Melek.Client.Vendors
             return "MtgoTraders.com";
         }
 
-        public async Task<string> GetPrice(ICard<IPrinting> card, Set set)
+        public async Task<string> GetPrice(ICard card, Set set)
         {
             string pageHtml = await new NoobWebClient().DownloadString(await GetLink(card, set));
             Match match = Regex.Match(pageHtml, "<span class=\"price\">(\\S+)</span>");

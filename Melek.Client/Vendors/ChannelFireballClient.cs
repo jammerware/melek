@@ -8,17 +8,22 @@ namespace Melek.Client.Vendors
 {
     public class ChannelFireballClient : IVendorClient
     {
-        private string GetSearchLink(ICard<IPrinting> card, Set set)
+        private string GetCFSetName(Set set)
         {
-            return "http://store.channelfireball.com/products/search?query=" + WebUtility.UrlEncode(card.Name + " " + set.CFName);
+            return (set.CFName == null ? set.Name : set.CFName);
         }
 
-        public async Task<string> GetLink(ICard<IPrinting> card, Set set)
+        private string GetSearchLink(ICard card, Set set)
+        {
+            return "http://store.channelfireball.com/products/search?query=" + WebUtility.UrlEncode(card.Name + " " + GetCFSetName(set));
+        }
+
+        public async Task<string> GetLink(ICard card, Set set)
         {
             string searchLink = GetSearchLink(card, set);
 
             string searchHtml = await new NoobWebClient().DownloadString(searchLink);
-            string searchPattern = string.Format("<a href=\"(\\S+?)\">\\s+<h3 class=\"hover-title\">{0}: {1}</h3>", (string.IsNullOrEmpty(set.CFName) ? set.Name : set.CFName), card.Name);
+            string searchPattern = string.Format("<a href=\"(\\S+?)\">\\s+<h3 class=\"hover-title\">{0}: {1}</h3>", GetCFSetName(set), card.Name);
             Match match = Regex.Match(searchHtml, searchPattern);
 
             if (match != null && match.Groups.Count == 2) {
@@ -33,7 +38,7 @@ namespace Melek.Client.Vendors
             return "ChannelFireball.com";
         }
 
-        public async Task<string> GetPrice(ICard<IPrinting> card, Set set)
+        public async Task<string> GetPrice(ICard card, Set set)
         {
             string url = GetSearchLink(card, set);
             string html = string.Empty;

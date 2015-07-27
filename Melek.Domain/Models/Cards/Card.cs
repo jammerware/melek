@@ -2,7 +2,7 @@
 
 namespace Melek.Domain
 {
-    public class Card : CardBase<Printing>
+    public class Card : CardBase
     {
         public CardCostCollection Cost { get; set; }
         public int? Power { get; set; }
@@ -14,15 +14,15 @@ namespace Melek.Domain
         public Card() : base() 
         {
             Tribes = new List<string>();
+            Types = new List<CardType>();
         }
 
-        #region enforced by CardBase<T>
+        #region enforced by CardBase
         protected override IReadOnlyList<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
 
-        public override IList<Printing> Printings { get; set; }
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);
