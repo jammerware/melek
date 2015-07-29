@@ -171,8 +171,9 @@ namespace Nivix.ViewModels
                     Sets = cardFactory.Sets.Values.ToList(),
                     Version = VersionNo
                 };
-                
-                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store, MelekDataStore.GetRequiredConverters()); });
+
+                //string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store, MelekDataStore.GetRequiredConverters()); });
+                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store); });
                 File.WriteAllText("melek-data-store.json", data);
 
                 //// update the DB oh gurl

@@ -12,14 +12,5 @@ namespace Melek.Client.DataStore
         public string ReleaseNotes { get; set; }
         public IList<Set> Sets { get; set; }
         public string Version { get; set; }
-
-        public static JsonConverter[] GetRequiredConverters()
-        {
-            return new JsonConverter[] {
-                new StringEnumConverter(),
-                new CardJsonConverter(),
-                new PrintingJsonConverter()
-            };
-        }
     }
 }

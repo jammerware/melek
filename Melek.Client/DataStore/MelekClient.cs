@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Bazam;
 using Bazam.Extensions;
 using Bazam.Http;
 using Bazam.Modules;
+using Bazam.SharpZipLibHelpers;
 using Bazam.Slugging;
 using Melek.Client.Utilities;
 using Melek.Domain;
@@ -17,52 +19,100 @@ namespace Melek.Client.DataStore
 {
     public class MelekClient
     {
+        #region Static
+        private const string API_ROOT = "http://melekapi.azurewebsites.net/";
+        #endregion
+
         #region Events
         public event DumbEventHandler DataLoaded;
+        public event DumbEventHandler UpdateCheckOccurred;
         #endregion
 
-        #region Fields
+        #region Internal fields
         private bool _IsLoaded = false;
         private MelekDataStore _MelekDataStore;
-        private bool _SaveCardImages;
-        private string _StorageDirectory;
-        private TimeSpan _UpdateCheckInterval;
+        private Timer _UpdateCheckTimer;
         #endregion
 
-        #region Constructors
-        public MelekClient(string storageDirectory, bool storeCardImages)
+        #region Internal propeties
+        private string LocalDataPath
         {
-            _SaveCardImages = storeCardImages;
-            _StorageDirectory = storageDirectory;
-
-            if (!Directory.Exists(storageDirectory)) {
-                Directory.CreateDirectory(storageDirectory);
-            }
-
-            if (!Directory.Exists(CardImagesDirectory) && storeCardImages) {
-                Directory.CreateDirectory(CardImagesDirectory);
-            }
+            get { return Path.Combine(StorageDirectory, "melek-data-store.json"); }
         }
         #endregion
 
         #region internal utility methods
         private async Task Load()
         {
-            string filePath = Path.Combine(StorageDirectory, "melek-data.json");
-
-            if(!File.Exists(filePath)) {
-                
+            if(!File.Exists(LocalDataPath)) {
+                await DownloadRemoteData();
             }
 
-            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(filePath), MelekDataStore.GetRequiredConverters()); });
-            if(DataLoaded != null) {
+            await LoadLocalData();
+            await UpdateFromRemote();
+        }
+
+        private async Task DownloadRemoteData()
+        {
+            string zipPath = Path.Combine(StorageDirectory, "melek-data-store.zip");
+            await new NoobWebClient().DownloadFile(API_ROOT + "api/AllData", zipPath);
+            SharpZipLibHelper.Unzip(zipPath, StorageDirectory, null, true);
+        }
+        
+        private async Task LoadLocalData()
+        {
+            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(LocalDataPath)); });
+
+            if (DataLoaded != null) {
                 DataLoaded();
             }
         }
 
-        private async Task<string> GetRemoteVersion()
+        private async Task UpdateFromRemote()
         {
-            return await new NoobWebClient().DownloadString("http://melekapi.azurewebsites.net/api/GetVersion");
+            string localVersionData = _MelekDataStore?.Version;
+            string remoteVersionData = await new NoobWebClient().DownloadString(API_ROOT + "api/Version");
+            Version localVersion = null;
+            Version remoteVersion = null;
+
+            Version.TryParse(localVersionData, out localVersion);
+            Version.TryParse(remoteVersionData, out remoteVersion);
+            
+            if(_MelekDataStore == null || remoteVersion > localVersion) {
+                await DownloadRemoteData();
+                await LoadLocalData();
+            }
+
+            if(UpdateCheckOccurred != null) {
+                UpdateCheckOccurred();
+            }
+        }
+        #endregion
+
+        #region Update timer management
+        private void StartUpdateTimer(TimeSpan interval)
+        {
+            if (interval == null) {
+                _UpdateCheckTimer.Dispose();
+            }
+            else {
+                int totalMilliseconds = (int)interval.TotalMilliseconds;
+
+                if (_UpdateCheckTimer == null) {
+                    _UpdateCheckTimer = new Timer(
+                        async (object state) => {
+                            await UpdateFromRemote();
+                            _UpdateCheckTimer.Change(totalMilliseconds, Timeout.Infinite);
+                        },
+                        null,
+                        totalMilliseconds,
+                        Timeout.Infinite
+                    );
+                }
+                else {
+                    _UpdateCheckTimer.Change(totalMilliseconds, Timeout.Infinite);
+                }
+            }
         }
         #endregion
 
@@ -72,9 +122,48 @@ namespace Melek.Client.DataStore
             get { return Path.Combine(_StorageDirectory, "cards"); }
         }
         
+        private string _StorageDirectory;
         public string StorageDirectory
         {
             get { return _StorageDirectory; }
+            set
+            {
+                _StorageDirectory = value;
+
+                if(!Directory.Exists(value)) {
+                    Directory.CreateDirectory(value);
+                }
+
+                if (!Directory.Exists(CardImagesDirectory)) {
+                    Directory.CreateDirectory(CardImagesDirectory);
+                }
+            }
+        }
+
+        private bool _StoreCardImagesLocally = false;
+        public bool StoreCardImagesLocally
+        {
+            get { return _StoreCardImagesLocally; }
+            set
+            {
+                _StoreCardImagesLocally = value;
+                if(!value) {
+                    // assigned to a variable to suppress the whole "this is async" thing
+                    // ... it'll probably be fine
+                    Task task = ClearCardImageCache();
+                }
+            }
+        }
+
+        private TimeSpan _UpdateCheckInterval;
+        public TimeSpan UpdateCheckInterval
+        {
+            get { return _UpdateCheckInterval; }
+            set
+            {
+                _UpdateCheckInterval = value;
+                StartUpdateTimer(value);
+            }
         }
         #endregion
         
@@ -84,7 +173,7 @@ namespace Melek.Client.DataStore
             Uri retVal = await Task.Run<Uri>(async () => {
                 Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseId) + ".jpg"));
 
-                if (_SaveCardImages) {
+                if (StoreCardImagesLocally) {
                     if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
                         NoobWebClient client = new NoobWebClient();
                         await client.DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
@@ -96,10 +185,6 @@ namespace Melek.Client.DataStore
 
             return retVal;
         }
-        #endregion
-
-        #region public properties
-        public bool StoreCardImagesLocally { get; set; }
         #endregion
 
         #region public data access
@@ -172,7 +257,7 @@ namespace Melek.Client.DataStore
                 }
             }
 
-            return (estimate ? "about " : string.Empty) + Math.Round(cardsDirectorySize / 1024 / 1024, 1).ToString() + " MB";
+            return (estimate ? "about " : string.Empty) + Math.Round(cardsDirectorySize / 1048576, 1).ToString() + " MB";
         }
 
         public IReadOnlyList<ICard> GetCards()

@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using Melek.Domain.Json;
+using Newtonsoft.Json;
 
 namespace Melek.Domain
 {
+    [JsonConverter(typeof(CardJsonConverter))]
     public interface ICard
     {
         IReadOnlyList<Format> LegalFormats { get; set; }
