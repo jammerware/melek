@@ -15,7 +15,7 @@ namespace Melek.Db.Factories
         public CardDto GetCardDto(Card card)
         {
             // from CardBase
-            CardDto dto = FromCardBase<Printing>(card);
+            CardDto dto = FromCardBase(card);
 
             // from Card
             dto.Cost = (card.Cost != null ? card.Cost.ToString() : null);
@@ -50,7 +50,7 @@ namespace Melek.Db.Factories
         public CardDto GetCardDto(FlipCard card)
         {
             // from CardBase
-            CardDto dto = FromCardBase<FlipPrinting>(card);
+            CardDto dto = FromCardBase(card);
 
             // from FlipCard
             dto.Cost = card.Cost.ToString();
@@ -87,7 +87,7 @@ namespace Melek.Db.Factories
         public CardDto GetCardDto(SplitCard card)
         {
             // from CardBase
-            CardDto dto = FromCardBase<SplitPrinting>(card);
+            CardDto dto = FromCardBase(card);
 
             // from SplitCard
             dto.HasFuse = card.HasFuse;
@@ -121,7 +121,7 @@ namespace Melek.Db.Factories
         public CardDto GetCardDto(TransformCard card)
         {
             // from CardBase
-            CardDto dto = FromCardBase<TransformPrinting>(card);
+            CardDto dto = FromCardBase(card);
 
             // from TransformCard
             dto.Cost = card.Cost.ToString();
@@ -203,7 +203,7 @@ namespace Melek.Db.Factories
         #endregion
 
         #region Internal utility
-        private CardDto FromCardBase<T>(CardBase<T> cardBase) where T : PrintingBase
+        private CardDto FromCardBase(CardBase cardBase)
         {
             CardDto dto = new CardDto();
 

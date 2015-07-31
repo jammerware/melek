@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Melek.Domain
 {
@@ -23,11 +24,16 @@ namespace Melek.Domain
         public IReadOnlyList<CardType> TransformedTypes { get; set; }
 
         #region enforced by CardBase<T>
-        protected override IReadOnlyList<CardCostCollection> AllCosts
+        public override IReadOnlyList<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
-        
+
+        public override IReadOnlyList<CardType> AllTypes
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

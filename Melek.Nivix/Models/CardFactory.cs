@@ -95,7 +95,7 @@ namespace Nivix.Models
                 TransformPrinting printing = null;
                 // EXCEPT we have to make sure we haven't already created it 
                 string setCode = GetSetFromGathererCode(XmlPal.GetString(cardData.Element("set"))).Code;
-                printing = card.Printings.Where(p => p.Set.Code == setCode).FirstOrDefault();
+                printing = card.Printings.Where(p => p.Set.Code == setCode).FirstOrDefault() as TransformPrinting;
 
                 if (printing == null) {
                     printing = new TransformPrinting();

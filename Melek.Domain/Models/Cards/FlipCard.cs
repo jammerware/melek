@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Melek.Domain
 {
@@ -8,10 +9,10 @@ namespace Melek.Domain
 
         // names, types, & tribes
         public string FlippedName { get; set; }
-        public IReadOnlyList<string> NormalTribes { get; set; }
-        public IReadOnlyList<CardType> NormalTypes { get; set; }
-        public IReadOnlyList<string> FlippedTribes { get; set; }
-        public IReadOnlyList<CardType> FlippedTypes { get; set; }
+        public IReadOnlyList<string> NormalTribes { get; set; } = new List<string>();
+        public IReadOnlyList<CardType> NormalTypes { get; set; } = new List<CardType>();
+        public IReadOnlyList<string> FlippedTribes { get; set; } = new List<string>();
+        public IReadOnlyList<CardType> FlippedTypes { get; set; } = new List<CardType>();
 
         // p/t
         public int? FlippedPower { get; set; }
@@ -22,21 +23,23 @@ namespace Melek.Domain
         // text
         public string NormalText { get; set; }
         public string FlippedText { get; set; }
-
-        public FlipCard() : base()
-        {
-            NormalTypes = new List<CardType>();
-            NormalTribes = new List<string>();
-            FlippedTypes = new List<CardType>();
-            FlippedTribes = new List<string>();
-        }
-
+        
         #region enforced by CardBase
-        protected override IReadOnlyList<CardCostCollection> AllCosts
+        public override IReadOnlyList<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { Cost }; }
         }
-        
+
+        public override IReadOnlyList<CardType> AllTypes
+        {
+            get
+            {
+                List<CardType> cardTypes = new List<CardType>(FlippedTypes);
+                cardTypes.AddRange(NormalTypes);
+                return cardTypes;
+            }
+        }
+
         public override bool IsColor(MagicColor color)
         {
             return Cost.IsColor(color);

@@ -34,7 +34,7 @@ namespace Melek.Db.Factories
                         FlipPrinting printing = PrintingFromDto<FlipPrinting>(new FlipPrinting(), p);
                         printing.Artist = p.Artist;
 
-                        return printing;
+                        return printing as IPrinting;
                     }).ToList();
 
                     return flipCard;
@@ -54,7 +54,7 @@ namespace Melek.Db.Factories
                         printing.LeftArtist = p.Artist;
                         printing.RightArtist = p.SecondArtist;
 
-                        return printing;
+                        return printing as IPrinting;
                     }).ToList();
 
                     return splitCard;
@@ -86,7 +86,7 @@ namespace Melek.Db.Factories
                         printing.TransformedFlavorText = p.SecondFlavorText;
                         printing.TransformedMultiverseId = p.SecondMultiverseId;
 
-                        return printing;
+                        return printing as IPrinting;
                     }).ToList();
 
                     return transformCard;
@@ -107,7 +107,7 @@ namespace Melek.Db.Factories
                         printing.Artist = p.Artist;
                         printing.FlavorText = p.FlavorText;
 
-                        return printing;
+                        return printing as IPrinting;
                     }).ToList();
 
                     return card;

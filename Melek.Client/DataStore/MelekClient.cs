@@ -41,6 +41,13 @@ namespace Melek.Client.DataStore
         }
         #endregion
 
+        #region Constructor
+        public MelekClient()
+        {
+            Task t = Load();
+        }
+        #endregion
+
         #region internal utility methods
         private async Task Load()
         {

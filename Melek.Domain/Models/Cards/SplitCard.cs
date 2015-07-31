@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Melek.Domain
 {
@@ -19,11 +20,16 @@ namespace Melek.Domain
         public string RightText { get; set; }
 
         #region enforced by ICard<T>
-        protected override IReadOnlyList<CardCostCollection> AllCosts
+        public override IReadOnlyList<CardCostCollection> AllCosts
         {
             get { return new CardCostCollection[] { LeftCost, RightCost }; }
         }
-        
+
+        public override IReadOnlyList<CardType> AllTypes
+        {
+            get { return new CardType[] { Type }; }
+        }
+
         public override bool IsColor(MagicColor color)
         {
             return LeftCost.IsColor(color) || RightCost.IsColor(color);

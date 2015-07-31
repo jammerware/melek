@@ -1,29 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Bazam.Slugging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Melek.Domain
 {
     public abstract class CardBase : ICard, ISluggable
     {
         // stock properties
-        public IReadOnlyList<Format> LegalFormats { get; set; }
+        public IReadOnlyList<Format> LegalFormats { get; set; } = new List<Format>();
         public string Name { get; set; }
-        public IReadOnlyList<string> Nicknames { get; set; }
-        public IReadOnlyList<Ruling> Rulings { get; set; }
+        public IReadOnlyList<string> Nicknames { get; set; } = new List<string>();
+        public IReadOnlyList<Ruling> Rulings { get; set; } = new List<Ruling>();
 
         // abstract properties
-        protected abstract IReadOnlyList<CardCostCollection> AllCosts { get; }
-        public IList<IPrinting> Printings { get; set; }
-
-        protected CardBase()
-        {
-            LegalFormats = new List<Format>();
-            Printings = new List<IPrinting>();
-            Rulings = new List<Ruling>();
-        }
+        public abstract IReadOnlyList<CardType> AllTypes { get; }
+        public abstract IReadOnlyList<CardCostCollection> AllCosts { get; }
+        public IList<IPrinting> Printings { get; set; } = new List<IPrinting>();
 
         public int GetConvertedManaCost()
         {
