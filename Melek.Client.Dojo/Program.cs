@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Melek.Client.DataStore;
+using Melek.Domain;
 using Microsoft.Framework.Runtime;
 
 namespace Melek.Client.Dojo
@@ -16,17 +21,31 @@ namespace Melek.Client.Dojo
 
         public void Main(string[] args)
         {
+            Console.WriteLine("Loading data...");
+            string searchTerm = "melek";
+
             MelekClient client = new MelekClient() {
-                StorageDirectory = Path.Combine(_ApplicationEnvironment.ApplicationBasePath, "storage"),
                 StoreCardImagesLocally = true,
                 UpdateCheckInterval = TimeSpan.FromMinutes(10)
             };
+
             client.UpdateCheckOccurred += () => { Console.WriteLine("Checking for update..."); };
             client.DataLoaded += () => {
                 Console.WriteLine("Data loaded.");
-                Console.WriteLine(client.Search("melek"));
+
+                IReadOnlyList<ICard> cards = client.GetCards();
+                IOrderedEnumerable<ICard> nameStarts = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || c.Name.StartsWith(searchTerm, StringComparison.CurrentCultureIgnoreCase) ? 0 : 1);
+                IOrderedEnumerable<ICard> nameStartsWith = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => n.StartsWith(searchTerm, StringComparison.CurrentCultureIgnoreCase)));
+                IOrderedEnumerable<ICard> nicknamesIs = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => n.StartsWith(searchTerm, StringComparison.CurrentCultureIgnoreCase)));
+                IOrderedEnumerable<ICard> nicknameStartsWith = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => n.StartsWith(searchTerm, StringComparison.CurrentCultureIgnoreCase)));
+                IOrderedEnumerable<ICard> regexMatch = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || Regex.IsMatch(c.Name, searchTerm, RegexOptions.IgnoreCase) ? 0 : 1);
+                //    .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)) ? 0 : 1)
+                //    .ThenBy(c => c.Name)
+                string things = "things";
             };
-            
+
+            Task t = client.LoadFromDirectory(Path.Combine(_ApplicationEnvironment.ApplicationBasePath, "storage"));
+
             Console.ReadLine();
         }
     }

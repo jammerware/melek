@@ -28,23 +28,23 @@ namespace Melek.Client.DataStore
         public event DumbEventHandler UpdateCheckOccurred;
         #endregion
 
-        #region Internal fields
+        #region Fields
         private bool _IsLoaded = false;
         private MelekDataStore _MelekDataStore;
         private Timer _UpdateCheckTimer;
         #endregion
 
-        #region Internal propeties
+        #region private properties
         private string LocalDataPath
         {
             get { return Path.Combine(StorageDirectory, "melek-data-store.json"); }
         }
         #endregion
 
-        #region internal utility methods
+        #region private utility methods
         private async Task Load()
         {
-            if(!File.Exists(LocalDataPath)) {
+            if (!File.Exists(LocalDataPath)) {
                 await DownloadRemoteData();
             }
 
@@ -61,7 +61,9 @@ namespace Melek.Client.DataStore
         
         private async Task LoadLocalData()
         {
+            _IsLoaded = false;
             _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(LocalDataPath)); });
+            _IsLoaded = true;
 
             if (DataLoaded != null) {
                 DataLoaded();
@@ -86,6 +88,26 @@ namespace Melek.Client.DataStore
             if(UpdateCheckOccurred != null) {
                 UpdateCheckOccurred();
             }
+        }
+        #endregion
+
+        #region Image management utility methods
+        private async Task<Uri> ResolveCardImage(IPrinting printing, Uri webUri)
+        {
+            Uri retVal = await Task.Run<Uri>(async () => {
+                Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseId) + ".jpg"));
+
+                if (StoreCardImagesLocally) {
+                    if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
+                        NoobWebClient client = new NoobWebClient();
+                        await client.DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
+                    }
+                    return localUri;
+                }
+                return webUri;
+            });
+
+            return retVal;
         }
         #endregion
 
@@ -126,23 +148,6 @@ namespace Melek.Client.DataStore
         public string StorageDirectory
         {
             get { return _StorageDirectory; }
-            set
-            {
-                bool newValue = (_StorageDirectory != value);
-                _StorageDirectory = value;
-
-                if(!Directory.Exists(value)) {
-                    Directory.CreateDirectory(value);
-                }
-
-                if (!Directory.Exists(CardImagesDirectory)) {
-                    Directory.CreateDirectory(CardImagesDirectory);
-                }
-
-                if(newValue) {
-                    Task t = Load();
-                }
-            }
         }
 
         private bool _StoreCardImagesLocally = false;
@@ -169,26 +174,6 @@ namespace Melek.Client.DataStore
                 _UpdateCheckInterval = value;
                 StartUpdateTimer(value);
             }
-        }
-        #endregion
-        
-        #region Image management utility methods
-        private async Task<Uri> ResolveCardImage(IPrinting printing, Uri webUri)
-        {
-            Uri retVal = await Task.Run<Uri>(async () => {
-                Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseId) + ".jpg"));
-
-                if (StoreCardImagesLocally) {
-                    if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
-                        NoobWebClient client = new NoobWebClient();
-                        await client.DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
-                    }
-                    return localUri;
-                }
-                return webUri;
-            });
-
-            return retVal;
         }
         #endregion
 
@@ -372,6 +357,26 @@ namespace Melek.Client.DataStore
             }
 
             return new ICard[] { };
+        }
+        #endregion
+
+        #region public setup
+        public async Task LoadFromDirectory(string directoryPath)
+        {
+            bool newValue = (_StorageDirectory != directoryPath);
+            _StorageDirectory = directoryPath;
+
+            if (!Directory.Exists(directoryPath)) {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            if (!Directory.Exists(CardImagesDirectory)) {
+                Directory.CreateDirectory(CardImagesDirectory);
+            }
+
+            if (newValue) {
+                await Load();
+            }
         }
         #endregion
     }
