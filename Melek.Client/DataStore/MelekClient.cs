@@ -41,13 +41,6 @@ namespace Melek.Client.DataStore
         }
         #endregion
 
-        #region Constructor
-        public MelekClient()
-        {
-            Task t = Load();
-        }
-        #endregion
-
         #region internal utility methods
         private async Task Load()
         {
@@ -135,6 +128,7 @@ namespace Melek.Client.DataStore
             get { return _StorageDirectory; }
             set
             {
+                bool newValue = (_StorageDirectory != value);
                 _StorageDirectory = value;
 
                 if(!Directory.Exists(value)) {
@@ -143,6 +137,10 @@ namespace Melek.Client.DataStore
 
                 if (!Directory.Exists(CardImagesDirectory)) {
                     Directory.CreateDirectory(CardImagesDirectory);
+                }
+
+                if(newValue) {
+                    Task t = Load();
                 }
             }
         }

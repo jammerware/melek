@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Bazam.SharpZipLibHelpers;
 using Melek.Client.DataStore;
 using Microsoft.Framework.Runtime;
 
@@ -20,9 +19,13 @@ namespace Melek.Client.Dojo
             MelekClient client = new MelekClient() {
                 StorageDirectory = Path.Combine(_ApplicationEnvironment.ApplicationBasePath, "storage"),
                 StoreCardImagesLocally = true,
-                UpdateCheckInterval = TimeSpan.FromSeconds(10)
+                UpdateCheckInterval = TimeSpan.FromMinutes(10)
             };
             client.UpdateCheckOccurred += () => { Console.WriteLine("Checking for update..."); };
+            client.DataLoaded += () => {
+                Console.WriteLine("Data loaded.");
+                Console.WriteLine(client.Search("melek"));
+            };
             
             Console.ReadLine();
         }
