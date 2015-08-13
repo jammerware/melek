@@ -39,8 +39,8 @@ namespace Melek.Client.Dojo
                 IOrderedEnumerable<ICard> nicknamesIs = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => n.StartsWith(searchTerm, StringComparison.CurrentCultureIgnoreCase)));
                 IOrderedEnumerable<ICard> nicknameStartsWith = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => n.StartsWith(searchTerm, StringComparison.CurrentCultureIgnoreCase)));
                 IOrderedEnumerable<ICard> regexMatch = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || Regex.IsMatch(c.Name, searchTerm, RegexOptions.IgnoreCase) ? 0 : 1);
-                //    .ThenBy(c => string.IsNullOrEmpty(nameTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => Regex.IsMatch(n, nameTermPattern, RegexOptions.IgnoreCase)) ? 0 : 1)
-                //    .ThenBy(c => c.Name)
+                IOrderedEnumerable<ICard> nickNameRegexMatch = cards.OrderBy(c => string.IsNullOrEmpty(searchTerm) || c.Nicknames.Count() > 0 && c.Nicknames.Any(n => Regex.IsMatch(n, searchTerm, RegexOptions.IgnoreCase)) ? 0 : 1);
+                IOrderedEnumerable<ICard> strictName = cards.OrderBy(c => c.Name);
                 string things = "things";
             };
 

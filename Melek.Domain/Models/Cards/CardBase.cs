@@ -9,7 +9,7 @@ namespace Melek.Domain
         // stock properties
         public IReadOnlyList<Format> LegalFormats { get; set; } = new List<Format>();
         public string Name { get; set; }
-        public IReadOnlyList<string> Nicknames { get; set; } = new List<string>();
+        public IList<string> Nicknames { get; } = new List<string>();
         public IReadOnlyList<Ruling> Rulings { get; set; } = new List<Ruling>();
 
         // abstract properties

@@ -9,7 +9,7 @@ namespace Melek.Domain
     {
         IReadOnlyList<Format> LegalFormats { get; set; }
         string Name { get; set; }
-        IReadOnlyList<string> Nicknames { get; set; }
+        IList<string> Nicknames { get; }
         IList<IPrinting> Printings { get; set; }
         IReadOnlyList<Ruling> Rulings { get; set; }
 
