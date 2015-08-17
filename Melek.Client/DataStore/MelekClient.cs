@@ -228,26 +228,28 @@ namespace Melek.Client.DataStore
             return null;
         }
 
-        public string GetCardImageCacheSize(bool estimate = false)
+        public async Task<string> GetCardImageCacheSize(bool estimate = false)
         {
-            double cardsDirectorySize = 0;
+            return await Task.Factory.StartNew(() => {
+                double cardsDirectorySize = 0;
 
-            if (estimate) {
-                cardsDirectorySize = (Directory.GetFiles(CardImagesDirectory).Count() * 34816); // a card is ABOUT 34kb on average
-                cardsDirectorySize = Math.Round(cardsDirectorySize);
-            }
-            else {
-                try {
-                    foreach (string file in Directory.GetFiles(CardImagesDirectory)) {
-                        cardsDirectorySize += new FileInfo(file).Length;
+                if (estimate) {
+                    cardsDirectorySize = (Directory.GetFiles(CardImagesDirectory).Count() * 34816); // a card is ABOUT 34kb on average
+                    cardsDirectorySize = Math.Round(cardsDirectorySize);
+                }
+                else {
+                    try {
+                        foreach (string file in Directory.GetFiles(CardImagesDirectory)) {
+                            cardsDirectorySize += new FileInfo(file).Length;
+                        }
+                    }
+                    catch (Exception) {
+                        // it's fine i guess, it's just an estimate for now
                     }
                 }
-                catch (Exception) {
-                    // it's fine i guess, it's just an estimate for now
-                }
-            }
 
-            return (estimate ? "about " : string.Empty) + Math.Round(cardsDirectorySize / 1048576, 1).ToString() + " MB";
+                return (estimate ? "about " : string.Empty) + Math.Round(cardsDirectorySize / 1048576, 1).ToString() + " MB";
+            });
         }
 
         public IReadOnlyList<ICard> GetCards()
