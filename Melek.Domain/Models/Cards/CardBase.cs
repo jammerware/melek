@@ -13,8 +13,9 @@ namespace Melek.Domain
         public IReadOnlyList<Ruling> Rulings { get; set; } = new List<Ruling>();
 
         // abstract properties
-        public abstract IReadOnlyList<CardType> AllTypes { get; }
         public abstract IReadOnlyList<CardCostCollection> AllCosts { get; }
+        public abstract IReadOnlyList<string> AllTribes { get; }
+        public abstract IReadOnlyList<CardType> AllTypes { get; }
         public IList<IPrinting> Printings { get; set; } = new List<IPrinting>();
 
         public int GetConvertedManaCost()

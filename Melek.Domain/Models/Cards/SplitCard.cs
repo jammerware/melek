@@ -25,6 +25,11 @@ namespace Melek.Domain
             get { return new CardCostCollection[] { LeftCost, RightCost }; }
         }
 
+        public override IReadOnlyList<string> AllTribes
+        {
+            get { return new string[] { }; }
+        }
+
         public override IReadOnlyList<CardType> AllTypes
         {
             get { return new CardType[] { Type }; }

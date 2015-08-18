@@ -25,6 +25,7 @@ namespace Melek.Domain
         /// to the appropriate concrete type and then interrogate it.
         /// </summary>
         IReadOnlyList<CardCostCollection> AllCosts { get; }
+        IReadOnlyList<string> AllTribes { get; }
         IReadOnlyList<CardType> AllTypes { get; }
 
         /// <summary>

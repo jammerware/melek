@@ -29,9 +29,24 @@ namespace Melek.Domain
             get { return new CardCostCollection[] { Cost }; }
         }
 
+        public override IReadOnlyList<string> AllTribes
+        {
+            get
+            {
+                List<string> tribes = new List<string>(NormalTribes);
+                tribes.AddRange(TransformedTribes);
+                return tribes;   
+            }
+        }
+
         public override IReadOnlyList<CardType> AllTypes
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                List<CardType> cardTypes = new List<CardType>(NormalTypes);
+                cardTypes.AddRange(TransformedTypes);
+                return cardTypes;
+            }
         }
 
         public override bool IsColor(MagicColor color)
