@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using Melek.Client.Utilities;
 using Melek.Domain;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Melek.Client.DataStore
 {
+    // this is the object that gets directly deserialized from the melek-data-store.json file from the melek API
     public class MelekDataStore
     {
         public IList<ICard> Cards { get; set; }

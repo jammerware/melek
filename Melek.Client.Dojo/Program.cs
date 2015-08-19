@@ -35,8 +35,13 @@ namespace Melek.Client.Dojo
             };
 
             Task t = client.LoadFromDirectory(Path.Combine(_ApplicationEnvironment.ApplicationBasePath, "storage"));
+            
+            while (true) {
+                string input = Console.ReadLine();
+                if (input == "exit") break;
 
-            Console.ReadLine();
+                Console.WriteLine(client.Search(input).First().Name);
+            };
         }
     }
 }

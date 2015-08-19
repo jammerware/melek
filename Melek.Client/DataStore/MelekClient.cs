@@ -330,11 +330,12 @@ namespace Melek.Client.DataStore
                 if (!string.IsNullOrEmpty(nameTerm)) {
                     Dictionary<string, string> replacementSequences = new Dictionary<string, string>() {
                         { "ae", "æ" },
-                        { "u", "û" }
+                        { "u", "û" },
+                        { "o", "ö" }
                     };
                     nameTermPattern = nameTerm.ToLower().Replace(" ", @"\s");
                     foreach (string replacementSequence in replacementSequences.Keys) {
-                        nameTermPattern = nameTermPattern.Replace(replacementSequence, "[" + replacementSequence + replacementSequences[replacementSequence] + "]");
+                        nameTermPattern = nameTermPattern.Replace(replacementSequence, "[" + replacementSequence + "|" + replacementSequences[replacementSequence] + "]");
                     }
 
                     if (filters == null) filters = new List<CardSearchDelegate>();
