@@ -12,7 +12,7 @@ namespace Melek.Db.Dtos
         public string Cost { get; set; }
         public IReadOnlyList<Format> LegalFormats { get; set; }
         public string Name { get; set; }
-        public IReadOnlyList<string> Nicknames { get; set; }
+        public IList<string> Nicknames { get; set; }
         public int? Power { get; set; }
         public IReadOnlyList<RulingDto> Rulings { get; set; }
         public string Text { get; set; }

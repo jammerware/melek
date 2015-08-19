@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Bazam.Slugging;
+using Newtonsoft.Json;
 
 namespace Melek.Domain
 {
@@ -13,8 +14,11 @@ namespace Melek.Domain
         public IReadOnlyList<Ruling> Rulings { get; set; } = new List<Ruling>();
 
         // abstract properties
+        [JsonIgnore]
         public abstract IReadOnlyList<CardCostCollection> AllCosts { get; }
+        [JsonIgnore]
         public abstract IReadOnlyList<string> AllTribes { get; }
+        [JsonIgnore]
         public abstract IReadOnlyList<CardType> AllTypes { get; }
         public IList<IPrinting> Printings { get; set; } = new List<IPrinting>();
 

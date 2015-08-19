@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -44,9 +45,7 @@ namespace Nivix.ViewModels
             get 
             {
                 if (_CurrentVersion == null) {
-                    //using (MelekDbContext context = new MelekDbContext()) {
-                    //    _CurrentVersion = context.Version.First().Version;
-                    //}
+                    _CurrentVersion = new WebClient().DownloadString(new Uri("http://melekapi.azurewebsites.net/api/Version"));
                 }
 
                 return _CurrentVersion;
@@ -171,35 +170,9 @@ namespace Nivix.ViewModels
                     Sets = cardFactory.Sets.Values.ToList(),
                     Version = VersionNo
                 };
-
-                //string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store, MelekDataStore.GetRequiredConverters()); });
+                
                 string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store); });
                 File.WriteAllText("melek-data-store.json", data);
-
-                //// update the DB oh gurl
-                //DtoFactory dtoFactory = new DtoFactory();
-                //MelekDbContext database = new MelekDbContext();
-
-                //// sets
-                //IEnumerable<SetDto> setDtos = sets.Values.Select(s => dtoFactory.GetSetDto(s));
-                //database.Sets.AddRange(setDtos);
-
-                //// cardz
-                //foreach (ICard card in cardFactory.Cards.Values) {
-                //    database.Cards.Add(dtoFactory.GetCardDto(card));
-                //}
-                
-                //// version
-                //database.Version.RemoveRange(database.Version);
-                //database.Version.Add(new ApiVersionDto() {
-                //    Notes = this.ReleaseNotes,
-                //    ReleaseDate = this.ReleaseDate,
-                //    Version = this.VersionNo
-                //});
-
-                //// savez
-                //CancellationToken cancelToken = new CancellationToken();
-                //database.SaveChangesAsync(cancelToken);
             }
             catch (Exception ex) {
                  MessageBox.Show(ex.Message, ex.GetType().Name);

@@ -120,8 +120,11 @@ namespace Melek.Db.Factories
         {
             model.LegalFormats = dto.LegalFormats;
             model.Name = dto.Name;
-            model.Nicknames = dto.Nicknames;
             model.Rulings = dto.Rulings.Select(r => new Ruling() { Date = r.Date, Text = r.Text }).ToList();
+            
+            foreach(string nickname in dto.Nicknames) {
+                model.Nicknames.Add(nickname);
+            }
 
             return model;
         }

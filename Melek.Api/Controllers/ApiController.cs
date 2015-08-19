@@ -25,7 +25,6 @@ namespace Melek.Api.Controllers
         [HttpGet]
         public ActionResult AllData()
         {
-            //return File(Path.Combine(_HostingEnvironment.WebRootPath, @"Data\melek-data-store.7z"), "application/x-7z-compressed", "melek-data-store.7z");
             return File(Path.Combine(_HostingEnvironment.WebRootPath, @"Data\melek-data-store.zip"), "application/zip", "melek-data-store.zip");
         }
 

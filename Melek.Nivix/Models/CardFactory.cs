@@ -290,7 +290,7 @@ namespace Nivix.Models
 
             if (typeData.IndexOf('—') >= 0) {
                 typeData = typeData.Substring(typeData.IndexOf('—') + 1).Trim();
-                retVal.AddRange(Regex.Split(typeData, @"\s+"));
+                retVal.AddRange(Regex.Split(typeData, @"\s+").Select(s => StringBeast.Capitalize(s, true)));
             }
 
             return retVal;
@@ -380,7 +380,9 @@ namespace Nivix.Models
             card.Rulings = rulings;
 
             if (CardNicknames.Keys.Contains(name)) {
-                card.Nicknames = CardNicknames[name].ToList();
+                foreach(string nickname in CardNicknames[name]) {
+                    card.Nicknames.Add(nickname);
+                }
             }
         }
 
