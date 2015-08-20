@@ -19,16 +19,17 @@ namespace Melek.Client.DataStore
 {
     public class MelekClient
     {
-        #region Static
+        #region static
         private const string API_ROOT = "http://melekapi.azurewebsites.net/";
         #endregion
 
-        #region Events
+        #region events
         public event DumbEventHandler DataLoaded;
+        public event DumbEventHandler NewDataLoaded;
         public event DumbEventHandler UpdateCheckOccurred;
         #endregion
 
-        #region Fields
+        #region fields
         private bool _IsLoaded = false;
         private MelekDataStore _MelekDataStore;
         private Timer _UpdateCheckTimer;
@@ -83,6 +84,10 @@ namespace Melek.Client.DataStore
             if(_MelekDataStore == null || remoteVersion > localVersion) {
                 await DownloadRemoteData();
                 await LoadLocalData();
+
+                if(NewDataLoaded != null) {
+                    NewDataLoaded();
+                }
             }
 
             if(UpdateCheckOccurred != null) {
@@ -91,7 +96,7 @@ namespace Melek.Client.DataStore
         }
         #endregion
 
-        #region Image management utility methods
+        #region image management utility methods
         private async Task<Uri> ResolveCardImage(IPrinting printing, Uri webUri)
         {
             Uri retVal = await Task.Run<Uri>(async () => {
@@ -111,7 +116,7 @@ namespace Melek.Client.DataStore
         }
         #endregion
 
-        #region Update timer management
+        #region update timer management
         private void StartUpdateTimer(TimeSpan interval)
         {
             if (interval == null) {
@@ -142,6 +147,11 @@ namespace Melek.Client.DataStore
         public string CardImagesDirectory
         {
             get { return Path.Combine(_StorageDirectory, "cards"); }
+        }
+
+        public bool IsLoaded
+        {
+            get { return _IsLoaded; }
         }
         
         private string _StorageDirectory;
