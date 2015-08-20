@@ -21,7 +21,7 @@
           "lib/dnx451/Bazam.dll": {}
         }
       },
-      "Bazam.Http/1.1.1": {
+      "Bazam.Http/1.1.2": {
         "dependencies": {
           "Microsoft.Net.Http": "2.2.22"
         },
@@ -127,11 +127,11 @@
         "lib/dnxcore50/Bazam.xml"
       ]
     },
-    "Bazam.Http/1.1.1": {
-      "sha512": "yJGtNaJAAeouO0pNTEBfZp78ql8HODOFE0hM7CZzM5CLwv5GOObsWTt0ujGKAQON6WKF+vr2RE7V8/eF8+782Q==",
+    "Bazam.Http/1.1.2": {
+      "sha512": "oSgOpqrLJm2Hb1upmWIEMnwHNQv92BV1qXxkC3aIR48ee2wRZMbG1LsPMv24eeT461Gxvnb2ANJd+QDyq4yXxg==",
       "files": [
-        "Bazam.Http.1.1.1.nupkg",
-        "Bazam.Http.1.1.1.nupkg.sha512",
+        "Bazam.Http.1.1.2.nupkg",
+        "Bazam.Http.1.1.2.nupkg.sha512",
         "Bazam.Http.nuspec",
         "lib/dnx451/Bazam.Http.dll",
         "lib/dnx451/Bazam.Http.xml",
@@ -447,7 +447,7 @@
     "": [
       "Microsoft.Net.Http >= 2.2.22",
       "Bazam >= 3.0.2",
-      "Bazam.Http >= 1.1.1",
+      "Bazam.Http >= 1.1.2",
       "Bazam.SharpZipLibHelpers >= 1.1.0",
       "Melek.Domain >= 1.0.0",
       "Newtonsoft.Json >= 7.0.1",
