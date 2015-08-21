@@ -100,10 +100,9 @@ namespace Melek.Client.DataStore
         #region image management utility methods
         private async Task<Uri> ResolveCardImage(IPrinting printing, Uri webUri)
         {
-            Uri retVal = await Task.Run<Uri>(async () => {
-                Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseId) + ".jpg"));
-
+            return await Task.Run<Uri>(async () => {
                 if (StoreCardImagesLocally) {
+                    Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseId) + ".jpg"));
                     if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
                         NoobWebClient client = new NoobWebClient();
                         await client.DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
@@ -112,8 +111,6 @@ namespace Melek.Client.DataStore
                 }
                 return webUri;
             });
-
-            return retVal;
         }
         #endregion
 
@@ -191,16 +188,18 @@ namespace Melek.Client.DataStore
         #region public data access
         public async Task ClearCardImageCache()
         {
-            await Task.Factory.StartNew(() => {
-                foreach (string fileName in Directory.GetFiles(CardImagesDirectory)) {
-                    try {
-                        File.Delete(fileName);
+            if(!string.IsNullOrEmpty(StorageDirectory)) {
+                await Task.Factory.StartNew(() => {
+                    foreach (string fileName in Directory.GetFiles(CardImagesDirectory)) {
+                        try {
+                            File.Delete(fileName);
+                        }
+                        catch (Exception) {
+                            // double hmm
+                        }
                     }
-                    catch (Exception) {
-                        // double hmm
-                    }
-                }
-            });
+                });
+            }
         }
         
         public ICard GetCardByMultiverseId(string multiverseID)

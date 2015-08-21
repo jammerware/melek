@@ -24,7 +24,7 @@ namespace Melek.Client.Dojo
             Console.WriteLine("Loading data...");
             
             MelekClient client = new MelekClient() {
-                StoreCardImagesLocally = true,
+                StoreCardImagesLocally = false,
                 UpdateCheckInterval = TimeSpan.FromMinutes(10)
             };
 
@@ -40,7 +40,8 @@ namespace Melek.Client.Dojo
                 string input = Console.ReadLine();
                 if (input == "exit") break;
 
-                Console.WriteLine(client.Search(input).First().Name);
+                ICard card = client.Search(input).First();
+                Console.WriteLine(client.GetCardImageUri(card.GetLastPrinting()).GetAwaiter().GetResult().AbsoluteUri);
             };
         }
     }
