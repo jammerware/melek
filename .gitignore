@@ -188,3 +188,5 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 *.nupkg
+/Melek.Client.Dojo/project.lock.json
+/.vs/config/applicationhost.config
