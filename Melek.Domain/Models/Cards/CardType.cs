@@ -20,6 +20,7 @@ namespace Melek.Domain
         Scheme,
         Snow,
         Sorcery,
+        Token,
         Tribal,
         Vanguard,
         World
