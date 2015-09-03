@@ -64,7 +64,7 @@ namespace Melek.Client.DataStore
         private async Task LoadLocalData()
         {
             _IsLoaded = false;
-            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(LocalDataPath)); });
+            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(LocalDataPath), new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }); });
             _IsLoaded = true;
 
             if (DataLoaded != null) {

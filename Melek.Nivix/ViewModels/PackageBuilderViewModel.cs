@@ -171,7 +171,7 @@ namespace Nivix.ViewModels
                     Version = VersionNo
                 };
                 
-                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store); });
+                string data = await Task.Factory.StartNew<string>(() => { return JsonConvert.SerializeObject(store, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }); });
                 File.WriteAllText("melek-data-store.json", data);
             }
             catch (Exception ex) {
