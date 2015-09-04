@@ -21,7 +21,7 @@ namespace Melek.Domain
         #region enforced by CardBase
         public override IReadOnlyList<CardCostCollection> AllCosts
         {
-            get { return new CardCostCollection[] { Cost }; }
+            get { return (Cost == null ? null : new CardCostCollection[] { Cost }); }
         }
 
         public override IReadOnlyList<string> AllTribes

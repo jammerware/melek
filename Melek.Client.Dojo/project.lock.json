@@ -453,7 +453,7 @@
       ]
     },
     "System.Threading.Timer/4.0.0-beta-23019": {
-      "sha512": "SY8l1VWn1OyfiWS9jKOAK61qzLSo1p9LNqDxw76ee2VQmVYhgpRIyIFjDqoHrDYHrA0NJpVEDn99/brdkkFMXA==",
+      "sha512": "nGA/Vt5zC8zGQ8r9mSdRTWzVMXh1YgJH9XH8x5OQZVLh0hn6CSC32RrmUrmKLpxKd64B9mbKoubeLUqXlf/m8g==",
       "files": [
         "System.Threading.Timer.4.0.0-beta-23019.nupkg",
         "System.Threading.Timer.4.0.0-beta-23019.nupkg.sha512",

@@ -1,5 +1,5 @@
 {
-    "version": "1.0.3-*",
+    "version": "1.0.4-*",
     "description": "A library that defines a domain of classes to describe cards from Magic: the Gathering. Goes great with (and is required by) the Melek.Client package, but you can also use this as a standalone if it suits your needs.",
     "authors": [ "Jammereware, LLC" ],
     "tags": [ "magic: the gathering" ],

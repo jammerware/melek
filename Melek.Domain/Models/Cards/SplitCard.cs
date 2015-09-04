@@ -22,12 +22,24 @@ namespace Melek.Domain
         #region enforced by ICard<T>
         public override IReadOnlyList<CardCostCollection> AllCosts
         {
-            get { return new CardCostCollection[] { LeftCost, RightCost }; }
+            get
+            {
+                List<CardCostCollection> costs = null;
+
+                if (LeftCost != null || RightCost != null) {
+                    costs = new List<CardCostCollection>();
+
+                    if (LeftCost != null) costs.Add(LeftCost);
+                    if (RightCost != null) costs.Add(RightCost);
+                }
+
+                return costs;
+            }
         }
 
         public override IReadOnlyList<string> AllTribes
         {
-            get { return new string[] { }; }
+            get { return null; }
         }
 
         public override IReadOnlyList<CardType> AllTypes
