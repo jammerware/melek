@@ -101,11 +101,21 @@ namespace Nivix.Models
                     printing = new TransformPrinting();
                     SetIPrintingProperties(printing, cardData);
                     card.Printings.Add(printing);
+
+                    // the SetIPrintingProperties convenience method automatically sets the MultiverseId property 
+                    // from the card data, but with transformers we shouldn't actually be doing that because the card
+                    // data could actually refer to the back (transformed) side of the card. We set the appropriate
+                    // multiverseId property below
+                    //
+                    // TODO: do something nonstupid about this
+
+                    printing.MultiverseId = null;
                 }
 
                 if (!string.IsNullOrEmpty(costData)) {
                     printing.NormalArtist = XmlPal.GetString(cardData.Element("artist"));
                     printing.NormalFlavorText = XmlPal.GetString(cardData.Element("flavor"));
+                    printing.MultiverseId = XmlPal.GetString(cardData.Element("id"));
                 }
                 else {
                     printing.TransformedArtist = XmlPal.GetString(cardData.Element("artist"));
@@ -267,6 +277,7 @@ namespace Nivix.Models
 
                 card.Printings.Add(printing);
             }
+
             // need to work this out somewhere along the way
             //List<CardType> cardTypes = GetCardTypes(cardTypesData);
             //if (legalFormats.Contains(Format.CommanderGeneral) && !(cardTypes.Contains(CardType.LEGENDARY) && cardTypes.Contains(CardType.CREATURE))) {
