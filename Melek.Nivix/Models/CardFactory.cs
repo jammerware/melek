@@ -55,7 +55,7 @@ namespace Nivix.Models
                     // this can either be a totally new transformer, or it can be the other half of one we've already 
                     // started but haven't finished
                     string transformsInto = XmlPal.GetString(cardData.Element("back_id"));
-                    TransformCard existingTransformer = _UnresolvedTransformers.Where(t => t.Printings.Any(p => p.MultiverseId == transformsInto)).FirstOrDefault();
+                    TransformCard existingTransformer = _UnresolvedTransformers.Where(t => t.Printings.Any(p => p.MultiverseId == transformsInto || (p as TransformPrinting).TransformedMultiverseId == transformsInto)).FirstOrDefault();
 
                     if (existingTransformer != null) {
                         // we've started in this card, we just need to know whether we found the front or back last time
