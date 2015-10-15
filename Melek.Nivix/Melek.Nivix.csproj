@@ -296,7 +296,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Data\GEDatabases\database-ori.xml" />
+    <Resource Include="Data\GEDatabases\database-bfz.xml" />
+    <Resource Include="Data\GEDatabases\isd.xml" />
     <Content Include="Data\GEDatabases\ori.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
