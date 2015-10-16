@@ -14,6 +14,7 @@ using Bazam.SharpZipLibHelpers;
 using Bazam.Slugging;
 using Melek.Client.Utilities;
 using Melek.Domain;
+using Melek.Domain.Json;
 using Newtonsoft.Json;
 
 namespace Melek.Client.DataStore
@@ -64,7 +65,13 @@ namespace Melek.Client.DataStore
         private async Task LoadLocalData()
         {
             _IsLoaded = false;
-            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(LocalDataPath), new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }); });
+
+            // construct settings for deserialization
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.Converters.Add(new PrintingJsonConverter());
+
+            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(LocalDataPath), settings); });
             _IsLoaded = true;
 
             if (DataLoaded != null) {

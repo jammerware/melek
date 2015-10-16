@@ -11,7 +11,7 @@
     "Bazam": "3.0.2",
     "Bazam.Http": "1.1.2",
     "Bazam.SharpZipLibHelpers": "1.1.0",
-    "Melek.Domain": "1.0.3",
+    "Melek.Domain": "1.0.6",
     "Newtonsoft.Json": "7.0.1",
     "System.Threading.Timer": "4.0.0-beta-23019"
   },

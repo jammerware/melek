@@ -1,9 +1,5 @@
-﻿using Melek.Domain.Json;
-using Newtonsoft.Json;
-
-namespace Melek.Domain
+﻿namespace Melek.Domain
 {
-    [JsonConverter(typeof(PrintingJsonConverter))]
     public interface IPrinting
     {
         string MultiverseId { get; set; }
