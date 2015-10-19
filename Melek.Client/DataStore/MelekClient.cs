@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -105,11 +104,11 @@ namespace Melek.Client.DataStore
         #endregion
 
         #region image management utility methods
-        private async Task<Uri> ResolveCardImage(IPrinting printing, Uri webUri)
+        private async Task<Uri> ResolveCardImage(string multiverseId, Uri webUri)
         {
             return await Task.Run<Uri>(async () => {
                 if (StoreCardImagesLocally) {
-                    Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(printing.MultiverseId) + ".jpg"));
+                    Uri localUri = new Uri(Path.Combine(CardImagesDirectory, Slugger.Slugify(multiverseId) + ".jpg"));
                     if (!File.Exists(localUri.LocalPath) || new FileInfo(localUri.LocalPath).Length == 0) {
                         NoobWebClient client = new NoobWebClient();
                         await client.DownloadFile(webUri.AbsoluteUri, localUri.LocalPath);
@@ -218,19 +217,29 @@ namespace Melek.Client.DataStore
         {
             return _MelekDataStore.Cards.Where(c => c.Printings.Contains(printing)).FirstOrDefault();
         }
-
-        public async Task<Uri> GetCardImageUri(IPrinting printing)
+        
+        public Task<Uri> GetImageUri(IPrinting printing)
         {
-            if (Regex.IsMatch(printing.MultiverseId, "^[0-9]+$")) {
+            return GetImageUri(printing.MultiverseId);
+        }
+
+        public Task<Uri> GetImageUri(TransformPrinting printing, bool getFront)
+        {
+            return GetImageUri(getFront ? printing.MultiverseId : printing.TransformedMultiverseId);
+        }
+
+        private async Task<Uri> GetImageUri(string multiverseId)
+        {
+            if (Regex.IsMatch(multiverseId, "^[0-9]+$")) {
                 // these are typical non-promo cards
-                return await ResolveCardImage(printing, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", printing.MultiverseId)));
+                return await ResolveCardImage(multiverseId, new Uri(string.Format("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", multiverseId)));
             }
             else {
                 // promo cards we have to get from magiccards.info
-                Match match = Regex.Match(printing.MultiverseId, @"([a-zA-Z0-9]+)_([a-zA-Z0-9]+)");
+                Match match = Regex.Match(multiverseId, @"([a-zA-Z0-9]+)_([a-zA-Z0-9]+)");
                 if (match != null && match.Groups.Count == 3) {
                     return await ResolveCardImage(
-                        printing,
+                        multiverseId,
                         new Uri(
                             string.Format(
                                 "http://magiccards.info/scans/en/{0}/{1}.jpg",

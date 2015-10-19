@@ -41,7 +41,7 @@ namespace Melek.Client.Dojo
                 if (input == "exit") break;
 
                 ICard card = client.Search(input).First();
-                Console.WriteLine(client.GetCardImageUri(card.GetLastPrinting()).GetAwaiter().GetResult().AbsoluteUri);
+                Console.WriteLine(client.GetImageUri(card.GetLastPrinting()).GetAwaiter().GetResult().AbsoluteUri);
             };
         }
     }
