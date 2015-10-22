@@ -143,15 +143,21 @@ namespace Nivix.Models
                     string leftCostData = costData.Substring(0, costData.IndexOf(SPLIT_CARD_DIVIDER)).Trim();
                     string rightCostData = costData.Substring(costData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length).Trim();
 
-                    card.HasFuse = Regex.IsMatch(textData, @"\bFuse\b");
+                    card.HasFuse = Regex.IsMatch(textData, @"Fuse\s");
                     card.LeftCost = new CardCostCollection(leftCostData);
                     card.RightCost = new CardCostCollection(rightCostData);
                     card.LeftName = nameData.Substring(0, nameData.IndexOf(SPLIT_CARD_DIVIDER));
                     card.RightName = nameData.Substring(nameData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length);
-                    card.LeftText = textData.Substring(0, textData.IndexOf(SPLIT_CARD_DIVIDER));
-                    card.RightText = textData.Substring(textData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length);
                     card.Name = nameData;
                     card.Type = GetTypesFromTypeData(typeData).First();
+
+                    card.LeftText = textData.Substring(0, textData.IndexOf(SPLIT_CARD_DIVIDER));
+                    card.LeftText = card.LeftText.Replace(@"\n", string.Empty);
+
+                    card.RightText = textData.Substring(textData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length);
+                    Regex regex = new Regex(@"Fuse\s+\([^\)]+\)");
+                    card.RightText = regex.Replace(card.RightText, string.Empty).Trim();
+                    card.RightText = card.RightText.Replace(@"\n", string.Empty);
 
                     Cards.Add(name, card);
                 }

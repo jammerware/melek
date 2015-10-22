@@ -16,7 +16,6 @@ using Melek.Client.DataStore;
 using Melek.Domain;
 using Melek.Domain.Json;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Nivix.Infrastructure;
 using Nivix.Models;
 
