@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Melek.Domain
 {
@@ -13,10 +12,12 @@ namespace Melek.Domain
 
         // left
         public CardCostCollection LeftCost { get; set; }
+        public string LeftName { get; set; }
         public string LeftText { get; set; }
 
         // right
         public CardCostCollection RightCost { get; set; }
+        public string RightName { get; set; }
         public string RightText { get; set; }
 
         #region enforced by ICard<T>

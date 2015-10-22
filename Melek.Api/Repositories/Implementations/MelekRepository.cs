@@ -5,10 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Melek.Api.Repositories.Interfaces;
 using Melek.Client.DataStore;
-using Melek.Client.Utilities;
 using Melek.Domain;
+using Melek.Domain.Json;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Melek.Api.Repositories.Implementations
 {
@@ -19,7 +18,7 @@ namespace Melek.Api.Repositories.Implementations
 
         public string GetAllData()
         {
-            return JsonConvert.SerializeObject(MelekDataStore);
+            return JsonConvert.SerializeObject(MelekDataStore, MelekSerializationSettings.Get());
         }
 
         public ICard GetCardByMultiverseId(string multiverseId)
@@ -45,7 +44,7 @@ namespace Melek.Api.Repositories.Implementations
         public async Task SetDataSource(string path)
         {
             await Task.Factory.StartNew(() => {
-                this.MelekDataStore = JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(path));
+                this.MelekDataStore = JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(path), MelekSerializationSettings.Get());
             });
         }
     }

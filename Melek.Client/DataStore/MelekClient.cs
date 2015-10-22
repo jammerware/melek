@@ -65,12 +65,7 @@ namespace Melek.Client.DataStore
         {
             _IsLoaded = false;
 
-            // construct settings for deserialization
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.NullValueHandling = NullValueHandling.Ignore;
-            settings.Converters.Add(new PrintingJsonConverter());
-
-            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(LocalDataPath), settings); });
+            _MelekDataStore = await Task.Factory.StartNew(() => { return JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(LocalDataPath), MelekSerializationSettings.Get()); });
             _IsLoaded = true;
 
             if (DataLoaded != null) {
@@ -151,6 +146,11 @@ namespace Melek.Client.DataStore
         public string CardImagesDirectory
         {
             get { return Path.Combine(_StorageDirectory, "cards"); }
+        }
+
+        public string DataStoreVersion
+        {
+            get { return IsLoaded ? _MelekDataStore.Version : null; }
         }
 
         public bool IsLoaded

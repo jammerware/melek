@@ -13,6 +13,7 @@ namespace Nivix.Models
     public class CardFactory
     {
         private const int SOFT_HYPHEN_CODE = 8722;
+        private const string SPLIT_CARD_DIVIDER = " // ";
         private List<TransformCard> _UnresolvedTransformers = new List<TransformCard>();
 
         public IDictionary<string, ICard> Cards { get; private set; }
@@ -123,10 +124,9 @@ namespace Nivix.Models
                     printing.TransformedMultiverseId = XmlPal.GetString(cardData.Element("id"));
                 }
             }
-            else if (name.Contains(" // ")) {
+            else if (name.Contains(SPLIT_CARD_DIVIDER)) {
                 // split card
                 // unlike other types, most fields in a split card have two values divided by " // ".
-                string divider = " // ";
                 SplitCard card = Cards.ContainsKey(name) ? Cards[name] as SplitCard : null;
 
                 if (card == null) {
@@ -134,20 +134,23 @@ namespace Nivix.Models
                     SetICardProperties(card, cardData, name);
 
                     string costData = XmlPal.GetString(cardData.Element("manacost"));
+                    string nameData = XmlPal.GetString(cardData.Element("name"));
                     string typeData = XmlPal.GetString(cardData.Element("type"));
                     string textData = XmlPal.GetString(cardData.Element("ability"));
 
                     // right now we're assuming the type of each half is the same (because they all are as of now).
-                    typeData = typeData.Substring(0, typeData.IndexOf(divider));
-                    string leftCostData = costData.Substring(0, costData.IndexOf(divider)).Trim();
-                    string rightCostData = costData.Substring(costData.IndexOf(divider) + divider.Length).Trim();
+                    typeData = typeData.Substring(0, typeData.IndexOf(SPLIT_CARD_DIVIDER));
+                    string leftCostData = costData.Substring(0, costData.IndexOf(SPLIT_CARD_DIVIDER)).Trim();
+                    string rightCostData = costData.Substring(costData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length).Trim();
 
                     card.HasFuse = Regex.IsMatch(textData, @"\bFuse\b");
                     card.LeftCost = new CardCostCollection(leftCostData);
                     card.RightCost = new CardCostCollection(rightCostData);
-                    card.LeftText = textData.Substring(0, textData.IndexOf(divider));
-                    card.RightText = textData.Substring(textData.IndexOf(divider) + divider.Length);
-                    card.Name = XmlPal.GetString(cardData.Element("name"));
+                    card.LeftName = nameData.Substring(0, nameData.IndexOf(SPLIT_CARD_DIVIDER));
+                    card.RightName = nameData.Substring(nameData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length);
+                    card.LeftText = textData.Substring(0, textData.IndexOf(SPLIT_CARD_DIVIDER));
+                    card.RightText = textData.Substring(textData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length);
+                    card.Name = nameData;
                     card.Type = GetTypesFromTypeData(typeData).First();
 
                     Cards.Add(name, card);
@@ -158,9 +161,9 @@ namespace Nivix.Models
 
                 string artistData = XmlPal.GetString(cardData.Element("artist"));
                 // some promotional printings seem to have regular artist data - no one knows why
-                if (artistData.IndexOf(divider) >= 0) {
-                    printing.LeftArtist = artistData.Substring(0, artistData.IndexOf(divider)).Trim();
-                    printing.RightArtist = artistData.Substring(artistData.IndexOf(divider) + divider.Length).Trim();
+                if (artistData.IndexOf(SPLIT_CARD_DIVIDER) >= 0) {
+                    printing.LeftArtist = artistData.Substring(0, artistData.IndexOf(SPLIT_CARD_DIVIDER)).Trim();
+                    printing.RightArtist = artistData.Substring(artistData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length).Trim();
                 }
                 else {
                     printing.LeftArtist = artistData;
