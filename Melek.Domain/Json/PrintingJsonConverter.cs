@@ -16,7 +16,7 @@ namespace Melek.Domain.Json
 
         protected override Type GetType(Type objectType, JObject jObject)
         {
-            if (jObject.Property("TransformArtist") != null) {
+            if (jObject.Property("TransformedArtist") != null) {
                 return typeof(TransformPrinting);
             }
             else if (jObject.Property("LeftArtist") != null) {

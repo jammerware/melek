@@ -8,7 +8,7 @@
         "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
         "Microsoft.AspNet.StaticFiles": "1.0.0-beta5",
         "Melek.Client": "1.0.6-*",
-        "Melek.Domain": "1.0.5-*",
+        "Melek.Domain": "1.0.9-*",
         "Kestrel": "1.0.0-beta5"
     },
 
