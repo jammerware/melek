@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Bazam.Modules;
 using Melek.Client.Utilities;
-using Melek.Domain;
+using Melek;
 
 namespace Nivix.Models
 {

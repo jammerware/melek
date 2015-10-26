@@ -86,11 +86,11 @@
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Melek">
+      <HintPath>..\lib\Melek.dll</HintPath>
+    </Reference>
     <Reference Include="Melek.Client">
       <HintPath>..\lib\Melek.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Melek.Domain">
-      <HintPath>..\lib\Melek.Domain.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
