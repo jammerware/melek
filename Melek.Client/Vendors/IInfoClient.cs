@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Melek.Domain;
+using Melek;
 
 namespace Melek.Client.Vendors
 {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Melek;
 using Melek.Api.Repositories.Interfaces;
 using Melek.Client.DataStore;
-using Melek.Domain;
-using Melek.Domain.Json;
+using Melek.Json;
 using Newtonsoft.Json;
 
 namespace Melek.Api.Repositories.Implementations

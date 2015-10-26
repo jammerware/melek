@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Melek.Domain;
+using Melek;
 
 namespace Melek.Client.DataStore
 {

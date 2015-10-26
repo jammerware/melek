@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Melek.Client.DataStore;
-using Melek.Domain;
 using Microsoft.Framework.Runtime;
+using Melek;
+using Melek.Client.DataStore;
 
 namespace Melek.Client.Dojo
 {

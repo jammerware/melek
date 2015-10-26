@@ -12,8 +12,8 @@ using Bazam.Modules;
 using Bazam.SharpZipLibHelpers;
 using Bazam.Slugging;
 using Melek.Client.Utilities;
-using Melek.Domain;
-using Melek.Domain.Json;
+using Melek;
+using Melek.Json;
 using Newtonsoft.Json;
 
 namespace Melek.Client.DataStore

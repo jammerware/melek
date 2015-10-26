@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bazam.Http;
-using Melek.Domain;
+using Melek;
 
 namespace Melek.Client.Vendors
 {

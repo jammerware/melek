@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using Melek.Api.Repositories.Interfaces;
-using Melek.Domain;
+using Melek;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Runtime;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Melek.Domain;
+using Melek;
 
 namespace Melek.Api.Repositories.Interfaces
 {
