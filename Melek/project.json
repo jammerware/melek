@@ -1,27 +1,22 @@
 {
-    "version": "1.0.11-*",
+    "version": "1.0.12-*",
     "description": "A library that defines a domain of classes to describe cards from Magic: the Gathering. Goes great with (and is required by) the Melek.Client package, but you can also use this as a standalone if it suits your needs.",
     "authors": [ "Jammereware, LLC" ],
-    "tags": [ "magic: the gathering" ],
+    "tags": [ "mtg", "magic" ],
     "projectUrl": "https://github.com/jammerware/melek",
     "licenseUrl": "",
 
     "dependencies": {
-        "Bazam": "3.0.3",
+        "Bazam": "3.0.6",
         "Newtonsoft.Json": "7.0.1"
     },
 
   "frameworks": {
     "dnx451": { },
-    "dnxcore50": {
-      "dependencies": {
-        "System.Collections": "4.0.10",
-        "System.Linq": "4.0.0",
-        "System.Threading": "4.0.10",
-        "Microsoft.CSharp": "4.0.0"
-      }
-    },
-    "uap10.0": {}
+    "net451": { },
+    "net452": { },
+    "net46": { },
+    "uap10.0": { }
   },
 
   "runtimes": {

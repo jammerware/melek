@@ -21,7 +21,7 @@
           "lib/dnx451/Bazam.dll": {}
         }
       },
-      "Bazam.Http/1.1.2": {
+      "Bazam.Http/1.1.3": {
         "dependencies": {
           "Microsoft.Net.Http": "2.2.22"
         },
@@ -38,7 +38,7 @@
           "lib/dnx451/Bazam.Http.dll": {}
         }
       },
-      "Bazam.SharpZipLibHelpers/1.1.0": {
+      "Bazam.SharpZipLibHelpers/1.1.1": {
         "dependencies": {
           "SharpZipLib": "0.86.0"
         },
@@ -124,8 +124,7 @@
           "ref/dotnet/System.Reflection.TypeExtensions.dll": {}
         }
       },
-      "System.Runtime/4.0.0": {},
-      "System.Threading.Timer/4.0.0": {}
+      "System.Runtime/4.0.0": {}
     }
   },
   "libraries": {
@@ -141,26 +140,38 @@
         "lib/dnxcore50/Bazam.xml"
       ]
     },
-    "Bazam.Http/1.1.2": {
-      "sha512": "oSgOpqrLJm2Hb1upmWIEMnwHNQv92BV1qXxkC3aIR48ee2wRZMbG1LsPMv24eeT461Gxvnb2ANJd+QDyq4yXxg==",
+    "Bazam.Http/1.1.3": {
+      "sha512": "yOICd4nUOMA48t6zEQjwoPvmHz2NQVhvZ/wrG/f53TCp2qwdjsxCP4IoRilC1PoZBa+9TF/3U785Ltu235Mm8g==",
       "files": [
-        "Bazam.Http.1.1.2.nupkg",
-        "Bazam.Http.1.1.2.nupkg.sha512",
+        "Bazam.Http.1.1.3.nupkg",
+        "Bazam.Http.1.1.3.nupkg.sha512",
         "Bazam.Http.nuspec",
         "lib/dnx451/Bazam.Http.dll",
         "lib/dnx451/Bazam.Http.xml",
         "lib/dnxcore50/Bazam.Http.dll",
-        "lib/dnxcore50/Bazam.Http.xml"
+        "lib/dnxcore50/Bazam.Http.xml",
+        "lib/net451/Bazam.Http.dll",
+        "lib/net451/Bazam.Http.xml",
+        "lib/net452/Bazam.Http.dll",
+        "lib/net452/Bazam.Http.xml",
+        "lib/net46/Bazam.Http.dll",
+        "lib/net46/Bazam.Http.xml"
       ]
     },
-    "Bazam.SharpZipLibHelpers/1.1.0": {
-      "sha512": "YZCJSJyhKBNFxYql8dMsg1OGU1utzw7vfiGtDn1FwGfC5ri7h485HJ3YurJkyQqr2j5mwM2jdHIPVa1MrNXk1g==",
+    "Bazam.SharpZipLibHelpers/1.1.1": {
+      "sha512": "e8IC77HbsnnNHMALluVgcN7AUbhgyYvmv9HWXbzVmy9ghRDda4AREtNgw0sgT+s1Bqm2cfqlyRrTe3070qxFWg==",
       "files": [
-        "Bazam.SharpZipLibHelpers.1.1.0.nupkg",
-        "Bazam.SharpZipLibHelpers.1.1.0.nupkg.sha512",
+        "Bazam.SharpZipLibHelpers.1.1.1.nupkg",
+        "Bazam.SharpZipLibHelpers.1.1.1.nupkg.sha512",
         "Bazam.SharpZipLibHelpers.nuspec",
         "lib/dnx451/Bazam.SharpZipLibHelpers.dll",
-        "lib/dnx451/Bazam.SharpZipLibHelpers.xml"
+        "lib/dnx451/Bazam.SharpZipLibHelpers.xml",
+        "lib/net451/Bazam.SharpZipLibHelpers.dll",
+        "lib/net451/Bazam.SharpZipLibHelpers.xml",
+        "lib/net452/Bazam.SharpZipLibHelpers.dll",
+        "lib/net452/Bazam.SharpZipLibHelpers.xml",
+        "lib/net46/Bazam.SharpZipLibHelpers.dll",
+        "lib/net46/Bazam.SharpZipLibHelpers.xml"
       ]
     },
     "Microsoft.Bcl/1.1.9": {
@@ -555,36 +566,6 @@
         "ref/wpa81/_._",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._"
-      ]
-    },
-    "System.Threading.Timer/4.0.0": {
-      "sha512": "BIdJH5/e4FnVl7TkRUiE3pWytp7OYiRUGtwUbyLewS/PhKiLepFetdtlW+FvDYOVn60Q2NMTrhHhJ51q+sVW5g==",
-      "files": [
-        "System.Threading.Timer.4.0.0.nupkg",
-        "System.Threading.Timer.4.0.0.nupkg.sha512",
-        "System.Threading.Timer.nuspec",
-        "lib/DNXCore50/System.Threading.Timer.dll",
-        "lib/net451/_._",
-        "lib/netcore50/System.Threading.Timer.dll",
-        "lib/win81/_._",
-        "lib/wpa81/_._",
-        "ref/dotnet/System.Threading.Timer.dll",
-        "ref/dotnet/System.Threading.Timer.xml",
-        "ref/dotnet/de/System.Threading.Timer.xml",
-        "ref/dotnet/es/System.Threading.Timer.xml",
-        "ref/dotnet/fr/System.Threading.Timer.xml",
-        "ref/dotnet/it/System.Threading.Timer.xml",
-        "ref/dotnet/ja/System.Threading.Timer.xml",
-        "ref/dotnet/ko/System.Threading.Timer.xml",
-        "ref/dotnet/ru/System.Threading.Timer.xml",
-        "ref/dotnet/zh-hans/System.Threading.Timer.xml",
-        "ref/dotnet/zh-hant/System.Threading.Timer.xml",
-        "ref/net451/_._",
-        "ref/netcore50/System.Threading.Timer.dll",
-        "ref/netcore50/System.Threading.Timer.xml",
-        "ref/win81/_._",
-        "ref/wpa81/_._",
-        "runtimes/win8-aot/lib/netcore50/System.Threading.Timer.dll"
       ]
     }
   },
