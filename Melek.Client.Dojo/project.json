@@ -1,0 +1,22 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Melek.Client Dojo",
+  "authors": [ "Jammerware LLC" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "Melek.Client": "1.0.2-*",
+    "Microsoft.Framework.Runtime.Abstractions": "1.0.0-beta5",
+    "Bazam": "3.0.2"
+  },
+
+  "commands": {
+    "Melek.Client.Dojo": "Melek.Client.Dojo"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

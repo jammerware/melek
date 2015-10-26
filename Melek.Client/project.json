@@ -1,0 +1,22 @@
+{
+  "version": "1.0.9-*",
+  "description": "A library that enables great apps for Magic: the Gathering based on the Melek API.",
+  "authors": [ "Jammerware LLC" ],
+  "tags": [ "magic: the gathering" ],
+  "projectUrl": "https://github.com/jammerware/melek",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "Microsoft.Net.Http": "2.2.22",
+    "Bazam": "3.0.2",
+    "Bazam.Http": "1.1.2",
+    "Bazam.SharpZipLibHelpers": "1.1.0",
+    "Melek.Domain": "1.0.9",
+    "Newtonsoft.Json": "7.0.1",
+    "System.Threading.Timer": "4.0.0-beta-23019"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}
