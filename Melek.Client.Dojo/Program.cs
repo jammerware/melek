@@ -2,9 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Framework.Runtime;
-using Melek;
 using Melek.Client.DataStore;
+using Microsoft.Dnx.Runtime;
 
 namespace Melek.Client.Dojo
 {
@@ -20,7 +19,7 @@ namespace Melek.Client.Dojo
         public void Main(string[] args)
         {
             Console.WriteLine("Loading data...");
-            
+
             MelekClient client = new MelekClient() {
                 StoreCardImagesLocally = false,
                 UpdateCheckInterval = TimeSpan.FromMinutes(10)
@@ -33,7 +32,7 @@ namespace Melek.Client.Dojo
             };
 
             Task t = client.LoadFromDirectory(Path.Combine(_ApplicationEnvironment.ApplicationBasePath, "storage"));
-            
+
             while (true) {
                 string input = Console.ReadLine();
                 if (input == "exit") break;

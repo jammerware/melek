@@ -9,12 +9,12 @@ using Bazam;
 using Bazam.Extensions;
 using Bazam.Http;
 using Bazam.Modules;
-using Bazam.SharpZipLibHelpers;
 using Bazam.Slugging;
 using Melek.Client.Utilities;
 using Melek;
 using Melek.Json;
 using Newtonsoft.Json;
+using System.IO.Compression;
 
 namespace Melek.Client.DataStore
 {
@@ -58,7 +58,10 @@ namespace Melek.Client.DataStore
         {
             string zipPath = Path.Combine(StorageDirectory, "melek-data-store.zip");
             await new NoobWebClient().DownloadFile(API_ROOT + "api/AllData", zipPath);
-            SharpZipLibHelper.Unzip(zipPath, StorageDirectory, null, true);
+            await Task.Factory.StartNew(() => {
+                ZipFile.ExtractToDirectory(zipPath, StorageDirectory);
+                File.Delete(zipPath);
+            });
         }
         
         private async Task LoadLocalData()
