@@ -1,12 +1,11 @@
 ﻿using System.IO;
 using System.Net;
 using Melek.Api.Repositories.Interfaces;
-using Melek;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.Runtime;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using Microsoft.Dnx.Runtime;
 
 namespace Melek.Api.Controllers
 {

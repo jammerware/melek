@@ -17,7 +17,6 @@
   "frameworks": {
     "dotnet": {
       "dependencies": {
-        "Microsoft.Net.Http": "2.2.22",
         "System.IO.Compression.ZipFile": "4.0.0",
         "System.IO.FileSystem": "4.0.0",
         "System.Threading.Timer": "4.0.1-beta-23409"
