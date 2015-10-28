@@ -435,7 +435,7 @@
           "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Threading.Tasks.dll": {}
         }
       },
-      "System.Threading.Timer/4.0.1-beta-23409": {
+      "System.Threading.Timer/4.0.0": {
         "type": "package",
         "dependencies": {
           "System.Runtime": "4.0.0"
@@ -1132,7 +1132,7 @@
           "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Threading.Tasks.dll": {}
         }
       },
-      "System.Threading.Timer/4.0.1-beta-23409": {
+      "System.Threading.Timer/4.0.0": {
         "type": "package",
         "dependencies": {
           "System.Runtime": "4.0.0"
@@ -1610,7 +1610,7 @@
           "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Threading.Tasks.dll": {}
         }
       },
-      "System.Threading.Timer/4.0.1-beta-23409": {
+      "System.Threading.Timer/4.0.0": {
         "type": "package",
         "dependencies": {
           "System.Runtime": "4.0.0"
@@ -3381,24 +3381,34 @@
         "System.Threading.Tasks.nuspec"
       ]
     },
-    "System.Threading.Timer/4.0.1-beta-23409": {
+    "System.Threading.Timer/4.0.0": {
       "type": "package",
-      "serviceable": true,
-      "sha512": "VqyaIkdvsQq+WBV+5M5fMhRmkZlWlcoLJt8IOqqZX64uQqLLD7n7V9Q5YkopR72ve57lJ5ZODUDJUH8zNh9sqQ==",
+      "sha512": "BIdJH5/e4FnVl7TkRUiE3pWytp7OYiRUGtwUbyLewS/PhKiLepFetdtlW+FvDYOVn60Q2NMTrhHhJ51q+sVW5g==",
       "files": [
         "lib/DNXCore50/System.Threading.Timer.dll",
         "lib/net451/_._",
         "lib/netcore50/System.Threading.Timer.dll",
         "lib/win81/_._",
         "lib/wpa81/_._",
+        "ref/dotnet/de/System.Threading.Timer.xml",
+        "ref/dotnet/es/System.Threading.Timer.xml",
+        "ref/dotnet/fr/System.Threading.Timer.xml",
+        "ref/dotnet/it/System.Threading.Timer.xml",
+        "ref/dotnet/ja/System.Threading.Timer.xml",
+        "ref/dotnet/ko/System.Threading.Timer.xml",
+        "ref/dotnet/ru/System.Threading.Timer.xml",
         "ref/dotnet/System.Threading.Timer.dll",
+        "ref/dotnet/System.Threading.Timer.xml",
+        "ref/dotnet/zh-hans/System.Threading.Timer.xml",
+        "ref/dotnet/zh-hant/System.Threading.Timer.xml",
         "ref/net451/_._",
         "ref/netcore50/System.Threading.Timer.dll",
+        "ref/netcore50/System.Threading.Timer.xml",
         "ref/win81/_._",
         "ref/wpa81/_._",
         "runtimes/win8-aot/lib/netcore50/System.Threading.Timer.dll",
-        "System.Threading.Timer.4.0.1-beta-23409.nupkg",
-        "System.Threading.Timer.4.0.1-beta-23409.nupkg.sha512",
+        "System.Threading.Timer.4.0.0.nupkg",
+        "System.Threading.Timer.4.0.0.nupkg.sha512",
         "System.Threading.Timer.nuspec"
       ]
     },
@@ -3442,7 +3452,7 @@
     ".NETPlatform,Version=v5.0": [
       "System.IO.Compression.ZipFile >= 4.0.0",
       "System.IO.FileSystem >= 4.0.0",
-      "System.Threading.Timer >= 4.0.1-beta-23409"
+      "System.Threading.Timer >= 4.0.0"
     ],
     "DNX,Version=v4.6": [
       "System.IO.Compression.ZipFile >= 4.0.0"

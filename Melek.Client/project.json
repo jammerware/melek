@@ -1,5 +1,5 @@
 {
-  "version": "1.0.13-*",
+  "version": "1.0.14-*",
   "description": "A library that enables great apps for Magic: the Gathering based on the Melek API.",
   "authors": [ "Jammerware LLC" ],
   "tags": [ "mtg", "magic" ],
@@ -19,7 +19,7 @@
       "dependencies": {
         "System.IO.Compression.ZipFile": "4.0.0",
         "System.IO.FileSystem": "4.0.0",
-        "System.Threading.Timer": "4.0.1-beta-23409"
+        "System.Threading.Timer": "4.0.0"
       }
     },
     "dnx46": {
