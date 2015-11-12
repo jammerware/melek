@@ -242,7 +242,7 @@ namespace Nivix.Models
             else {
                 // reg'lar card, y'all
                 Card card = Cards.ContainsKey(name) ? Cards[name] as Card : null;
-                if (card == null) {
+                if (card == null && !Cards.ContainsKey(name)) {
                     card = new Card();
                     SetICardProperties(card, cardData, name);
 
@@ -279,13 +279,16 @@ namespace Nivix.Models
                 }
 
                 // printing
-                Printing printing = new Printing();
-                SetIPrintingProperties(printing, cardData);
+                // TODO: find out why the source database has a Jace, Vryn's Prodigy in it with no matching back (prerelease promo i think)
+                if(card != null) {
+                    Printing printing = new Printing();
+                    SetIPrintingProperties(printing, cardData);
 
-                printing.Artist = XmlPal.GetString(cardData.Element("artist"));
-                printing.FlavorText = XmlPal.GetString(cardData.Element("flavor"));
+                    printing.Artist = XmlPal.GetString(cardData.Element("artist"));
+                    printing.FlavorText = XmlPal.GetString(cardData.Element("flavor"));
 
-                card.Printings.Add(printing);
+                    card.Printings.Add(printing);
+                }
             }
 
             // need to work this out somewhere along the way
