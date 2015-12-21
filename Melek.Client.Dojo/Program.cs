@@ -3,20 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Melek.Client.DataStore;
-using Microsoft.Dnx.Runtime;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Melek.Client.Dojo
 {
     public class Program
     {
-        private IApplicationEnvironment _ApplicationEnvironment;
-
-        public Program(IApplicationEnvironment appEnvironment)
-        {
-            _ApplicationEnvironment = appEnvironment;
-        }
-
-        public void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Loading data...");
 
@@ -30,8 +23,8 @@ namespace Melek.Client.Dojo
                 Console.WriteLine("Data loaded.");
                 Console.WriteLine(client.GetRandomCardName());
             };
-
-            Task t = client.LoadFromDirectory(Path.Combine(_ApplicationEnvironment.ApplicationBasePath, "storage"));
+            
+            Task t = client.LoadFromDirectory(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "storage"));
 
             while (true) {
                 string input = Console.ReadLine();

@@ -14,15 +14,15 @@
   "frameworks": {
     "dotnet": {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23409",
+        "Microsoft.CSharp": "4.0.0",
         "System.Collections": "4.0.10",
         "System.Linq": "4.0.0",
         "System.Text.RegularExpressions": "4.0.10",
-        "System.Threading": "4.0.10",
-        "System.Xml.XDocument": "4.0.10-beta-22816"
+        "System.Threading": "4.0.10"
       }
     },
     "dnx451": { },
+    "dnx46": { },
     "net451": { },
     "net452": { },
     "net46": { }

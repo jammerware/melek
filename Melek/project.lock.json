@@ -22,7 +22,7 @@
           "lib/dotnet/Bazam.dll": {}
         }
       },
-      "Microsoft.CSharp/4.0.1-beta-23409": {
+      "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -97,18 +97,15 @@
           "ref/dotnet/System.Globalization.dll": {}
         }
       },
-      "System.IO/4.0.10-beta-22816": {
+      "System.IO/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Text.Encoding": "4.0.10-beta-22816",
-          "System.Threading.Tasks": "4.0.10-beta-22816"
+          "System.Runtime": "4.0.0",
+          "System.Text.Encoding": "4.0.0",
+          "System.Threading.Tasks": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.IO.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.IO.dll": {}
+          "ref/dotnet/System.IO.dll": {}
         }
       },
       "System.IO.Compression/4.0.0": {
@@ -260,16 +257,13 @@
           "ref/dotnet/System.Runtime.InteropServices.dll": {}
         }
       },
-      "System.Text.Encoding/4.0.10-beta-22816": {
+      "System.Text.Encoding/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816"
+          "System.Runtime": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.Text.Encoding.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Text.Encoding.dll": {}
+          "ref/dotnet/System.Text.Encoding.dll": {}
         }
       },
       "System.Text.RegularExpressions/4.0.10": {
@@ -299,49 +293,43 @@
           "ref/dotnet/System.Threading.dll": {}
         }
       },
-      "System.Threading.Tasks/4.0.10-beta-22816": {
+      "System.Threading.Tasks/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816"
+          "System.Runtime": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.Threading.Tasks.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Threading.Tasks.dll": {}
-        }
-      },
-      "System.Xml.ReaderWriter/4.0.10-beta-22816": {
-        "type": "package",
-        "dependencies": {
-          "System.IO": "4.0.10-beta-22816",
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Text.Encoding": "4.0.10-beta-22816",
-          "System.Threading.Tasks": "4.0.10-beta-22816"
-        },
-        "compile": {
-          "lib/contract/System.Xml.ReaderWriter.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Xml.ReaderWriter.dll": {}
-        }
-      },
-      "System.Xml.XDocument/4.0.10-beta-22816": {
-        "type": "package",
-        "dependencies": {
-          "System.IO": "4.0.10-beta-22816",
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Xml.ReaderWriter": "4.0.10-beta-22816"
-        },
-        "compile": {
-          "lib/contract/System.Xml.XDocument.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Xml.XDocument.dll": {}
+          "ref/dotnet/System.Threading.Tasks.dll": {}
         }
       }
     },
     "DNX,Version=v4.5.1": {
+      "Bazam/3.0.7": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      }
+    },
+    "DNX,Version=v4.6": {
       "Bazam/3.0.7": {
         "type": "package",
         "frameworkAssemblies": [
@@ -465,7 +453,7 @@
           "lib/dotnet/Bazam.dll": {}
         }
       },
-      "Microsoft.CSharp/4.0.1-beta-23409": {
+      "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -540,18 +528,15 @@
           "ref/dotnet/System.Globalization.dll": {}
         }
       },
-      "System.IO/4.0.10-beta-22816": {
+      "System.IO/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Text.Encoding": "4.0.10-beta-22816",
-          "System.Threading.Tasks": "4.0.10-beta-22816"
+          "System.Runtime": "4.0.0",
+          "System.Text.Encoding": "4.0.0",
+          "System.Threading.Tasks": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.IO.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.IO.dll": {}
+          "ref/dotnet/System.IO.dll": {}
         }
       },
       "System.IO.Compression/4.0.0": {
@@ -709,16 +694,13 @@
           "ref/dotnet/System.Runtime.InteropServices.dll": {}
         }
       },
-      "System.Text.Encoding/4.0.10-beta-22816": {
+      "System.Text.Encoding/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816"
+          "System.Runtime": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.Text.Encoding.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Text.Encoding.dll": {}
+          "ref/dotnet/System.Text.Encoding.dll": {}
         }
       },
       "System.Text.RegularExpressions/4.0.10": {
@@ -748,45 +730,13 @@
           "ref/dotnet/System.Threading.dll": {}
         }
       },
-      "System.Threading.Tasks/4.0.10-beta-22816": {
+      "System.Threading.Tasks/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816"
+          "System.Runtime": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.Threading.Tasks.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Threading.Tasks.dll": {}
-        }
-      },
-      "System.Xml.ReaderWriter/4.0.10-beta-22816": {
-        "type": "package",
-        "dependencies": {
-          "System.IO": "4.0.10-beta-22816",
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Text.Encoding": "4.0.10-beta-22816",
-          "System.Threading.Tasks": "4.0.10-beta-22816"
-        },
-        "compile": {
-          "lib/contract/System.Xml.ReaderWriter.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Xml.ReaderWriter.dll": {}
-        }
-      },
-      "System.Xml.XDocument/4.0.10-beta-22816": {
-        "type": "package",
-        "dependencies": {
-          "System.IO": "4.0.10-beta-22816",
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Xml.ReaderWriter": "4.0.10-beta-22816"
-        },
-        "compile": {
-          "lib/contract/System.Xml.XDocument.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Xml.XDocument.dll": {}
+          "ref/dotnet/System.Threading.Tasks.dll": {}
         }
       }
     },
@@ -810,7 +760,7 @@
           "lib/dotnet/Bazam.dll": {}
         }
       },
-      "Microsoft.CSharp/4.0.1-beta-23409": {
+      "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -885,18 +835,15 @@
           "ref/dotnet/System.Globalization.dll": {}
         }
       },
-      "System.IO/4.0.10-beta-22816": {
+      "System.IO/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Text.Encoding": "4.0.10-beta-22816",
-          "System.Threading.Tasks": "4.0.10-beta-22816"
+          "System.Runtime": "4.0.0",
+          "System.Text.Encoding": "4.0.0",
+          "System.Threading.Tasks": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.IO.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.IO.dll": {}
+          "ref/dotnet/System.IO.dll": {}
         }
       },
       "System.IO.Compression/4.0.0": {
@@ -1054,16 +1001,13 @@
           "ref/dotnet/System.Runtime.InteropServices.dll": {}
         }
       },
-      "System.Text.Encoding/4.0.10-beta-22816": {
+      "System.Text.Encoding/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816"
+          "System.Runtime": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.Text.Encoding.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Text.Encoding.dll": {}
+          "ref/dotnet/System.Text.Encoding.dll": {}
         }
       },
       "System.Text.RegularExpressions/4.0.10": {
@@ -1093,45 +1037,13 @@
           "ref/dotnet/System.Threading.dll": {}
         }
       },
-      "System.Threading.Tasks/4.0.10-beta-22816": {
+      "System.Threading.Tasks/4.0.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.0.20-beta-22816"
+          "System.Runtime": "4.0.0"
         },
         "compile": {
-          "lib/contract/System.Threading.Tasks.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Threading.Tasks.dll": {}
-        }
-      },
-      "System.Xml.ReaderWriter/4.0.10-beta-22816": {
-        "type": "package",
-        "dependencies": {
-          "System.IO": "4.0.10-beta-22816",
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Text.Encoding": "4.0.10-beta-22816",
-          "System.Threading.Tasks": "4.0.10-beta-22816"
-        },
-        "compile": {
-          "lib/contract/System.Xml.ReaderWriter.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Xml.ReaderWriter.dll": {}
-        }
-      },
-      "System.Xml.XDocument/4.0.10-beta-22816": {
-        "type": "package",
-        "dependencies": {
-          "System.IO": "4.0.10-beta-22816",
-          "System.Runtime": "4.0.20-beta-22816",
-          "System.Xml.ReaderWriter": "4.0.10-beta-22816"
-        },
-        "compile": {
-          "lib/contract/System.Xml.XDocument.dll": {}
-        },
-        "runtime": {
-          "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Xml.XDocument.dll": {}
+          "ref/dotnet/System.Threading.Tasks.dll": {}
         }
       }
     },
@@ -1162,6 +1074,58 @@
       }
     },
     "DNX,Version=v4.5.1/win7-x64": {
+      "Bazam/3.0.7": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      }
+    },
+    "DNX,Version=v4.6/win7-x86": {
+      "Bazam/3.0.7": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      }
+    },
+    "DNX,Version=v4.6/win7-x64": {
       "Bazam/3.0.7": {
         "type": "package",
         "frameworkAssemblies": [
@@ -1364,40 +1328,40 @@
         "lib/net46/Bazam.xml"
       ]
     },
-    "Microsoft.CSharp/4.0.1-beta-23409": {
+    "Microsoft.CSharp/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "GGOOJF47WzXZoka0JHCToQxzSguIy1UeXZywUjA1NPqvKAWVwbSbZ2VxyeIL3jyTV1BHEbBX8FPL6vweUON2aw==",
+      "sha512": "oWqeKUxHXdK6dL2CFjgMcaBISbkk+AqEg+yvJHE4DElNzS4QaTsCflgkkqZwVlWby1Dg9zo9n+iCAMFefFdJ/A==",
       "files": [
-        "lib/dotnet/de/Microsoft.CSharp.xml",
-        "lib/dotnet/es/Microsoft.CSharp.xml",
-        "lib/dotnet/fr/Microsoft.CSharp.xml",
-        "lib/dotnet/it/Microsoft.CSharp.xml",
-        "lib/dotnet/ja/Microsoft.CSharp.xml",
-        "lib/dotnet/ko/Microsoft.CSharp.xml",
         "lib/dotnet/Microsoft.CSharp.dll",
-        "lib/dotnet/Microsoft.CSharp.xml",
-        "lib/dotnet/ru/Microsoft.CSharp.xml",
-        "lib/dotnet/zh-hans/Microsoft.CSharp.xml",
-        "lib/dotnet/zh-hant/Microsoft.CSharp.xml",
         "lib/MonoAndroid10/_._",
         "lib/MonoTouch10/_._",
         "lib/net45/_._",
         "lib/netcore50/Microsoft.CSharp.dll",
-        "lib/netcore50/Microsoft.CSharp.xml",
         "lib/win8/_._",
         "lib/wp80/_._",
         "lib/wpa81/_._",
         "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
-        "Microsoft.CSharp.4.0.1-beta-23409.nupkg",
-        "Microsoft.CSharp.4.0.1-beta-23409.nupkg.sha512",
+        "Microsoft.CSharp.4.0.0.nupkg",
+        "Microsoft.CSharp.4.0.0.nupkg.sha512",
         "Microsoft.CSharp.nuspec",
+        "ref/dotnet/de/Microsoft.CSharp.xml",
+        "ref/dotnet/es/Microsoft.CSharp.xml",
+        "ref/dotnet/fr/Microsoft.CSharp.xml",
+        "ref/dotnet/it/Microsoft.CSharp.xml",
+        "ref/dotnet/ja/Microsoft.CSharp.xml",
+        "ref/dotnet/ko/Microsoft.CSharp.xml",
         "ref/dotnet/Microsoft.CSharp.dll",
+        "ref/dotnet/Microsoft.CSharp.xml",
+        "ref/dotnet/ru/Microsoft.CSharp.xml",
+        "ref/dotnet/zh-hans/Microsoft.CSharp.xml",
+        "ref/dotnet/zh-hant/Microsoft.CSharp.xml",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
         "ref/net45/_._",
         "ref/netcore50/Microsoft.CSharp.dll",
+        "ref/netcore50/Microsoft.CSharp.xml",
         "ref/win8/_._",
         "ref/wp80/_._",
         "ref/wpa81/_._",
@@ -1576,17 +1540,51 @@
         "System.Globalization.nuspec"
       ]
     },
-    "System.IO/4.0.10-beta-22816": {
+    "System.IO/4.0.0": {
       "type": "package",
-      "sha512": "/wVhoi2uVXw5IZFU+JrPlyVgKrtMPtzQaYQ3DKUxH9nqiX64BChTFGNDcwZK3iNWTIWESxJhj9JR3lbqbG/PIg==",
+      "sha512": "MoCHQ0u5n0OMwUS8OX4Gl48qKiQziSW5cXvt82d+MmAcsLq9OL90+ihnu/aJ1h6OOYcBswrZAEuApfZha9w2lg==",
       "files": [
-        "lib/aspnetcore50/System.IO.dll",
-        "lib/contract/System.IO.dll",
-        "lib/net45/System.IO.dll",
-        "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.IO.dll",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
         "License.rtf",
-        "System.IO.4.0.10-beta-22816.nupkg",
-        "System.IO.4.0.10-beta-22816.nupkg.sha512",
+        "ref/dotnet/de/System.IO.xml",
+        "ref/dotnet/es/System.IO.xml",
+        "ref/dotnet/fr/System.IO.xml",
+        "ref/dotnet/it/System.IO.xml",
+        "ref/dotnet/ja/System.IO.xml",
+        "ref/dotnet/ko/System.IO.xml",
+        "ref/dotnet/ru/System.IO.xml",
+        "ref/dotnet/System.IO.dll",
+        "ref/dotnet/System.IO.xml",
+        "ref/dotnet/zh-hans/System.IO.xml",
+        "ref/dotnet/zh-hant/System.IO.xml",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/netcore50/de/System.IO.xml",
+        "ref/netcore50/es/System.IO.xml",
+        "ref/netcore50/fr/System.IO.xml",
+        "ref/netcore50/it/System.IO.xml",
+        "ref/netcore50/ja/System.IO.xml",
+        "ref/netcore50/ko/System.IO.xml",
+        "ref/netcore50/ru/System.IO.xml",
+        "ref/netcore50/System.IO.dll",
+        "ref/netcore50/System.IO.xml",
+        "ref/netcore50/zh-hans/System.IO.xml",
+        "ref/netcore50/zh-hant/System.IO.xml",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "System.IO.4.0.0.nupkg",
+        "System.IO.4.0.0.nupkg.sha512",
         "System.IO.nuspec"
       ]
     },
@@ -2070,17 +2068,51 @@
         "System.Runtime.InteropServices.nuspec"
       ]
     },
-    "System.Text.Encoding/4.0.10-beta-22816": {
+    "System.Text.Encoding/4.0.0": {
       "type": "package",
-      "sha512": "QDKTAvat7aDGMWnVkGm6tJvvmc2zSTa/p8M4/OEBBkZKNx4SGkeGEjFUhl7b6AXZ220m4dACygkiAVoB/LqMHw==",
+      "sha512": "AMxFNOXpA6Ab8swULbXuJmoT2K5w6TnV3ObF5wsmEcIHQUJghoZtDVfVHb08O2wW15mOSI1i9Wg0Dx0pY13o8g==",
       "files": [
-        "lib/aspnetcore50/System.Text.Encoding.dll",
-        "lib/contract/System.Text.Encoding.dll",
-        "lib/net45/System.Text.Encoding.dll",
-        "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Text.Encoding.dll",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
         "License.rtf",
-        "System.Text.Encoding.4.0.10-beta-22816.nupkg",
-        "System.Text.Encoding.4.0.10-beta-22816.nupkg.sha512",
+        "ref/dotnet/de/System.Text.Encoding.xml",
+        "ref/dotnet/es/System.Text.Encoding.xml",
+        "ref/dotnet/fr/System.Text.Encoding.xml",
+        "ref/dotnet/it/System.Text.Encoding.xml",
+        "ref/dotnet/ja/System.Text.Encoding.xml",
+        "ref/dotnet/ko/System.Text.Encoding.xml",
+        "ref/dotnet/ru/System.Text.Encoding.xml",
+        "ref/dotnet/System.Text.Encoding.dll",
+        "ref/dotnet/System.Text.Encoding.xml",
+        "ref/dotnet/zh-hans/System.Text.Encoding.xml",
+        "ref/dotnet/zh-hant/System.Text.Encoding.xml",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/netcore50/de/System.Text.Encoding.xml",
+        "ref/netcore50/es/System.Text.Encoding.xml",
+        "ref/netcore50/fr/System.Text.Encoding.xml",
+        "ref/netcore50/it/System.Text.Encoding.xml",
+        "ref/netcore50/ja/System.Text.Encoding.xml",
+        "ref/netcore50/ko/System.Text.Encoding.xml",
+        "ref/netcore50/ru/System.Text.Encoding.xml",
+        "ref/netcore50/System.Text.Encoding.dll",
+        "ref/netcore50/System.Text.Encoding.xml",
+        "ref/netcore50/zh-hans/System.Text.Encoding.xml",
+        "ref/netcore50/zh-hant/System.Text.Encoding.xml",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "System.Text.Encoding.4.0.0.nupkg",
+        "System.Text.Encoding.4.0.0.nupkg.sha512",
         "System.Text.Encoding.nuspec"
       ]
     },
@@ -2150,46 +2182,52 @@
         "System.Threading.nuspec"
       ]
     },
-    "System.Threading.Tasks/4.0.10-beta-22816": {
+    "System.Threading.Tasks/4.0.0": {
       "type": "package",
-      "sha512": "e7TcoQuIPQ4bvkkCY2ulU8NFvj8XqYxsGpD3fAq1KajAlpx5j327Q13lKxlGPb7ouHQydKHCy5G1ZGuydb0DAA==",
+      "sha512": "dA3y1B6Pc8mNt9obhEWWGGpvEakS51+nafXpmM/Z8IF847GErLXGTjdfA+AYEKszfFbH7SVLWUklXhYeeSQ1lw==",
       "files": [
-        "lib/aspnetcore50/System.Threading.Tasks.dll",
-        "lib/contract/System.Threading.Tasks.dll",
-        "lib/net45/System.Threading.Tasks.dll",
-        "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Threading.Tasks.dll",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
         "License.rtf",
-        "System.Threading.Tasks.4.0.10-beta-22816.nupkg",
-        "System.Threading.Tasks.4.0.10-beta-22816.nupkg.sha512",
+        "ref/dotnet/de/System.Threading.Tasks.xml",
+        "ref/dotnet/es/System.Threading.Tasks.xml",
+        "ref/dotnet/fr/System.Threading.Tasks.xml",
+        "ref/dotnet/it/System.Threading.Tasks.xml",
+        "ref/dotnet/ja/System.Threading.Tasks.xml",
+        "ref/dotnet/ko/System.Threading.Tasks.xml",
+        "ref/dotnet/ru/System.Threading.Tasks.xml",
+        "ref/dotnet/System.Threading.Tasks.dll",
+        "ref/dotnet/System.Threading.Tasks.xml",
+        "ref/dotnet/zh-hans/System.Threading.Tasks.xml",
+        "ref/dotnet/zh-hant/System.Threading.Tasks.xml",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/netcore50/de/System.Threading.Tasks.xml",
+        "ref/netcore50/es/System.Threading.Tasks.xml",
+        "ref/netcore50/fr/System.Threading.Tasks.xml",
+        "ref/netcore50/it/System.Threading.Tasks.xml",
+        "ref/netcore50/ja/System.Threading.Tasks.xml",
+        "ref/netcore50/ko/System.Threading.Tasks.xml",
+        "ref/netcore50/ru/System.Threading.Tasks.xml",
+        "ref/netcore50/System.Threading.Tasks.dll",
+        "ref/netcore50/System.Threading.Tasks.xml",
+        "ref/netcore50/zh-hans/System.Threading.Tasks.xml",
+        "ref/netcore50/zh-hant/System.Threading.Tasks.xml",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "System.Threading.Tasks.4.0.0.nupkg",
+        "System.Threading.Tasks.4.0.0.nupkg.sha512",
         "System.Threading.Tasks.nuspec"
-      ]
-    },
-    "System.Xml.ReaderWriter/4.0.10-beta-22816": {
-      "type": "package",
-      "sha512": "G0aLPtC/phTfiJPwe0VA3tB3x8YFQ1dHFuE1xaHNr9eQm/AfBp4Pk+fn3s7ABJDus/T89EtIHQ9C+O6VmqXIQQ==",
-      "files": [
-        "lib/aspnetcore50/System.Xml.ReaderWriter.dll",
-        "lib/contract/System.Xml.ReaderWriter.dll",
-        "lib/net45/System.Xml.ReaderWriter.dll",
-        "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Xml.ReaderWriter.dll",
-        "License.rtf",
-        "System.Xml.ReaderWriter.4.0.10-beta-22816.nupkg",
-        "System.Xml.ReaderWriter.4.0.10-beta-22816.nupkg.sha512",
-        "System.Xml.ReaderWriter.nuspec"
-      ]
-    },
-    "System.Xml.XDocument/4.0.10-beta-22816": {
-      "type": "package",
-      "sha512": "FcCtcZGfIC53KE0X9afERg0lLEJnXBQBAZG0wc0cSsklju2aZrXRS6QWOMMr91LLPJAefeTEoyrDw2LoXbp/Ww==",
-      "files": [
-        "lib/aspnetcore50/System.Xml.XDocument.dll",
-        "lib/contract/System.Xml.XDocument.dll",
-        "lib/net45/System.Xml.XDocument.dll",
-        "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Xml.XDocument.dll",
-        "License.rtf",
-        "System.Xml.XDocument.4.0.10-beta-22816.nupkg",
-        "System.Xml.XDocument.4.0.10-beta-22816.nupkg.sha512",
-        "System.Xml.XDocument.nuspec"
       ]
     }
   },
@@ -2199,14 +2237,14 @@
       "Newtonsoft.Json >= 7.0.1"
     ],
     ".NETPlatform,Version=v5.0": [
+      "Microsoft.CSharp >= 4.0.0",
       "System.Collections >= 4.0.10",
       "System.Linq >= 4.0.0",
       "System.Text.RegularExpressions >= 4.0.10",
-      "System.Threading >= 4.0.10",
-      "System.Xml.XDocument >= 4.0.10-beta-22816",
-      "Microsoft.CSharp >= 4.0.1-beta-23409"
+      "System.Threading >= 4.0.10"
     ],
     "DNX,Version=v4.5.1": [],
+    "DNX,Version=v4.6": [],
     ".NETFramework,Version=v4.5.1": [],
     ".NETFramework,Version=v4.5.2": [],
     ".NETFramework,Version=v4.6": []

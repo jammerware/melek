@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Melek;
 
-namespace Melek.Api.Repositories.Interfaces
+namespace Melek.Api.Repositories
 {
     public interface IMelekRepository
     {
