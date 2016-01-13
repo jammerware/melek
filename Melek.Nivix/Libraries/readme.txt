@@ -1,0 +1,1 @@
+These are added as "hard" references to the WPF project because when I try to reference them from nuget, Visual Studio asks to be restarted after they're referenced, and when it comes back up, they aren't referenced anymore. W.A.T. Come back later - WPF app should get retired at some point relatively soon anyway.

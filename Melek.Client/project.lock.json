@@ -1,14 +1,15 @@
 {
   "locked": false,
-  "version": -9996,
+  "version": 2,
   "targets": {
     "DNX,Version=v4.5.1": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.dll": {}
@@ -18,14 +19,15 @@
         }
       },
       "Bazam.Http/1.1.3": {
+        "type": "package",
         "dependencies": {
           "Microsoft.Net.Http": "2.2.22"
         },
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.Http.dll": {}
@@ -35,14 +37,15 @@
         }
       },
       "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
         "dependencies": {
           "SharpZipLib": "0.86.0"
         },
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.SharpZipLibHelpers.dll": {}
@@ -51,13 +54,31 @@
           "lib/dnx451/Bazam.SharpZipLibHelpers.dll": {}
         }
       },
-      "Microsoft.Bcl/1.1.9": {
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": "DNX,Version=v4.5.1",
         "dependencies": {
-          "Microsoft.Bcl.Build": "1.0.14"
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
         }
       },
-      "Microsoft.Bcl.Build/1.0.14": {},
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
         "dependencies": {
           "Microsoft.Bcl": "1.1.9",
           "Microsoft.Bcl.Build": "1.0.14"
@@ -76,6 +97,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -84,6 +106,7 @@
         }
       },
       "SharpZipLib/0.86.0": {
+        "type": "package",
         "compile": {
           "lib/20/ICSharpCode.SharpZipLib.dll": {}
         },
@@ -93,12 +116,13 @@
       }
     },
     ".NETFramework,Version=v4.5.1": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.dll": {}
@@ -108,14 +132,15 @@
         }
       },
       "Bazam.Http/1.1.3": {
+        "type": "package",
         "dependencies": {
           "Microsoft.Net.Http": "2.2.22"
         },
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.Http.dll": {}
@@ -125,14 +150,15 @@
         }
       },
       "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
         "dependencies": {
           "SharpZipLib": "0.86.0"
         },
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.SharpZipLibHelpers.dll": {}
@@ -141,13 +167,31 @@
           "lib/net451/Bazam.SharpZipLibHelpers.dll": {}
         }
       },
-      "Microsoft.Bcl/1.1.9": {
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
         "dependencies": {
-          "Microsoft.Bcl.Build": "1.0.14"
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
         }
       },
-      "Microsoft.Bcl.Build/1.0.14": {},
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
         "dependencies": {
           "Microsoft.Bcl": "1.1.9",
           "Microsoft.Bcl.Build": "1.0.14"
@@ -166,6 +210,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -174,6 +219,7 @@
         }
       },
       "SharpZipLib/0.86.0": {
+        "type": "package",
         "compile": {
           "lib/20/ICSharpCode.SharpZipLib.dll": {}
         },
@@ -183,12 +229,13 @@
       }
     },
     ".NETFramework,Version=v4.5.2": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.dll": {}
@@ -198,14 +245,15 @@
         }
       },
       "Bazam.Http/1.1.3": {
+        "type": "package",
         "dependencies": {
           "Microsoft.Net.Http": "2.2.22"
         },
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.Http.dll": {}
@@ -215,14 +263,15 @@
         }
       },
       "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
         "dependencies": {
           "SharpZipLib": "0.86.0"
         },
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.SharpZipLibHelpers.dll": {}
@@ -231,13 +280,31 @@
           "lib/net452/Bazam.SharpZipLibHelpers.dll": {}
         }
       },
-      "Microsoft.Bcl/1.1.9": {
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
-          "Microsoft.Bcl.Build": "1.0.14"
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
         }
       },
-      "Microsoft.Bcl.Build/1.0.14": {},
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
         "dependencies": {
           "Microsoft.Bcl": "1.1.9",
           "Microsoft.Bcl.Build": "1.0.14"
@@ -256,6 +323,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -264,6 +332,7 @@
         }
       },
       "SharpZipLib/0.86.0": {
+        "type": "package",
         "compile": {
           "lib/20/ICSharpCode.SharpZipLib.dll": {}
         },
@@ -273,12 +342,13 @@
       }
     },
     ".NETFramework,Version=v4.6": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.dll": {}
@@ -288,14 +358,15 @@
         }
       },
       "Bazam.Http/1.1.3": {
+        "type": "package",
         "dependencies": {
           "Microsoft.Net.Http": "2.2.22"
         },
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.Http.dll": {}
@@ -305,14 +376,15 @@
         }
       },
       "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
         "dependencies": {
           "SharpZipLib": "0.86.0"
         },
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.SharpZipLibHelpers.dll": {}
@@ -321,13 +393,31 @@
           "lib/net46/Bazam.SharpZipLibHelpers.dll": {}
         }
       },
-      "Microsoft.Bcl/1.1.9": {
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
         "dependencies": {
-          "Microsoft.Bcl.Build": "1.0.14"
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
         }
       },
-      "Microsoft.Bcl.Build/1.0.14": {},
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
         "dependencies": {
           "Microsoft.Bcl": "1.1.9",
           "Microsoft.Bcl.Build": "1.0.14"
@@ -346,6 +436,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -354,6 +445,911 @@
         }
       },
       "SharpZipLib/0.86.0": {
+        "type": "package",
+        "compile": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        }
+      }
+    },
+    "DNX,Version=v4.5.1/win7-x86": {
+      "Bazam/3.0.9": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.dll": {}
+        }
+      },
+      "Bazam.Http/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.22"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.Http.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.Http.dll": {}
+        }
+      },
+      "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.SharpZipLibHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.SharpZipLibHelpers.dll": {}
+        }
+      },
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": "DNX,Version=v4.5.1",
+        "dependencies": {
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
+        }
+      },
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
+      "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "SharpZipLib/0.86.0": {
+        "type": "package",
+        "compile": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        }
+      }
+    },
+    "DNX,Version=v4.5.1/win7-x64": {
+      "Bazam/3.0.9": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.dll": {}
+        }
+      },
+      "Bazam.Http/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.22"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.Http.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.Http.dll": {}
+        }
+      },
+      "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/dnx451/Bazam.SharpZipLibHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Bazam.SharpZipLibHelpers.dll": {}
+        }
+      },
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": "DNX,Version=v4.5.1",
+        "dependencies": {
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
+        }
+      },
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
+      "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "SharpZipLib/0.86.0": {
+        "type": "package",
+        "compile": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.1/win7-x86": {
+      "Bazam/3.0.9": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Bazam.dll": {}
+        }
+      },
+      "Bazam.Http/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.22"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Bazam.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Bazam.Http.dll": {}
+        }
+      },
+      "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Bazam.SharpZipLibHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Bazam.SharpZipLibHelpers.dll": {}
+        }
+      },
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "dependencies": {
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
+        }
+      },
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
+      "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "SharpZipLib/0.86.0": {
+        "type": "package",
+        "compile": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.1/win7-x64": {
+      "Bazam/3.0.9": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Bazam.dll": {}
+        }
+      },
+      "Bazam.Http/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.22"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Bazam.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Bazam.Http.dll": {}
+        }
+      },
+      "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Bazam.SharpZipLibHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Bazam.SharpZipLibHelpers.dll": {}
+        }
+      },
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "dependencies": {
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
+        }
+      },
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
+      "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "SharpZipLib/0.86.0": {
+        "type": "package",
+        "compile": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.2/win7-x86": {
+      "Bazam/3.0.9": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net452/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/net452/Bazam.dll": {}
+        }
+      },
+      "Bazam.Http/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.22"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net452/Bazam.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net452/Bazam.Http.dll": {}
+        }
+      },
+      "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net452/Bazam.SharpZipLibHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/net452/Bazam.SharpZipLibHelpers.dll": {}
+        }
+      },
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.2",
+        "dependencies": {
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
+        }
+      },
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
+      "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "SharpZipLib/0.86.0": {
+        "type": "package",
+        "compile": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.2/win7-x64": {
+      "Bazam/3.0.9": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net452/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/net452/Bazam.dll": {}
+        }
+      },
+      "Bazam.Http/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.22"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net452/Bazam.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net452/Bazam.Http.dll": {}
+        }
+      },
+      "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net452/Bazam.SharpZipLibHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/net452/Bazam.SharpZipLibHelpers.dll": {}
+        }
+      },
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.2",
+        "dependencies": {
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
+        }
+      },
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
+      "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "SharpZipLib/0.86.0": {
+        "type": "package",
+        "compile": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.6/win7-x86": {
+      "Bazam/3.0.9": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net46/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Bazam.dll": {}
+        }
+      },
+      "Bazam.Http/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.22"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net46/Bazam.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Bazam.Http.dll": {}
+        }
+      },
+      "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net46/Bazam.SharpZipLibHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Bazam.SharpZipLibHelpers.dll": {}
+        }
+      },
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "dependencies": {
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
+        }
+      },
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
+      "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "SharpZipLib/0.86.0": {
+        "type": "package",
+        "compile": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.6/win7-x64": {
+      "Bazam/3.0.9": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net46/Bazam.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Bazam.dll": {}
+        }
+      },
+      "Bazam.Http/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.22"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net46/Bazam.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Bazam.Http.dll": {}
+        }
+      },
+      "Bazam.SharpZipLibHelpers/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net46/Bazam.SharpZipLibHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Bazam.SharpZipLibHelpers.dll": {}
+        }
+      },
+      "Melek/1.0.14": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "dependencies": {
+          "Bazam": "3.0.9",
+          "Newtonsoft.Json": "7.0.1"
+        }
+      },
+      "Microsoft.Bcl/1.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
+      "Microsoft.Net.Http/2.2.22": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Extensions.dll": {},
+          "lib/net45/System.Net.Http.Primitives.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "SharpZipLib/0.86.0": {
+        "type": "package",
         "compile": {
           "lib/20/ICSharpCode.SharpZipLib.dll": {}
         },
@@ -364,25 +1360,33 @@
     }
   },
   "libraries": {
-    "Bazam/3.0.6": {
-      "sha512": "cS7zCwWsv/Z7GdR1RfIRzfh97SSEfB4IaPLy69OspbqQXfo46lMcO2q29aZOFYbwXP1TQ7/ginCmFrhfw2Hczw==",
+    "Melek/1.0.14": {
+      "type": "project",
+      "path": "../Melek/project.json"
+    },
+    "Bazam/3.0.9": {
+      "type": "package",
+      "sha512": "nd+BRxvgoJbWMuGVzcfFwgm9+HjywZIs+9miJ9sJSlGNQ2fsOpyn1GGx7TDCdIF9GYgxMk3LiaVKj4If+D1gFA==",
       "files": [
-        "Bazam.3.0.6.nupkg",
-        "Bazam.3.0.6.nupkg.sha512",
+        "Bazam.3.0.9.nupkg",
+        "Bazam.3.0.9.nupkg.sha512",
         "Bazam.nuspec",
         "lib/dnx451/Bazam.dll",
         "lib/dnx451/Bazam.xml",
-        "lib/dnxcore50/Bazam.dll",
-        "lib/dnxcore50/Bazam.xml",
+        "lib/dotnet/Bazam.dll",
+        "lib/dotnet/Bazam.xml",
         "lib/net451/Bazam.dll",
         "lib/net451/Bazam.xml",
         "lib/net452/Bazam.dll",
         "lib/net452/Bazam.xml",
         "lib/net46/Bazam.dll",
-        "lib/net46/Bazam.xml"
+        "lib/net46/Bazam.xml",
+        "lib/UAP10.0/Bazam.dll",
+        "lib/UAP10.0/Bazam.xml"
       ]
     },
     "Bazam.Http/1.1.3": {
+      "type": "package",
       "sha512": "yOICd4nUOMA48t6zEQjwoPvmHz2NQVhvZ/wrG/f53TCp2qwdjsxCP4IoRilC1PoZBa+9TF/3U785Ltu235Mm8g==",
       "files": [
         "Bazam.Http.1.1.3.nupkg",
@@ -401,6 +1405,7 @@
       ]
     },
     "Bazam.SharpZipLibHelpers/1.1.1": {
+      "type": "package",
       "sha512": "e8IC77HbsnnNHMALluVgcN7AUbhgyYvmv9HWXbzVmy9ghRDda4AREtNgw0sgT+s1Bqm2cfqlyRrTe3070qxFWg==",
       "files": [
         "Bazam.SharpZipLibHelpers.1.1.1.nupkg",
@@ -417,12 +1422,9 @@
       ]
     },
     "Microsoft.Bcl/1.1.9": {
+      "type": "package",
       "sha512": "USQ55innJy8K+tAXvVa1O8dUTp2s7pmJ5cJj6Tl02HtGc2xBDj0P2QH5620HbGXIWKWYhydoeQF8Rm/JRDBGhw==",
       "files": [
-        "License-Stable.rtf",
-        "Microsoft.Bcl.1.1.9.nupkg",
-        "Microsoft.Bcl.1.1.9.nupkg.sha512",
-        "Microsoft.Bcl.nuspec",
         "content/monoandroid/_._",
         "content/monotouch/_._",
         "content/net45/_._",
@@ -514,21 +1516,26 @@
         "lib/sl5/System.Threading.Tasks.xml",
         "lib/win8/_._",
         "lib/wp8/_._",
-        "lib/wpa81/_._"
+        "lib/wpa81/_._",
+        "License-Stable.rtf",
+        "Microsoft.Bcl.1.1.9.nupkg",
+        "Microsoft.Bcl.1.1.9.nupkg.sha512",
+        "Microsoft.Bcl.nuspec"
       ]
     },
     "Microsoft.Bcl.Build/1.0.14": {
+      "type": "package",
       "sha512": "cDLKSvNvRa519hplsbSoYqO69TjdDIhfjtKUM0g20/nVROoWsGav9KCI9HtnGjLmdV1+TcUUDhbotcllibjPEA==",
       "files": [
-        "License-Stable.rtf",
-        "Microsoft.Bcl.Build.1.0.14.nupkg",
-        "Microsoft.Bcl.Build.1.0.14.nupkg.sha512",
-        "Microsoft.Bcl.Build.nuspec",
         "content/net40/_._",
         "content/netcore45/_._",
         "content/portable-net40+win8+sl4+wp71+wpa81/_._",
         "content/sl4/_._",
         "content/sl4-windowsphone71/_._",
+        "License-Stable.rtf",
+        "Microsoft.Bcl.Build.1.0.14.nupkg",
+        "Microsoft.Bcl.Build.1.0.14.nupkg.sha512",
+        "Microsoft.Bcl.Build.nuspec",
         "tools/Install.ps1",
         "tools/Microsoft.Bcl.Build.targets",
         "tools/Microsoft.Bcl.Build.Tasks.dll",
@@ -536,13 +1543,10 @@
       ]
     },
     "Microsoft.Net.Http/2.2.22": {
+      "type": "package",
       "serviceable": true,
       "sha512": "bqVLJ2UimlAEs2bn3y28lB1pmFRxuysv9pFyB0A86WEMYGYTfDyfjAGjm0fiaSRjlMNU1jVnp8Mxt8qe4OmpXQ==",
       "files": [
-        "License-Stable.rtf",
-        "Microsoft.Net.Http.2.2.22.nupkg",
-        "Microsoft.Net.Http.2.2.22.nupkg.sha512",
-        "Microsoft.Net.Http.nuspec",
         "lib/monoandroid/System.Net.Http.Extensions.dll",
         "lib/monoandroid/System.Net.Http.Extensions.XML",
         "lib/monoandroid/System.Net.Http.Primitives.dll",
@@ -595,15 +1599,17 @@
         "lib/wpa81/System.Net.Http.Extensions.dll",
         "lib/wpa81/System.Net.Http.Extensions.XML",
         "lib/wpa81/System.Net.Http.Primitives.dll",
-        "lib/wpa81/System.Net.Http.Primitives.xml"
+        "lib/wpa81/System.Net.Http.Primitives.xml",
+        "License-Stable.rtf",
+        "Microsoft.Net.Http.2.2.22.nupkg",
+        "Microsoft.Net.Http.2.2.22.nupkg.sha512",
+        "Microsoft.Net.Http.nuspec"
       ]
     },
     "Newtonsoft.Json/7.0.1": {
+      "type": "package",
       "sha512": "q3V4KLetMLnt1gpAVWgtXnHjKs0UG/RalBc29u2ZKxd5t5Ze4JBL5WiiYIklJyK/5CRiIiNwigVQUo0FgbsuWA==",
       "files": [
-        "Newtonsoft.Json.7.0.1.nupkg",
-        "Newtonsoft.Json.7.0.1.nupkg.sha512",
-        "Newtonsoft.Json.nuspec",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
         "lib/net35/Newtonsoft.Json.dll",
@@ -616,25 +1622,29 @@
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
+        "Newtonsoft.Json.7.0.1.nupkg",
+        "Newtonsoft.Json.7.0.1.nupkg.sha512",
+        "Newtonsoft.Json.nuspec",
         "tools/install.ps1"
       ]
     },
     "SharpZipLib/0.86.0": {
+      "type": "package",
       "sha512": "5DbS1SlKLMi+WG00Cm0ueYf2oyXJrowETQk8nx96rmdjTuHsA3laPykGV7Sxi0R5Xxfx0Kh/EfacAZ1f6M7y/g==",
       "files": [
-        "SharpZipLib.0.86.0.nupkg",
-        "SharpZipLib.0.86.0.nupkg.sha512",
-        "SharpZipLib.nuspec",
         "lib/11/ICSharpCode.SharpZipLib.dll",
         "lib/20/ICSharpCode.SharpZipLib.dll",
         "lib/SL3/SharpZipLib.Silverlight3.dll",
-        "lib/SL4/SharpZipLib.Silverlight4.dll"
+        "lib/SL4/SharpZipLib.Silverlight4.dll",
+        "SharpZipLib.0.86.0.nupkg",
+        "SharpZipLib.0.86.0.nupkg.sha512",
+        "SharpZipLib.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
-      "Bazam >= 3.0.6-*",
+      "Bazam >= 3.0.9-*",
       "Bazam.Http >= 1.1.3",
       "Bazam.SharpZipLibHelpers >= 1.1.1",
       "Newtonsoft.Json >= 7.0.1",
