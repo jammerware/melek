@@ -4988,8 +4988,8 @@
       "Microsoft.AspNet.Server.IIS >= 1.0.0-beta5",
       "Microsoft.AspNet.Server.WebListener >= 1.0.0-beta5",
       "Microsoft.AspNet.StaticFiles >= 1.0.0-beta5",
-      "Melek >= 1.0.11-*",
-      "Melek.Client >= 1.0.11-*",
+      "Melek >= 1.0.14-*",
+      "Melek.Client >= 1.0.15-*",
       "Kestrel >= 1.0.0-beta5"
     ],
     "DNX,Version=v4.5.1": []
