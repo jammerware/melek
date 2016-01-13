@@ -1,5 +1,5 @@
 {
-  "version": "1.0.12-*",
+  "version": "1.0.15-*",
   "description": "A library that enables great apps for Magic: the Gathering based on the Melek API.",
   "authors": [ "Jammerware LLC" ],
   "tags": [ "mtg", "magic" ],
