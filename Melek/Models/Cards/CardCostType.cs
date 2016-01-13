@@ -13,6 +13,7 @@ namespace Melek
         BR,
         BG,
         C,
+        CHAOS,
         G,
         GU,
         GW,

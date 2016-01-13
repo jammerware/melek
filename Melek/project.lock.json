@@ -1,14 +1,15 @@
 {
   "locked": false,
-  "version": -9996,
+  "version": 2,
   "targets": {
     "DNX,Version=v4.5.1": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.dll": {}
@@ -18,6 +19,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -27,12 +29,13 @@
       }
     },
     ".NETFramework,Version=v4.5.1": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.dll": {}
@@ -42,6 +45,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -51,12 +55,13 @@
       }
     },
     ".NETFramework,Version=v4.5.2": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.dll": {}
@@ -66,6 +71,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -75,12 +81,13 @@
       }
     },
     ".NETFramework,Version=v4.6": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.dll": {}
@@ -90,6 +97,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -99,12 +107,13 @@
       }
     },
     "DNX,Version=v4.5.1/win10-arm": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.dll": {}
@@ -114,6 +123,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -123,12 +133,13 @@
       }
     },
     "DNX,Version=v4.5.1/win10-arm-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.dll": {}
@@ -138,6 +149,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -147,12 +159,13 @@
       }
     },
     "DNX,Version=v4.5.1/win10-x86": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.dll": {}
@@ -162,6 +175,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -171,12 +185,13 @@
       }
     },
     "DNX,Version=v4.5.1/win10-x86-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.dll": {}
@@ -186,6 +201,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -195,12 +211,13 @@
       }
     },
     "DNX,Version=v4.5.1/win10-x64": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.dll": {}
@@ -210,6 +227,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -219,12 +237,13 @@
       }
     },
     "DNX,Version=v4.5.1/win10-x64-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/dnx451/Bazam.dll": {}
@@ -234,6 +253,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -243,12 +263,13 @@
       }
     },
     ".NETFramework,Version=v4.5.1/win10-arm": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.dll": {}
@@ -258,6 +279,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -267,12 +289,13 @@
       }
     },
     ".NETFramework,Version=v4.5.1/win10-arm-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.dll": {}
@@ -282,6 +305,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -291,12 +315,13 @@
       }
     },
     ".NETFramework,Version=v4.5.1/win10-x86": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.dll": {}
@@ -306,6 +331,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -315,12 +341,13 @@
       }
     },
     ".NETFramework,Version=v4.5.1/win10-x86-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.dll": {}
@@ -330,6 +357,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -339,12 +367,13 @@
       }
     },
     ".NETFramework,Version=v4.5.1/win10-x64": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.dll": {}
@@ -354,6 +383,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -363,12 +393,13 @@
       }
     },
     ".NETFramework,Version=v4.5.1/win10-x64-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net451/Bazam.dll": {}
@@ -378,6 +409,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -387,12 +419,13 @@
       }
     },
     ".NETFramework,Version=v4.5.2/win10-arm": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.dll": {}
@@ -402,6 +435,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -411,12 +445,13 @@
       }
     },
     ".NETFramework,Version=v4.5.2/win10-arm-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.dll": {}
@@ -426,6 +461,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -435,12 +471,13 @@
       }
     },
     ".NETFramework,Version=v4.5.2/win10-x86": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.dll": {}
@@ -450,6 +487,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -459,12 +497,13 @@
       }
     },
     ".NETFramework,Version=v4.5.2/win10-x86-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.dll": {}
@@ -474,6 +513,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -483,12 +523,13 @@
       }
     },
     ".NETFramework,Version=v4.5.2/win10-x64": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.dll": {}
@@ -498,6 +539,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -507,12 +549,13 @@
       }
     },
     ".NETFramework,Version=v4.5.2/win10-x64-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net452/Bazam.dll": {}
@@ -522,6 +565,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -531,12 +575,13 @@
       }
     },
     ".NETFramework,Version=v4.6/win10-arm": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.dll": {}
@@ -546,6 +591,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -555,12 +601,13 @@
       }
     },
     ".NETFramework,Version=v4.6/win10-arm-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.dll": {}
@@ -570,6 +617,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -579,12 +627,13 @@
       }
     },
     ".NETFramework,Version=v4.6/win10-x86": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.dll": {}
@@ -594,6 +643,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -603,12 +653,13 @@
       }
     },
     ".NETFramework,Version=v4.6/win10-x86-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.dll": {}
@@ -618,6 +669,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -627,12 +679,13 @@
       }
     },
     ".NETFramework,Version=v4.6/win10-x64": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.dll": {}
@@ -642,6 +695,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -651,12 +705,13 @@
       }
     },
     ".NETFramework,Version=v4.6/win10-x64-aot": {
-      "Bazam/3.0.6": {
+      "Bazam/3.0.9": {
+        "type": "package",
         "frameworkAssemblies": [
+          "Microsoft.CSharp",
           "mscorlib",
           "System",
-          "System.Core",
-          "Microsoft.CSharp"
+          "System.Core"
         ],
         "compile": {
           "lib/net46/Bazam.dll": {}
@@ -666,6 +721,7 @@
         }
       },
       "Newtonsoft.Json/7.0.1": {
+        "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -676,30 +732,31 @@
     }
   },
   "libraries": {
-    "Bazam/3.0.6": {
-      "sha512": "cS7zCwWsv/Z7GdR1RfIRzfh97SSEfB4IaPLy69OspbqQXfo46lMcO2q29aZOFYbwXP1TQ7/ginCmFrhfw2Hczw==",
+    "Bazam/3.0.9": {
+      "type": "package",
+      "sha512": "nd+BRxvgoJbWMuGVzcfFwgm9+HjywZIs+9miJ9sJSlGNQ2fsOpyn1GGx7TDCdIF9GYgxMk3LiaVKj4If+D1gFA==",
       "files": [
-        "Bazam.3.0.6.nupkg",
-        "Bazam.3.0.6.nupkg.sha512",
+        "Bazam.3.0.9.nupkg",
+        "Bazam.3.0.9.nupkg.sha512",
         "Bazam.nuspec",
         "lib/dnx451/Bazam.dll",
         "lib/dnx451/Bazam.xml",
-        "lib/dnxcore50/Bazam.dll",
-        "lib/dnxcore50/Bazam.xml",
+        "lib/dotnet/Bazam.dll",
+        "lib/dotnet/Bazam.xml",
         "lib/net451/Bazam.dll",
         "lib/net451/Bazam.xml",
         "lib/net452/Bazam.dll",
         "lib/net452/Bazam.xml",
         "lib/net46/Bazam.dll",
-        "lib/net46/Bazam.xml"
+        "lib/net46/Bazam.xml",
+        "lib/UAP10.0/Bazam.dll",
+        "lib/UAP10.0/Bazam.xml"
       ]
     },
     "Newtonsoft.Json/7.0.1": {
+      "type": "package",
       "sha512": "q3V4KLetMLnt1gpAVWgtXnHjKs0UG/RalBc29u2ZKxd5t5Ze4JBL5WiiYIklJyK/5CRiIiNwigVQUo0FgbsuWA==",
       "files": [
-        "Newtonsoft.Json.7.0.1.nupkg",
-        "Newtonsoft.Json.7.0.1.nupkg.sha512",
-        "Newtonsoft.Json.nuspec",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
         "lib/net35/Newtonsoft.Json.dll",
@@ -712,13 +769,16 @@
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
+        "Newtonsoft.Json.7.0.1.nupkg",
+        "Newtonsoft.Json.7.0.1.nupkg.sha512",
+        "Newtonsoft.Json.nuspec",
         "tools/install.ps1"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
-      "Bazam >= 3.0.6",
+      "Bazam >= 3.0.9",
       "Newtonsoft.Json >= 7.0.1"
     ],
     "DNX,Version=v4.5.1": [],

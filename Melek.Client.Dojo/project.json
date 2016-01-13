@@ -7,9 +7,9 @@
   "licenseUrl": "",
 
   "dependencies": {
-    "Melek.Client": "1.0.11-*",
+    "Melek.Client": "1.0.12-*",
     "Microsoft.Framework.Runtime.Abstractions": "1.0.0-beta5",
-    "Bazam": "3.0.3"
+    "Bazam": "3.0.9"
   },
 
   "commands": {
