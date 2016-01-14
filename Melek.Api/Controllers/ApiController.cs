@@ -1,10 +1,8 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using Melek.Api.Repositories.Interfaces;
-using Melek;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.Runtime;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
@@ -13,19 +11,29 @@ namespace Melek.Api.Controllers
     [Route("[controller]/[action]")]
     public class ApiController : Controller
     {
+        private IApplicationEnvironment _ApplicationEnvironment;
         private IHostingEnvironment _HostingEnvironment;
         private IMelekRepository _MelekRepository;
 
         public ApiController(IApplicationEnvironment app, IHostingEnvironment hosting, IMelekRepository melekRepo)
         {
+            _ApplicationEnvironment = app;
             _HostingEnvironment = hosting;
             _MelekRepository = melekRepo;
         }
-        
+
         [HttpGet]
         public ActionResult AllData()
         {
-            return File(Path.Combine(_HostingEnvironment.WebRootPath, @"Data\melek-data-store.zip"), "application/zip", "melek-data-store.zip");
+            return Redirect("/Data/melek-data-store.zip");
+            // TODO: find out why the below results in a FileNotFound exception, despite the file definitely being there
+            //return File(_HostingEnvironment.MapPath(@"Data\melek-data-store.zip"), "application/zip", "melek-data-store.zip");
+        }
+
+        [HttpGet]
+        public ViewResult AreWeUp()
+        {
+            return View();
         }
 
         [HttpGet("{name}")]

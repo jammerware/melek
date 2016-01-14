@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Melek;
 using Melek.Api.Repositories.Interfaces;
 using Melek.Client.DataStore;
 using Melek.Json;
