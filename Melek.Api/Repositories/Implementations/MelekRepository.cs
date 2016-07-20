@@ -43,7 +43,7 @@ namespace Melek.Api.Repositories.Implementations
         public async Task SetDataSource(string path)
         {
             await Task.Factory.StartNew(() => {
-                this.MelekDataStore = JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(path), MelekSerializationSettings.Get());
+                MelekDataStore = JsonConvert.DeserializeObject<MelekDataStore>(File.ReadAllText(path), MelekSerializationSettings.Get());
             });
         }
     }

@@ -145,8 +145,8 @@ namespace Nivix.Models
                     string rightCostData = costData.Substring(costData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length).Trim();
 
                     card.HasFuse = Regex.IsMatch(textData, @"Fuse\s");
-                    card.LeftCost = new CardCostCollection(leftCostData);
-                    card.RightCost = new CardCostCollection(rightCostData);
+                    card.LeftCost = leftCostData == null ? null : new CardCostCollection(leftCostData);
+                    card.RightCost = rightCostData == null ? null : new CardCostCollection(rightCostData);
                     card.LeftName = nameData.Substring(0, nameData.IndexOf(SPLIT_CARD_DIVIDER));
                     card.RightName = nameData.Substring(nameData.IndexOf(SPLIT_CARD_DIVIDER) + SPLIT_CARD_DIVIDER.Length);
                     card.Name = nameData;

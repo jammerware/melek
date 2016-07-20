@@ -46,7 +46,7 @@ namespace Nivix.ViewModels
             get 
             {
                 if (_CurrentVersion == null) {
-                    _CurrentVersion = new WebClient().DownloadString(new Uri("http://melekapi.azurewebsites.net/api/Version"));
+                    _CurrentVersion = new WebClient().DownloadString(new Uri("http://melekapi.azurewebsites.net/api/melek/version"));
                 }
 
                 return _CurrentVersion;
